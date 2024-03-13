@@ -1,3 +1,1 @@
-# Kk's wiki
-
-Kk's wiki.
+This is Kk's wiki.
