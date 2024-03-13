@@ -8,11 +8,14 @@
 require 'time'
 require 'erb'
 require 'date'
+require 'rake'
 require 'fileutils'
 
 task default: %w[push]
 
 task :push do
+  Rake::Task[:fmt].invoke
+  Rake::Task[:build].invoke
   system 'git add .'
   system "git commit -m 'Update #{Time.now}.'"
   system 'git pull'
@@ -45,6 +48,6 @@ task :run do
   system 'jekyll serve --watch'
 end
 
-task :b do
+task :build do
   system 'jekyll build'
 end
