@@ -2,7 +2,7 @@
 title: Design Draft
 author: Kk
 date: 2022-02-06
-category: Jekyll
+category: DevOps
 layout: post
 ---
 

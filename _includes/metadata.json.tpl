@@ -15,7 +15,7 @@
             "fontsettings": {
                 "family": "sans",
                 "size": 2,
-                "theme": "night"
+                "theme": "sepia"
             },
             "highlight": {},
             "livereload": {},

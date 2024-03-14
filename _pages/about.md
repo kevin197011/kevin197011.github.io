@@ -2,7 +2,7 @@
 title: About
 author: Kk
 date: 2022-02-04
-category: Jekyll
+category: DevOps
 layout: post
 ---
 
