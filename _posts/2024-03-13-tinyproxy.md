@@ -6,17 +6,15 @@ category: DevOps
 layout: post
 ---
 
-## gem
-
 ```bash
+# gem
 vim ~/.gemrc
 http_proxy: http://tinyproxy:port
 https_proxy: http://tinyproxy:port
 ```
 
-## pip
-
 ```bash
+# pip
 vim ~/.pip/pip.conf
 [global]
 proxy = http://tinyproxy:port
