@@ -19,3 +19,10 @@ vim ~/.pip/pip.conf
 [global]
 proxy = http://tinyproxy:port
 ```
+
+```bash
+# pip
+vim ~/.bashrc
+
+export go env -w GOPROXY="https//proxy.golang.org,direct"
+```
