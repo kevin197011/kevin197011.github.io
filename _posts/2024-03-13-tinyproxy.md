@@ -24,5 +24,7 @@ proxy = http://tinyproxy:port
 # pip
 vim ~/.bashrc
 
-export go env -w GOPROXY="https//proxy.golang.org,direct"
+export GOPROXY="https//proxy.golang.org,direct"
+export http_proxy=http://tinyproxy:port
+export https_proxy=http://tinyproxy:port
 ```
