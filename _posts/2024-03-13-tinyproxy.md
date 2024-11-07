@@ -21,7 +21,7 @@ proxy = http://tinyproxy:port
 ```
 
 ```bash
-# pip
+# gogogo
 vim ~/.bashrc
 
 export GOPROXY="https//proxy.golang.org,direct"
