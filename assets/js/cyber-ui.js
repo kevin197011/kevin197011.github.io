@@ -469,11 +469,21 @@ class CyberUI {
         let theme = 'dark'; // 默认暗色主题
 
         if (savedTheme) {
+            // 如果用户有明确的主题偏好，使用保存的设置
             theme = savedTheme;
         } else {
-            // 如果没有保存的偏好，检查系统主题
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-                theme = 'light';
+            // 检测是否为移动设备
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+                             || window.innerWidth <= 768;
+
+            if (isMobile) {
+                // 移动设备强制使用暗色主题
+                theme = 'dark';
+            } else {
+                // 桌面设备检查系统主题偏好
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                    theme = 'light';
+                }
             }
         }
 
@@ -490,8 +500,12 @@ class CyberUI {
         if (window.matchMedia) {
             const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
             mediaQuery.addEventListener('change', (e) => {
-                // 只有在用户没有手动设置主题时才跟随系统
-                if (!localStorage.getItem('theme')) {
+                // 检测是否为移动设备
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+                                 || window.innerWidth <= 768;
+
+                // 只有在用户没有手动设置主题且不是移动设备时才跟随系统
+                if (!localStorage.getItem('theme') && !isMobile) {
                     const newTheme = e.matches ? 'light' : 'dark';
                     document.documentElement.classList.remove('light', 'dark');
                     document.documentElement.classList.add(newTheme);

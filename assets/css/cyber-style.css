@@ -1570,3 +1570,147 @@ html.light .status-card::before {
         min-width: auto;
     }
 }
+
+/* 移动设备强制暗色主题 */
+@media (max-width: 768px) {
+    /* 移动设备强制暗色主题变量 */
+    :root,
+    html,
+    html.light {
+        /* 强制暗色背景 */
+        --bg-primary: #0a0b0e !important;
+        --bg-secondary: #12141a !important;
+        --bg-tertiary: #1a1d26 !important;
+        --bg-card: #161921 !important;
+        --bg-hover: #1f2331 !important;
+
+        /* 强制暗色文字 */
+        --text-primary: #e2e8f0 !important;
+        --text-secondary: #94a3b8 !important;
+        --text-muted: #64748b !important;
+        --text-accent: #00ff88 !important;
+
+        /* 强制暗色边框 */
+        --border-primary: #334155 !important;
+        --border-secondary: #1e293b !important;
+        --border-accent: #00ff88 !important;
+
+        /* 强制暗色强调色 */
+        --accent-green: #00ff88 !important;
+        --accent-blue: #00d4ff !important;
+        --accent-purple: #a855f7 !important;
+        --accent-orange: #ff8800 !important;
+        --accent-red: #ff4444 !important;
+
+        /* 强制暗色渐变 */
+        --gradient-primary: linear-gradient(135deg, #0a0b0e 0%, #12141a 100%) !important;
+        --gradient-accent: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%) !important;
+        --gradient-card: linear-gradient(135deg, #161921 0%, #1a1d26 100%) !important;
+
+        /* 强制暗色阴影 */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+        --shadow-glow: 0 0 20px rgba(0, 255, 136, 0.3) !important;
+    }
+
+    /* 强制移除亮色主题类，确保暗色主题 */
+    html {
+        background: #0a0b0e !important;
+        color: #e2e8f0 !important;
+    }
+
+    /* 移动设备上的特殊元素强制暗色 */
+    body,
+    .app-container,
+    .main-content,
+    .content-wrapper {
+        background: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
+    }
+
+    /* 终端和卡片强制暗色 */
+    .hero-terminal,
+    .terminal-header,
+    .terminal-body,
+    .nav-card,
+    .status-card,
+    .archive-terminal,
+    .archive-post {
+        background: var(--bg-card) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-secondary) !important;
+    }
+
+    /* 输入框和选择框强制暗色 */
+    .search-input,
+    .filter-select,
+    input,
+    select,
+    textarea {
+        background: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-secondary) !important;
+    }
+
+    /* 链接和按钮强制暗色样式 */
+    .nav-link,
+    .sub-nav-link,
+    .nav-card-link,
+    .breadcrumb-link,
+    .post-link,
+    .read-more {
+        color: var(--text-primary) !important;
+    }
+
+    .nav-link:hover,
+    .sub-nav-link:hover,
+    .nav-card-link:hover,
+    .post-link:hover,
+    .read-more:hover {
+        color: var(--accent-green) !important;
+    }
+
+    /* 主题切换按钮在移动端的特殊样式 */
+    #theme-toggle {
+        background: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-secondary) !important;
+    }
+
+    /* Toast通知强制暗色 */
+    .toast {
+        background: var(--bg-card) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-secondary) !important;
+    }
+
+    /* 侧边栏强制暗色 */
+    .sidebar,
+    .sidebar-header,
+    .sidebar-nav,
+    .sidebar-footer {
+        background: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-secondary) !important;
+    }
+
+    /* 顶部栏强制暗色 */
+    .top-bar {
+        background: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+        border-color: var(--border-secondary) !important;
+    }
+
+    /* 确保网格效果也是暗色 */
+    .grid-overlay {
+        background-image:
+            linear-gradient(rgba(0, 255, 136, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 136, 0.05) 1px, transparent 1px) !important;
+    }
+
+    .scan-line {
+        background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%) !important;
+        opacity: 0.6;
+    }
+}
