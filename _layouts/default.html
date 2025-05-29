@@ -152,13 +152,13 @@
                     </button>
                     <div class="breadcrumb">
                         {% if page.layout == 'post' %}
-                            <a href="{{ '/' | relative_url }}" class="fas breadcrumb-link">首页</a>
+                            <a href="{{ '/' | relative_url }}" class="breadcrumb-link">首页</a>
                             <i class="fas fa-chevron-right"></i>
                             <span>{{ page.category | default: "Uncategorized" }}</span>
                             <i class="fas fa-chevron-right"></i>
                             <span>{{ page.title }}</span>
                         {% else %}
-                            <a href="{{ '/' | relative_url }}" class="fas breadcrumb-link">首页</a>
+                            <a href="{{ '/' | relative_url }}" class="breadcrumb-link">首页</a>
                         {% endif %}
                     </div>
                 </div>
