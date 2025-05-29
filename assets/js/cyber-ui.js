@@ -18,7 +18,15 @@ class CyberUI {
         this.setupFloatingActions();
         this.setupTypingEffect();
         this.setupTableOfContents();
+        this.setupLazyLoading();
+        this.enhanceCodeBlocks();
         this.initializePerformanceMonitor();
+
+        // 移动端特定功能
+        setupMobileSidebar();
+
+        // 页面加载完成提示
+        console.log('🚀 KkWiki 系统已启动');
     }
 
     // 侧边栏功能
@@ -1051,4 +1059,170 @@ document.addEventListener('DOMContentLoaded', () => {
 // 导出供其他脚本使用
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = CyberUI;
+}
+
+// 移动端侧边栏管理
+function setupMobileSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const mainContent = document.querySelector('.main-content');
+
+    if (!sidebar || !mobileToggle) return;
+
+    // 创建背景遮罩
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 150;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    `;
+    document.body.appendChild(overlay);
+
+    // 切换侧边栏
+    function toggleSidebar() {
+        const isOpen = sidebar.classList.contains('open');
+
+        if (isOpen) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+    }
+
+    function openSidebar() {
+        sidebar.classList.add('open');
+        overlay.style.opacity = '1';
+        overlay.style.visibility = 'visible';
+        document.body.style.overflow = 'hidden';
+
+        // 更新按钮图标
+        const icon = mobileToggle.querySelector('i');
+        if (icon) {
+            icon.className = 'fas fa-times';
+        }
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.style.opacity = '0';
+        overlay.style.visibility = 'hidden';
+        document.body.style.overflow = '';
+
+        // 更新按钮图标
+        const icon = mobileToggle.querySelector('i');
+        if (icon) {
+            icon.className = 'fas fa-bars';
+        }
+    }
+
+    // 绑定事件
+    mobileToggle.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // 触摸手势支持
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    function handleTouchStart(e) {
+        if (window.innerWidth > 768) return;
+
+        startX = e.touches[0].clientX;
+
+        // 从左边缘开始的手势
+        if (startX < 20) {
+            isDragging = true;
+            sidebar.style.transition = 'none';
+        }
+        // 侧边栏开启时的手势
+        else if (sidebar.classList.contains('open')) {
+            isDragging = true;
+            sidebar.style.transition = 'none';
+        }
+    }
+
+    function handleTouchMove(e) {
+        if (!isDragging || window.innerWidth > 768) return;
+
+        currentX = e.touches[0].clientX;
+        const diffX = currentX - startX;
+
+        if (sidebar.classList.contains('open')) {
+            // 侧边栏开启时，向左滑动关闭
+            if (diffX < 0) {
+                const progress = Math.max(0, 1 + diffX / 280);
+                sidebar.style.transform = `translateX(${diffX}px)`;
+                overlay.style.opacity = progress * 0.5;
+            }
+        } else {
+            // 侧边栏关闭时，向右滑动开启
+            if (diffX > 0 && startX < 20) {
+                const progress = Math.min(1, diffX / 280);
+                sidebar.style.transform = `translateX(${-280 + diffX}px)`;
+                overlay.style.opacity = progress * 0.5;
+                overlay.style.visibility = 'visible';
+            }
+        }
+    }
+
+    function handleTouchEnd(e) {
+        if (!isDragging || window.innerWidth > 768) return;
+
+        const diffX = currentX - startX;
+        const threshold = 140; // 触发阈值
+
+        sidebar.style.transition = '';
+        sidebar.style.transform = '';
+
+        if (sidebar.classList.contains('open')) {
+            // 向左滑动超过阈值，关闭侧边栏
+            if (diffX < -threshold) {
+                closeSidebar();
+            } else {
+                // 回弹到开启状态
+                openSidebar();
+            }
+        } else {
+            // 向右滑动超过阈值，开启侧边栏
+            if (diffX > threshold && startX < 20) {
+                openSidebar();
+            } else {
+                // 回弹到关闭状态
+                overlay.style.opacity = '0';
+                overlay.style.visibility = 'hidden';
+            }
+        }
+
+        isDragging = false;
+        startX = 0;
+        currentX = 0;
+    }
+
+    // 绑定触摸事件
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+    document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    // 窗口大小改变时的处理
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            closeSidebar();
+            document.body.style.overflow = '';
+        }
+    });
+
+    // 点击侧边栏内链接时关闭侧边栏
+    sidebar.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' && window.innerWidth <= 768) {
+            setTimeout(closeSidebar, 150);
+        }
+    });
 }
