@@ -1,4 +1,4 @@
-# GeekWiki - 现代化极客风格知识库 🚀
+# KkWiki - 现代化极客风格知识库 🚀
 
 [![Jekyll](https://img.shields.io/badge/Jekyll-4.0+-brightgreen.svg)](https://jekyllrb.com/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -193,6 +193,6 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ---
 
-**GeekWiki** - 为技术人员打造的现代化知识库 🚀
+**KkWiki** - 为技术人员打造的现代化知识库 🚀
 
 访问地址: [https://kevin197011.github.io](https://kevin197011.github.io)

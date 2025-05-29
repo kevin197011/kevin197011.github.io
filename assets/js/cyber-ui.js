@@ -1,5 +1,5 @@
 /**
- * CyberWiki - 极客风格UI交互系统
+ * KkWiki - 极客风格UI交互系统
  * 版本: 2.0
  */
 
@@ -715,7 +715,7 @@ class CyberUI {
                 const perfData = performance.timing;
                 const loadTime = perfData.loadEventEnd - perfData.navigationStart;
 
-                console.log(`CyberWiki loaded in ${loadTime}ms`);
+                console.log(`KkWiki loaded in ${loadTime}ms`);
 
                 // 可以在这里发送性能数据到分析服务
             }

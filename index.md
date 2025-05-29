@@ -1,10 +1,10 @@
 ---
 layout: home
-title: GeekWiki - 技术知识库
+title: KkWiki - 技术知识库
 description: DevOps、系统管理、网络技术的现代化知识库，采用极客风格设计，提供高效的技术文档检索和学习体验。
 ---
 
-# 欢迎来到 GeekWiki 🚀
+# 欢迎来到 KkWiki 🚀
 
 这是一个专注于技术分享的现代化知识库，采用简洁的极客风格设计，为开发者和系统管理员提供高质量的技术文档。
 

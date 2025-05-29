@@ -61,7 +61,7 @@ print(f"前10个平方数: {squares}")
 # Bash 脚本示例
 
 # 设置变量
-PROJECT_NAME="GeekWiki"
+PROJECT_NAME="KkWiki"
 VERSION="2.0"
 
 # 函数定义
@@ -131,22 +131,22 @@ CMD ["node", "server.js"]
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: geekwiki-deployment
+  name: kkwiki-deployment
   labels:
-    app: geekwiki
+    app: kkwiki
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: geekwiki
+      app: kkwiki
   template:
     metadata:
       labels:
-        app: geekwiki
+        app: kkwiki
     spec:
       containers:
-      - name: geekwiki
-        image: geekwiki:latest
+      - name: kkwiki
+        image: kkwiki:latest
         ports:
         - containerPort: 3000
         env:
@@ -232,7 +232,7 @@ WHERE id = 12345;
 
 ```json
 {
-  "name": "GeekWiki",
+  "name": "KkWiki",
   "version": "2.0.0",
   "description": "现代化极客风格知识库",
   "main": "index.js",
