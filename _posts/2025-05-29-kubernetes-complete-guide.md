@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Kubernetes 完全指南：从入门到生产实战"
-date: 2025-05-29 21:00:00 +0800
+date: 2024-12-29 21:00:00 +0800
 category: DevOps
 tags: [Kubernetes, K8s, 容器编排, 云原生, DevOps, 微服务]
 author: KkWiki

@@ -169,7 +169,7 @@ Playbook 是 Ansible 的配置、部署和编排语言。
     - name: 配置防火墙
       ufw:
         rule: allow
-        port: "{{ nginx_port }}"
+        port: "{% raw %}{{ nginx_port }}{% endraw %}"
         proto: tcp
 ```
 
@@ -226,12 +226,12 @@ ansible-playbook --check site.yml
 ```yaml
 - name: 安装多个包
   apt:
-    name:
-      - nginx
-      - mysql-server
-      - php-fpm
+    name: "{% raw %}{{ item }}{% endraw %}"
     state: present
-    update_cache: yes
+  loop:
+    - nginx
+    - mysql-server
+    - php-fpm
 
 - name: 安装特定版本
   apt:
@@ -271,12 +271,12 @@ ansible-playbook --check site.yml
     shell: /bin/bash
     home: /home/appuser
     create_home: yes
-    password: "{{ 'mypassword' | password_hash('sha512') }}"
+    password: "{% raw %}{{ 'mypassword' | password_hash('sha512') }}{% endraw %}"
 
 - name: 添加 SSH 公钥
   authorized_key:
     user: appuser
-    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    key: "{% raw %}{{ lookup('file', '~/.ssh/id_rsa.pub') }}{% endraw %}"
 ```
 
 ## 🎯 实战案例：LAMP 服务器部署
@@ -341,11 +341,11 @@ mysql_packages:
   - python3-pymysql
 
 php_packages:
-  - "php{{ php_version }}"
-  - "php{{ php_version }}-mysql"
-  - "php{{ php_version }}-curl"
-  - "php{{ php_version }}-gd"
-  - "php{{ php_version }}-mbstring"
+  - "{% raw %}php{{ php_version }}{% endraw %}"
+  - "{% raw %}php{{ php_version }}{% endraw %}-mysql"
+  - "{% raw %}php{{ php_version }}{% endraw %}-curl"
+  - "{% raw %}php{{ php_version }}{% endraw %}-gd"
+  - "{% raw %}php{{ php_version }}{% endraw %}-mbstring"
   - libapache2-mod-php
 ```
 
@@ -372,7 +372,7 @@ php_packages:
   post_tasks:
     - name: 重启所有服务
       service:
-        name: "{{ item }}"
+        name: "{% raw %}{{ item }}{% endraw %}"
         state: restarted
       loop:
         - apache2
@@ -385,7 +385,7 @@ php_packages:
 ---
 - name: 安装基础软件包
   apt:
-    name: "{{ common_packages }}"
+    name: "{% raw %}{{ common_packages }}{% endraw %}"
     state: present
 
 - name: 配置时区
@@ -395,7 +395,7 @@ php_packages:
 - name: 配置防火墙
   ufw:
     rule: allow
-    port: "{{ item }}"
+    port: "{% raw %}{{ item }}{% endraw %}"
     proto: tcp
   loop:
     - "22"
@@ -413,12 +413,12 @@ php_packages:
 ---
 - name: 安装 Apache
   apt:
-    name: "{{ apache_packages }}"
+    name: "{% raw %}{{ apache_packages }}{% endraw %}"
     state: present
 
 - name: 启用 Apache 模块
   apache2_module:
-    name: "{{ item }}"
+    name: "{% raw %}{{ item }}{% endraw %}"
     state: present
   loop:
     - rewrite
@@ -428,11 +428,11 @@ php_packages:
 - name: 创建虚拟主机配置
   template:
     src: vhost.conf.j2
-    dest: "/etc/apache2/sites-available/{{ app_domain }}.conf"
+    dest: "/etc/apache2/sites-available/{% raw %}{{ app_domain }}{% endraw %}.conf"
   notify: restart apache
 
 - name: 启用站点
-  command: a2ensite {{ app_domain }}
+  command: a2ensite {% raw %}{{ app_domain }}{% endraw %}
   notify: restart apache
 
 - name: 禁用默认站点
@@ -460,16 +460,16 @@ php_packages:
 
 ```apache
 <VirtualHost *:80>
-    ServerName {{ app_domain }}
-    DocumentRoot /var/www/{{ app_domain }}
+    ServerName {% raw %}{{ app_domain }}{% endraw %}
+    DocumentRoot /var/www/{% raw %}{{ app_domain }}{% endraw %}
 
-    <Directory /var/www/{{ app_domain }}>
+    <Directory /var/www/{% raw %}{{ app_domain }}{% endraw %}>
         AllowOverride All
         Require all granted
     </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/{{ app_domain }}_error.log
-    CustomLog ${APACHE_LOG_DIR}/{{ app_domain }}_access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/{% raw %}{{ app_domain }}{% endraw %}_error.log
+    CustomLog ${APACHE_LOG_DIR}/{% raw %}{{ app_domain }}{% endraw %}_access.log combined
 </VirtualHost>
 ```
 
@@ -479,7 +479,7 @@ php_packages:
 ---
 - name: 安装 MySQL
   apt:
-    name: "{{ mysql_packages }}"
+    name: "{% raw %}{{ mysql_packages }}{% endraw %}"
     state: present
 
 - name: 启动并启用 MySQL
@@ -491,7 +491,7 @@ php_packages:
 - name: 设置 MySQL root 密码
   mysql_user:
     name: root
-    password: "{{ mysql_root_password }}"
+    password: "{% raw %}{{ mysql_root_password }}{% endraw %}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
 
 - name: 删除匿名用户
@@ -500,14 +500,14 @@ php_packages:
     host_all: yes
     state: absent
     login_user: root
-    login_password: "{{ mysql_root_password }}"
+    login_password: "{% raw %}{{ mysql_root_password }}{% endraw %}"
 
 - name: 删除测试数据库
   mysql_db:
     name: test
     state: absent
     login_user: root
-    login_password: "{{ mysql_root_password }}"
+    login_password: "{% raw %}{{ mysql_root_password }}{% endraw %}"
 ```
 
 ### 执行部署
@@ -594,8 +594,8 @@ ansible-playbook site.yml
 ```yaml
 - name: 配置 SSH 密钥认证
   authorized_key:
-    user: "{{ ansible_user }}"
-    key: "{{ lookup('file', item) }}"
+    user: "{% raw %}{{ ansible_user }}{% endraw %}"
+    key: "{% raw %}{{ lookup('file', item) }}{% endraw %}"
     exclusive: yes
   with_fileglob:
     - "keys/*.pub"
@@ -634,9 +634,9 @@ ansible-playbook site.yml
 ```yaml
 - name: 创建多个用户
   user:
-    name: "{{ item.name }}"
-    groups: "{{ item.groups }}"
-    shell: "{{ item.shell | default('/bin/bash') }}"
+    name: "{% raw %}{{ item.name }}{% endraw %}"
+    groups: "{% raw %}{{ item.groups }}{% endraw %}"
+    shell: "{% raw %}{{ item.shell | default('/bin/bash') }}{% endraw %}"
   loop:
     - { name: "alice", groups: "sudo", shell: "/bin/zsh" }
     - { name: "bob", groups: "docker" }
@@ -644,7 +644,7 @@ ansible-playbook site.yml
 
 - name: 安装多个包
   apt:
-    name: "{{ item }}"
+    name: "{% raw %}{{ item }}{% endraw %}"
     state: present
   loop:
     - nginx
@@ -668,26 +668,26 @@ server_blocks:
 
 ```jinja2
 {# templates/nginx.conf.j2 #}
-worker_processes {{ nginx_config.worker_processes }};
+worker_processes {% raw %}{{ nginx_config.worker_processes }}{% endraw %};
 
 events {
-    worker_connections {{ nginx_config.worker_connections }};
+    worker_connections {% raw %}{{ nginx_config.worker_connections }}{% endraw %};
 }
 
 http {
-    keepalive_timeout {{ nginx_config.keepalive_timeout }};
+    keepalive_timeout {% raw %}{{ nginx_config.keepalive_timeout }}{% endraw %};
 
-    {% for server in server_blocks %}
+    {% raw %}{% for server in server_blocks %}{% endraw %}
     server {
         listen 80;
-        server_name {{ server.name }};
-        root {{ server.root }};
+        server_name {% raw %}{{ server.name }}{% endraw %};
+        root {% raw %}{{ server.root }}{% endraw %};
 
         location / {
             try_files $uri $uri/ =404;
         }
     }
-    {% endfor %}
+    {% raw %}{% endfor %}{% endraw %}
 }
 ```
 
@@ -752,7 +752,7 @@ pipelining = True
 
 - name: 检查任务状态
   async_status:
-    jid: "{{ long_task.ansible_job_id }}"
+    jid: "{% raw %}{{ long_task.ansible_job_id }}{% endraw %}"
   register: job_result
   until: job_result.finished
   retries: 30
@@ -786,7 +786,7 @@ ansible-playbook site.yml --start-at-task="安装 Nginx"
 
 - name: 显示消息
   debug:
-    msg: "当前主机是 {{ inventory_hostname }}"
+    msg: "当前主机是 {% raw %}{{ inventory_hostname }}{% endraw %}"
 
 - name: 条件调试
   debug:
