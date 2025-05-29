@@ -1,67 +1,307 @@
-<!DOCTYPE HTML>
-<html lang="en" >
-    <head>
+---
+layout: default
+---
 
-        {%- include head.html -%}
-
-        {% if page.previous %}
-            <link rel="prev" href="{{site.baseurl}}{{page.previous.url}}" />
-        {% else %}
-            <link rel="prev" href="{{site.baseurl}}/" />
-        {% endif %}
-
-        {% if page.next %}
-            <link rel="next" href="{{site.baseurl}}{{page.next.url}}" />
-        {% endif %}
-    </head>
-    <body>
-        <div class="book">
-
-            {%- include toc-date.html -%}
-
-            <div class="book-body">
-                <div class="book-header" role="navigation">
-                    <!-- Title -->
-                    <h1>
-                        <i class="fa fa-circle-o-notch fa-spin"></i>
-                        {% if page.title %}
-                            <a href="." >{{ page.title | escape }}</a>
-                        {% else %}
-                            <a href="." >{{ site.title | escape }}</a>
-                        {% endif %}
-                    </h1>
-                </div>
-
-                <div class="body-inner">
-                    {%- include body.html -%}
-
-                    {% if page.previous %}
-                        <a href="{{site.baseurl}}{{page.previous.url}}" class="navigation navigation-prev navigation-unique" aria-label="Previous page: {{page.previous.title}}">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
-                    {% else %}
-                        <a href="{{site.baseurl}}/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: {{site.title}}">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
-                    {% endif %}
-
-                    {% if page.next %}
-                        <a href="{{site.baseurl}}{{page.next.url}}" class="navigation navigation-next navigation-unique" aria-label="Next page: {{page.next.title}}">
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    {% endif %}
-                </div>
+<div class="post-page">
+    <!-- 文章头部 -->
+    <header class="post-header">
+        <div class="post-meta">
+            <div class="post-category">
+                <i class="fas fa-folder"></i>
+                {{ page.category | default: "General" }}
             </div>
-
-            <script>
-            var gitbook = gitbook || [];
-            gitbook.push(function() {
-                gitbook.page.hasChanged({%- include metadata-post.json.tpl -%});
-            });
-            </script>
+            <div class="post-date">
+                <i class="fas fa-calendar"></i>
+                {{ page.date | date: "%Y-%m-%d" }}
+            </div>
+            {% if page.author %}
+            <div class="post-author">
+                <i class="fas fa-user"></i>
+                {{ page.author }}
+            </div>
+            {% endif %}
         </div>
 
-        {%- include footer.html -%}
+        <h1 class="post-title">{{ page.title }}</h1>
 
-    </body>
-</html>
+        {% if page.excerpt %}
+        <div class="post-excerpt">
+            {{ page.excerpt | strip_html }}
+        </div>
+        {% endif %}
+
+        {% if page.tags and page.tags.size > 0 %}
+        <div class="post-tags">
+            {% for tag in page.tags %}
+                <span class="tag">
+                    <i class="fas fa-tag"></i>
+                    {{ tag }}
+                </span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- 阅读进度条 -->
+        <div class="reading-progress">
+            <div class="progress-bar" id="reading-progress-bar"></div>
+        </div>
+    </header>
+
+    <!-- 文章内容 -->
+    <div class="content-wrapper">
+        <!-- 主要内容 -->
+        <main class="post-content">
+            <article class="post-article">
+                <div class="article-content">
+                    {{ content }}
+                </div>
+
+                <!-- 文章底部信息 -->
+                <footer class="post-footer">
+                    <div class="post-info">
+                        <div class="reading-time">
+                            <i class="fas fa-clock"></i>
+                            <span id="reading-time">预计阅读时间</span>
+                        </div>
+                        <div class="word-count">
+                            <i class="fas fa-file-word"></i>
+                            <span id="word-count">字数统计</span>
+                        </div>
+                        <div class="last-modified">
+                            <i class="fas fa-edit"></i>
+                            最后更新: {{ page.date | date: "%Y-%m-%d" }}
+                        </div>
+                    </div>
+
+                    <!-- 分享按钮 -->
+                    <div class="share-buttons">
+                        <span class="share-label">分享:</span>
+                        <button class="share-btn" onclick="copyToClipboard()" title="复制链接">
+                            <i class="fas fa-link"></i>
+                        </button>
+                        <button class="share-btn" onclick="shareToTwitter()" title="分享到Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                    </div>
+                </footer>
+            </article>
+        </main>
+
+        <!-- 目录 -->
+        <aside class="post-toc">
+            <div class="toc-header">
+                <i class="fas fa-list"></i>
+                <span>目录</span>
+                <button class="toc-toggle" id="toc-toggle">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <nav class="toc-nav" id="table-of-contents">
+                <!-- 目录将通过JavaScript生成 -->
+            </nav>
+        </aside>
+    </div>
+
+    <!-- 文章导航 -->
+    <nav class="post-navigation">
+        {% if page.previous.url %}
+        <a href="{{ page.previous.url | relative_url }}" class="nav-link nav-prev" title="{{ page.previous.title }}">
+            <div class="nav-direction">
+                <i class="fas fa-chevron-left"></i>
+                <span>上一篇</span>
+            </div>
+            <div class="nav-title">{{ page.previous.title | truncate: 40 }}</div>
+        </a>
+        {% endif %}
+
+        <a href="{{ '/' | relative_url }}" class="nav-link nav-home" title="返回首页">
+            <div class="nav-icon">
+                <i class="fas fa-home"></i>
+            </div>
+            <span>首页</span>
+        </a>
+
+        {% if page.next.url %}
+        <a href="{{ page.next.url | relative_url }}" class="nav-link nav-next" title="{{ page.next.title }}">
+            <div class="nav-direction">
+                <span>下一篇</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="nav-title">{{ page.next.title | truncate: 40 }}</div>
+        </a>
+        {% endif %}
+    </nav>
+
+    <!-- 相关文章 -->
+    {% assign related_posts = site.related_posts | where: "category", page.category | limit: 3 %}
+    {% if related_posts.size > 0 %}
+    <section class="related-posts">
+        <h3 class="related-title">
+            <i class="fas fa-paperclip"></i>
+            相关文章
+        </h3>
+        <div class="related-grid">
+            {% for post in related_posts %}
+            <article class="related-card">
+                <div class="related-meta">
+                    <span class="related-category">{{ post.category }}</span>
+                    <span class="related-date">{{ post.date | date: "%m-%d" }}</span>
+                </div>
+                <h4 class="related-title">
+                    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                </h4>
+                {% if post.excerpt %}
+                <p class="related-excerpt">{{ post.excerpt | strip_html | truncate: 80 }}</p>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+
+<!-- 文章页面脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 生成目录
+    generateTOC();
+
+    // 计算阅读时间和字数
+    calculateReadingStats();
+
+    // 阅读进度
+    updateReadingProgress();
+
+    // 代码块增强
+    enhanceCodeBlocks();
+
+    // 滚动事件
+    window.addEventListener('scroll', function() {
+        updateReadingProgress();
+        updateTOCHighlight();
+    });
+});
+
+function generateTOC() {
+    const headings = document.querySelectorAll('.post-article h1, .post-article h2, .post-article h3, .post-article h4');
+    const toc = document.getElementById('table-of-contents');
+
+    if (headings.length === 0) {
+        document.querySelector('.post-toc').style.display = 'none';
+        return;
+    }
+
+    let tocHTML = '<ul class="toc-list">';
+    headings.forEach((heading, index) => {
+        const id = `heading-${index}`;
+        heading.id = id;
+        const level = parseInt(heading.tagName.charAt(1));
+        const indent = level > 2 ? 'toc-indent' : '';
+
+        tocHTML += `
+            <li class="toc-item ${indent}">
+                <a href="#${id}" class="toc-link" data-heading="${id}">
+                    <span class="toc-text">${heading.textContent}</span>
+                </a>
+            </li>
+        `;
+    });
+    tocHTML += '</ul>';
+
+    toc.innerHTML = tocHTML;
+}
+
+function calculateReadingStats() {
+    const content = document.querySelector('.article-content');
+    const text = content.textContent || content.innerText;
+    const wordCount = text.trim().split(/\s+/).length;
+    const readingTime = Math.ceil(wordCount / 200); // 假设每分钟200字
+
+    document.getElementById('reading-time').textContent = `约 ${readingTime} 分钟`;
+    document.getElementById('word-count').textContent = `${wordCount} 字`;
+}
+
+function updateReadingProgress() {
+    const article = document.querySelector('.post-article');
+    const progressBar = document.getElementById('reading-progress-bar');
+
+    if (!article || !progressBar) return;
+
+    const articleHeight = article.offsetHeight;
+    const articleTop = article.offsetTop;
+    const scrolled = window.scrollY - articleTop;
+    const progress = Math.max(0, Math.min(100, (scrolled / articleHeight) * 100));
+
+    progressBar.style.width = `${progress}%`;
+}
+
+function updateTOCHighlight() {
+    const headings = document.querySelectorAll('.post-article h1, .post-article h2, .post-article h3, .post-article h4');
+    const tocLinks = document.querySelectorAll('.toc-link');
+
+    let activeHeading = null;
+    headings.forEach(heading => {
+        const rect = heading.getBoundingClientRect();
+        if (rect.top <= 100) {
+            activeHeading = heading;
+        }
+    });
+
+    tocLinks.forEach(link => link.classList.remove('active'));
+    if (activeHeading) {
+        const activeLink = document.querySelector(`[data-heading="${activeHeading.id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+    }
+}
+
+function enhanceCodeBlocks() {
+    document.querySelectorAll('pre code').forEach((block) => {
+        // 添加复制按钮
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'copy-code-btn';
+        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+        copyBtn.title = '复制代码';
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(block.textContent);
+            copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(() => {
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+            }, 2000);
+        });
+
+        block.parentNode.style.position = 'relative';
+        block.parentNode.appendChild(copyBtn);
+    });
+}
+
+function copyToClipboard() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        showToast('链接已复制到剪贴板');
+    });
+}
+
+function shareToTwitter() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(document.title);
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+}
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+</script>

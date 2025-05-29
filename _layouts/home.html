@@ -1,57 +1,290 @@
-<!DOCTYPE HTML>
-<html lang="en" >
-    <head>
+---
+layout: default
+---
 
-        {%- include head.html -%}
+<div class="home-page">
+    <!-- 欢迎区域 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span class="btn-close"></span>
+                        <span class="btn-minimize"></span>
+                        <span class="btn-maximize"></span>
+                    </div>
+                    <div class="terminal-title">wiki@kk:~$</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-line">
+                        <span class="prompt">root@wiki:~$</span>
+                        <span class="command typed-text">cat welcome.txt</span>
+                    </div>
+                    <div class="terminal-output">
+                        <div class="ascii-art">
+ _  ___  _    _       __        ___ _    _
+| |/ / |/ )  ( )___   \ \      / (_) | _(_)
+|   /|   /    \__ \    \ \ /\ / /| | |/ / |
+|   \|   \     __) |    \ V  V / | |   <| |
+|_|\_\_|\_\   |___/      \_/\_/  |_|_|\_\_|
+                        </div>
+                        <div class="welcome-text">
+                            <p>> {{ site.description | default: "DevOps、系统管理、网络技术知识库" }}</p>
+                            <p>> 共有 <span class="highlight">{{ site.posts.size }}</span> 篇技术文档</p>
+                            <p>> 涵盖 <span class="highlight">{{ site.categories.size }}</span> 个技术分类</p>
+                            <p>> 最后更新: <span class="highlight">{{ site.time | date: "%Y-%m-%d %H:%M" }}</span></p>
+                        </div>
+                        <div class="cursor-blink">_</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        {% assign reversed_posts = site.posts | reverse %}
+    <!-- 快速导航 -->
+    <section class="quick-nav-section">
+        <h2 class="section-title">
+            <i class="fas fa-tachometer-alt"></i>
+            快速导航
+        </h2>
+        <div class="quick-nav-grid">
+            <div class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>快速开始</h3>
+                <p>开始探索技术文档</p>
+                <a href="#latest-posts" class="nav-card-link">开始阅读</a>
+            </div>
 
-        {% if reversed_posts %}
-            <link rel="next" href="{{site.baseurl}}{{reversed_posts.first.url}}" />
-        {% endif %}
-    </head>
-    <body>
-        <div class="book">
+            <div class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>搜索文档</h3>
+                <p>快速找到所需内容</p>
+                <a href="#" class="nav-card-link search-trigger">立即搜索</a>
+            </div>
 
-            {%- include toc-date.html -%}
+            <div class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-bookmark"></i>
+                </div>
+                <h3>文档分类</h3>
+                <p>按分类浏览文档</p>
+                <a href="#categories" class="nav-card-link">查看分类</a>
+            </div>
 
-            <div class="book-body">
-                <div class="book-header" role="navigation">
-                    <!-- Title -->
-                    <h1>
-                        <i class="fa fa-circle-o-notch fa-spin"></i>
-                        {% if page.title %}
-                            <a href="." >{{ page.title | escape }}</a>
-                        {% else %}
-                            <a href="." >{{ site.title | escape }}</a>
-                        {% endif %}
-                    </h1>
+            <div class="nav-card">
+                <div class="nav-card-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h3>标签索引</h3>
+                <p>通过标签快速定位</p>
+                <a href="#tags" class="nav-card-link">浏览标签</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 系统状态 -->
+    <section class="system-status-section">
+        <h2 class="section-title">
+            <i class="fas fa-server"></i>
+            系统状态
+        </h2>
+        <div class="status-grid">
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-database"></i>
+                    <span>文档库</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">{{ site.posts.size }}</span>
+                    <span class="metric-label">篇文档</span>
+                </div>
+                <div class="status-indicator online"></div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-folder-open"></i>
+                    <span>分类数</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">{{ site.categories.size }}</span>
+                    <span class="metric-label">个分类</span>
+                </div>
+                <div class="status-indicator online"></div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-clock"></i>
+                    <span>最后更新</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">{{ site.time | date: "%m/%d" }}</span>
+                    <span class="metric-label">{{ site.time | date: "%H:%M" }}</span>
+                </div>
+                <div class="status-indicator online"></div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-code-branch"></i>
+                    <span>版本</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">v2.0</span>
+                    <span class="metric-label">稳定版</span>
+                </div>
+                <div class="status-indicator online"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最新文档 -->
+    {% if site.posts.size > 0 %}
+    <section class="latest-posts-section" id="latest-posts">
+        <h2 class="section-title">
+            <i class="fas fa-file-alt"></i>
+            最新文档
+            <span class="section-subtitle">最近更新的技术文档</span>
+        </h2>
+        <div class="posts-grid">
+            {% for post in site.posts limit:6 %}
+            <article class="post-card">
+                <div class="post-card-header">
+                    <div class="post-category">
+                        <i class="fas fa-folder"></i>
+                        {{ post.category | default: "General" }}
+                    </div>
+                    <div class="post-date">
+                        {{ post.date | date: "%m-%d" }}
+                    </div>
                 </div>
 
-                <div class="body-inner">
-                    {%- include body.html -%}
+                <div class="post-card-body">
+                    <h3 class="post-title">
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </h3>
+                    {% if post.excerpt %}
+                        <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
+                    {% endif %}
+                </div>
 
-                    <a href="{{site.baseurl}}/" class="navigation navigation-pre navigation-unique">
-                        <i class="fa"></i>
+                <div class="post-card-footer">
+                    <div class="post-tags">
+                        {% if post.tags and post.tags.size > 0 %}
+                            {% for tag in post.tags limit:2 %}
+                                <span class="tag">{{ tag }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <a href="{{ post.url | relative_url }}" class="read-more">
+                        阅读 <i class="fas fa-arrow-right"></i>
                     </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
 
-                    {% if reversed_posts %}
-                        <a href="{{site.baseurl}}{{reversed_posts.first.url}}" class="navigation navigation-next navigation-unique" aria-label="Next page: {{reversed_posts.first.title}}">
-                            <i class="fa fa-angle-right"></i>
+        <div class="section-footer">
+            <a href="/archive" class="view-all-btn">
+                查看所有文档 <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- 文档分类 -->
+    {% assign categories = site.categories | sort %}
+    {% if categories.size > 0 %}
+    <section class="categories-section" id="categories">
+        <h2 class="section-title">
+            <i class="fas fa-sitemap"></i>
+            文档分类
+            <span class="section-subtitle">按技术领域组织的文档</span>
+        </h2>
+        <div class="categories-grid">
+            {% for category in categories %}
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">
+                        {% case category[0] %}
+                            {% when 'DevOps' %}
+                                <i class="fas fa-cogs"></i>
+                            {% when 'Security' %}
+                                <i class="fas fa-shield-alt"></i>
+                            {% when 'Network' %}
+                                <i class="fas fa-network-wired"></i>
+                            {% when 'System' %}
+                                <i class="fas fa-server"></i>
+                            {% else %}
+                                <i class="fas fa-code"></i>
+                        {% endcase %}
+                    </div>
+                    <h3>{{ category[0] }}</h3>
+                    <span class="post-count">{{ category[1].size }} 篇</span>
+                </div>
+
+                <div class="category-posts">
+                    {% for post in category[1] limit:3 %}
+                        <a href="{{ post.url | relative_url }}" class="category-post-link">
+                            <i class="fas fa-file-alt"></i>
+                            {{ post.title | truncate: 30 }}
                         </a>
+                    {% endfor %}
+                    {% if category[1].size > 3 %}
+                        <span class="more-posts">+{{ category[1].size | minus: 3 }} 更多</span>
                     {% endif %}
                 </div>
             </div>
-
-            <script>
-            var gitbook = gitbook || [];
-            gitbook.push(function() {
-                gitbook.page.hasChanged({%- include metadata-home.json.tpl -%});
-            });
-            </script>
+            {% endfor %}
         </div>
+    </section>
+    {% endif %}
 
-        {%- include footer.html -%}
-
-    </body>
-</html>
+    <!-- 技术栈展示 -->
+    <section class="tech-stack-section">
+        <h2 class="section-title">
+            <i class="fas fa-layer-group"></i>
+            技术栈
+            <span class="section-subtitle">文档涵盖的技术领域</span>
+        </h2>
+        <div class="tech-stack-grid">
+            <div class="tech-item">
+                <i class="fab fa-docker"></i>
+                <span>Docker</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-linux"></i>
+                <span>Linux</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-aws"></i>
+                <span>AWS</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-kubernetes"></i>
+                <span>Kubernetes</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-jenkins"></i>
+                <span>Jenkins</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-git-alt"></i>
+                <span>Git</span>
+            </div>
+            <div class="tech-item">
+                <i class="fab fa-python"></i>
+                <span>Python</span>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-database"></i>
+                <span>Database</span>
+            </div>
+        </div>
+    </section>
+</div>

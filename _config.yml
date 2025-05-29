@@ -1,30 +1,20 @@
-# Configurations
-title:            Kevin197011's Wiki
-longtitle:        Kevin197011's Wiki
+# GeekWiki Configuration
+title:            KK's Wiki
+longtitle:        KK's Wiki - 极客技术知识库
 author:           Kk
 email:            kevin197011@outlook.com
 description: >
-  DevOps wiki.
+  DevOps、系统管理、网络技术的现代化知识库，采用极客风格设计，提供高效的技术文档检索和学习体验。
 
-version:          1.0
-gitbook_version:  3.2.3
-
+version:          2.0
 url:              'https://kevin197011.github.io'
 baseurl:          ''
-rss:              RSS
 
-# bootstrap: use the remote theme for the site itself
-remote_theme: sighingnow/jekyll-gitbook
+# 网站设置
+lang:             zh-CN
+timezone:         Asia/Shanghai
 
-toc:
-  enabled: true
-  h_min: 1
-  h_max: 3
-
-# customize the link favicon in header, will be {{site.baseurl}}/{{site.favicon_path}}
-favicon_path:     assets/gitbook/images/favicon.ico
-
-# markdown render engine.
+# Markdown 渲染引擎
 markdown:         kramdown
 kramdown:
   auto_ids:               true
@@ -35,32 +25,75 @@ kramdown:
   syntax_highlighter:     rouge
   syntax_highlighter_opts:
     guess_lang:           true
+    line_numbers:         false
 
-syntax_highlighter_style: gruvbox
+syntax_highlighter_style: github-dark
 
 markdown_ext:             markdown,mkdown,mkdn,mkd,md
 
-# Permalinks
+# 固定链接格式
 permalink:                /:categories/:year-:month-:day-:title:output_ext
 
-# Disqus comments
-# disqushandler:            sighingnow
+# 构建设置
+destination:      ./_site
+incremental:      true
+regenerate:       true
+future:           false
+unpublished:      false
 
+# 排除文件
 exclude:
   - _drafts
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
+  - node_modules
+  - vendor
 
+# 包含文件
+include:
+  - .htaccess
+
+# 集合配置
 collections:
   pages:
     output: true
     permalink: /:collection/:path/
 
-page_width: 800px
+# SEO和分析
+google_analytics: # 添加你的Google Analytics ID
+google_site_verification: # 添加Google站点验证代码
 
-destination:      ./_site
-incremental:      false
-regenerate:       true
+# 社交媒体
+github_username: kevin197011
+twitter_username: # 可选
 
+# 插件
 plugins:
   - jekyll-feed
-  - jekyll-readme-index
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jemoji
+
+# Feed设置
+feed:
+  categories:
+    - DevOps
+    - System
+    - Network
+    - Security
+
+# Liquid选项
+liquid:
+  error_mode: warn
+  strict_filters: false
+  strict_variables: false
+
+# 安全设置
+safe: true
+whitelist:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
   - jemoji
