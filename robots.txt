@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# 指向站点地图
+Sitemap: {{ site.url }}{{ site.baseurl }}/sitemap.xml
+
+# 不允许爬取这些目录
+Disallow: /assets/
+Disallow: /.git/
+Disallow: /_site/
