@@ -15,8 +15,8 @@
                     <div class="site-title">
                         <a href="{{ '/' | relative_url }}" class="site-title-link" title="回到首页">
                             <h1>{{ site.title | default: "KkWiki" }}</h1>
-                            <p class="site-subtitle">{{ site.description | default: "Code. Learn. Share." }}</p>
                         </a>
+                        <p class="site-subtitle">{{ site.description | default: "Code. Learn. Share." }}</p>
                     </div>
                 </div>
 
@@ -152,11 +152,13 @@
                     </button>
                     <div class="breadcrumb">
                         {% if page.layout == 'post' %}
+                            <a href="{{ '/' | relative_url }}" class="fas breadcrumb-link">首页</a>
+                            <i class="fas fa-chevron-right"></i>
                             <span>{{ page.category | default: "Uncategorized" }}</span>
                             <i class="fas fa-chevron-right"></i>
                             <span>{{ page.title }}</span>
                         {% else %}
-                            <span>首页</span>
+                            <a href="{{ '/' | relative_url }}" class="fas breadcrumb-link">首页</a>
                         {% endif %}
                     </div>
                 </div>
