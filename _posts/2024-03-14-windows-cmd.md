@@ -6,6 +6,150 @@ category: DevOps
 layout: post
 tags: [windows, cmd, powershell, command-line, system-administration]
 excerpt: "Windows命令行和PowerShell是系统管理员必备技能，本文详细介绍各种实用命令、脚本编写和系统管理技巧。"
+diagram: |
+  graph TB
+      subgraph "Windows系统管理架构"
+          subgraph "用户交互层"
+              GUI[图形用户界面 GUI]
+              CMD[命令提示符 CMD]
+              POWERSHELL[PowerShell]
+              TERMINAL[Windows Terminal]
+              RDP[远程桌面 RDP]
+          end
+
+          subgraph "命令行工具层"
+              NATIVE_CMD[原生CMD命令]
+              NET_CMD[NET命令套件]
+              WMIC[WMIC管理工具]
+              SCHTASKS[任务计划器命令]
+              REG_CMD[注册表命令]
+              SC_CMD[服务控制命令]
+          end
+
+          subgraph "PowerShell生态"
+              PS_CORE[PowerShell Core]
+              PS_MODULES[PowerShell模块]
+              PS_CMDLETS[PowerShell Cmdlets]
+              PS_ISE[PowerShell ISE]
+              PS_REMOTING[PowerShell远程管理]
+              WMI[Windows Management Instrumentation]
+          end
+
+          subgraph "系统管理工具"
+              MMC[Microsoft管理控制台]
+              SERVICES[服务管理器]
+              EVENTVWR[事件查看器]
+              DEVMGMT[设备管理器]
+              REGEDIT[注册表编辑器]
+              GPEDIT[组策略编辑器]
+              PERFMON[性能监视器]
+          end
+
+          subgraph "Windows内核层"
+              KERNEL[Windows内核]
+              REGISTRY[注册表]
+              EVENT_LOG[事件日志]
+              PROCESSES[进程管理]
+              SERVICES_SYS[Windows服务]
+              FILE_SYSTEM[文件系统]
+              NETWORK_STACK[网络堆栈]
+          end
+
+          subgraph "硬件抽象层"
+              HAL[硬件抽象层 HAL]
+              DRIVERS[设备驱动程序]
+              CPU[处理器]
+              MEMORY[内存]
+              STORAGE[存储设备]
+              NETWORK[网络适配器]
+          end
+
+          subgraph "网络管理"
+              NETSH[Netsh网络配置]
+              PING[网络连通性测试]
+              NSLOOKUP[DNS查询工具]
+              TRACERT[路由跟踪]
+              NETSTAT[网络连接状态]
+              IPCONFIG[IP配置工具]
+          end
+
+          subgraph "文件系统管理"
+              ROBOCOPY[Robocopy文件复制]
+              XCOPY[XCopy文件复制]
+              TAKEOWN[文件所有权管理]
+              ICACLS[文件权限管理]
+              FSUTIL[文件系统工具]
+              DISKPART[磁盘分区工具]
+          end
+      end
+
+      GUI --> MMC
+      CMD --> NATIVE_CMD
+      CMD --> NET_CMD
+      CMD --> WMIC
+      POWERSHELL --> PS_CMDLETS
+      POWERSHELL --> PS_MODULES
+      TERMINAL --> CMD
+      TERMINAL --> POWERSHELL
+
+      NATIVE_CMD --> KERNEL
+      NET_CMD --> SERVICES_SYS
+      WMIC --> WMI
+      PS_CMDLETS --> WMI
+      PS_REMOTING --> PS_CORE
+
+      MMC --> SERVICES
+      MMC --> EVENTVWR
+      MMC --> DEVMGMT
+      MMC --> PERFMON
+      REGEDIT --> REGISTRY
+      GPEDIT --> REGISTRY
+
+      SERVICES --> SERVICES_SYS
+      EVENTVWR --> EVENT_LOG
+      DEVMGMT --> DRIVERS
+      PERFMON --> PROCESSES
+
+      NETSH --> NETWORK_STACK
+      PING --> NETWORK_STACK
+      NSLOOKUP --> NETWORK_STACK
+      TRACERT --> NETWORK_STACK
+      NETSTAT --> NETWORK_STACK
+      IPCONFIG --> NETWORK_STACK
+
+      ROBOCOPY --> FILE_SYSTEM
+      XCOPY --> FILE_SYSTEM
+      TAKEOWN --> FILE_SYSTEM
+      ICACLS --> FILE_SYSTEM
+      FSUTIL --> FILE_SYSTEM
+      DISKPART --> STORAGE
+
+      KERNEL --> HAL
+      REGISTRY --> KERNEL
+      EVENT_LOG --> KERNEL
+      PROCESSES --> KERNEL
+      SERVICES_SYS --> KERNEL
+      FILE_SYSTEM --> KERNEL
+      NETWORK_STACK --> KERNEL
+
+      HAL --> DRIVERS
+      DRIVERS --> CPU
+      DRIVERS --> MEMORY
+      DRIVERS --> STORAGE
+      DRIVERS --> NETWORK
+
+      RDP -.->|远程连接| GUI
+      PS_REMOTING -.->|远程管理| POWERSHELL
+
+      style CMD fill:#000000,stroke:#fff,stroke-width:2px,color:#fff
+      style POWERSHELL fill:#012456,stroke:#fff,stroke-width:2px,color:#fff
+      style KERNEL fill:#ff4757,stroke:#fff,stroke-width:2px,color:#fff
+      style WMI fill:#2ed573,stroke:#fff,stroke-width:2px,color:#fff
+      style REGISTRY fill:#ffa502,stroke:#fff,stroke-width:2px,color:#000
+      style MMC fill:#3742fa,stroke:#fff,stroke-width:2px,color:#fff
+      style HAL fill:#ff6348,stroke:#fff,stroke-width:2px,color:#fff
+      style NETWORK_STACK fill:#1e90ff,stroke:#fff,stroke-width:2px,color:#fff
+      style FILE_SYSTEM fill:#2ed573,stroke:#fff,stroke-width:2px,color:#fff
 ---
 
 # Windows 命令行与 PowerShell 实用指南 💻

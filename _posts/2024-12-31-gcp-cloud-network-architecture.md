@@ -6,6 +6,141 @@ date: 2024-12-31
 category: DevOps
 tags: [GCP, 云计算, 网络架构, VPC, 防火墙, 负载均衡器, 云原生]
 author: Kk
+diagram: |
+  graph TB
+      subgraph "Google Cloud Platform网络架构"
+          subgraph "Google全球网络基础设施"
+              GOOGLE_BACKBONE[Google全球网络骨干]
+              DEDICATED_INT[Dedicated Interconnect 专线]
+              CLOUD_CDN[Cloud CDN边缘节点]
+              PREMIUM_TIER[Premium Tier 高级网络]
+          end
+
+          subgraph "区域 Region (us-central1)"
+              subgraph "可用区 Zone A (us-central1-a)"
+                  VPC1[VPC 网络 1<br/>production-vpc]
+                  SUBNET1[子网 Web<br/>10.1.1.0/24]
+                  VM1[Compute Engine VM<br/>Web服务器]
+                  FW1[防火墙规则 Web]
+              end
+
+              subgraph "可用区 Zone B (us-central1-b)"
+                  VPC2[VPC 网络 2<br/>production-vpc]
+                  SUBNET2[子网 App<br/>10.1.2.0/24]
+                  VM2[Compute Engine VM<br/>应用服务器]
+                  FW2[防火墙规则 App]
+              end
+
+              subgraph "可用区 Zone C (us-central1-c)"
+                  VPC3[VPC 网络 3<br/>production-vpc]
+                  SUBNET3[子网 DB<br/>10.1.3.0/24]
+                  VM3[Compute Engine VM<br/>数据库服务器]
+                  FW3[防火墙规则 DB]
+              end
+
+              GLB[Global Load Balancer<br/>全球负载均衡]
+              ILB[Internal Load Balancer<br/>内部负载均衡]
+              NAT_GW[Cloud NAT<br/>网络地址转换]
+              VPN_GW[Cloud VPN<br/>站点到站点VPN]
+              CLOUD_ROUTER[Cloud Router<br/>动态路由]
+          end
+
+          subgraph "托管服务网络"
+              GKE[Google Kubernetes Engine<br/>容器编排]
+              CLOUD_SQL[Cloud SQL<br/>托管数据库]
+              MEMORYSTORE[Memorystore<br/>托管Redis]
+              CLOUD_STORAGE[Cloud Storage<br/>对象存储]
+          end
+
+          subgraph "网络安全服务"
+              ARMOR[Cloud Armor<br/>DDoS和WAF防护]
+              IAP[Identity-Aware Proxy<br/>零信任访问]
+              VPC_SC[VPC Service Controls<br/>数据边界保护]
+              SECURITY_COMMAND[Security Command Center<br/>安全态势管理]
+          end
+
+          subgraph "网络监控和工具"
+              NETWORK_INTEL[Network Intelligence<br/>网络洞察]
+              VPC_FLOW_LOGS[VPC Flow Logs<br/>流量日志]
+              CLOUD_MONITORING[Cloud Monitoring<br/>网络监控]
+              NETWORK_TOPOLOGY[Network Topology<br/>拓扑可视化]
+          end
+      end
+
+      subgraph "企业本地环境"
+          ONPREM_DC[企业数据中心]
+          ONPREM_NETWORK[企业网络]
+          ENTERPRISE_USERS[企业用户]
+      end
+
+      subgraph "互联网和外部用户"
+          INTERNET[互联网]
+          EXTERNAL_USERS[外部用户]
+      end
+
+      EXTERNAL_USERS --> CLOUD_CDN
+      CLOUD_CDN --> GLB
+      GLB --> SUBNET1
+      SUBNET1 --> VM1
+      FW1 --> VM1
+
+      VM1 --> ILB
+      ILB --> SUBNET2
+      SUBNET2 --> VM2
+      FW2 --> VM2
+
+      VM2 --> SUBNET3
+      SUBNET3 --> VM3
+      FW3 --> VM3
+
+      VM3 --> CLOUD_SQL
+      VM3 --> MEMORYSTORE
+      VM1 --> CLOUD_STORAGE
+
+      ENTERPRISE_USERS --> ONPREM_NETWORK
+      ONPREM_NETWORK --> ONPREM_DC
+      ONPREM_DC --> DEDICATED_INT
+      DEDICATED_INT --> VPN_GW
+      VPN_GW --> VPC1
+
+      VPC1 -.->|VPC Peering| VPC2
+      VPC2 -.->|VPC Peering| VPC3
+      VPC1 -.->|Shared VPC| GKE
+
+      ARMOR --> GLB
+      IAP --> VM1
+      IAP --> VM2
+      IAP --> VM3
+      VPC_SC --> VPC1
+      VPC_SC --> VPC2
+      VPC_SC --> VPC3
+
+      NETWORK_INTEL --> VPC1
+      NETWORK_INTEL --> VPC2
+      NETWORK_INTEL --> VPC3
+      VPC_FLOW_LOGS --> CLOUD_MONITORING
+      NETWORK_TOPOLOGY --> NETWORK_INTEL
+
+      GOOGLE_BACKBONE --> DEDICATED_INT
+      GOOGLE_BACKBONE --> CLOUD_CDN
+      PREMIUM_TIER --> GOOGLE_BACKBONE
+
+      NAT_GW --> SUBNET2
+      NAT_GW --> SUBNET3
+      CLOUD_ROUTER --> VPN_GW
+      CLOUD_ROUTER --> NAT_GW
+
+      style GLB fill:#4285f4,stroke:#fff,stroke-width:2px,color:#fff
+      style ARMOR fill:#ea4335,stroke:#fff,stroke-width:2px,color:#fff
+      style VPC1 fill:#34a853,stroke:#fff,stroke-width:2px,color:#fff
+      style VPC2 fill:#34a853,stroke:#fff,stroke-width:2px,color:#fff
+      style VPC3 fill:#34a853,stroke:#fff,stroke-width:2px,color:#fff
+      style FW1 fill:#fbbc04,stroke:#fff,stroke-width:2px,color:#000
+      style FW2 fill:#fbbc04,stroke:#fff,stroke-width:2px,color:#000
+      style FW3 fill:#fbbc04,stroke:#fff,stroke-width:2px,color:#000
+      style CLOUD_STORAGE fill:#4285f4,stroke:#fff,stroke-width:2px,color:#fff
+      style CLOUD_SQL fill:#4285f4,stroke:#fff,stroke-width:2px,color:#fff
+      style GKE fill:#34a853,stroke:#fff,stroke-width:2px,color:#fff
 ---
 
 # GCP Cloud 网络架构与管理实战指南

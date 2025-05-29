@@ -466,6 +466,7 @@ description: 按分类浏览所有技术文档
     margin-bottom: var(--spacing-md);
     font-size: 0.8rem;
     color: var(--text-muted);
+    flex-wrap: wrap;
 }
 
 .latest-update {

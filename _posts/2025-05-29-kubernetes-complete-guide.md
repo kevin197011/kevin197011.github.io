@@ -6,6 +6,61 @@ category: DevOps
 tags: [Kubernetes, K8s, 容器编排, 云原生, DevOps, 微服务]
 author: KkWiki
 excerpt: "深入掌握Kubernetes容器编排平台，从基础概念到生产级部署，全面提升云原生技能"
+diagram: |
+  graph TB
+      subgraph "Master节点"
+          API[API Server]
+          ETCD[etcd 数据库]
+          SCHED[Scheduler 调度器]
+          CM[Controller Manager]
+      end
+
+      subgraph "Worker节点1"
+          KUBELET1[kubelet]
+          PROXY1[kube-proxy]
+          RUNTIME1[Container Runtime]
+          subgraph "Pod1"
+              C1[容器1]
+              C2[容器2]
+          end
+      end
+
+      subgraph "Worker节点2"
+          KUBELET2[kubelet]
+          PROXY2[kube-proxy]
+          RUNTIME2[Container Runtime]
+          subgraph "Pod2"
+              C3[容器3]
+              C4[容器4]
+          end
+      end
+
+      subgraph "外部访问"
+          LB[LoadBalancer]
+          ING[Ingress]
+      end
+
+      API --> ETCD
+      API --> SCHED
+      API --> CM
+      KUBELET1 --> API
+      KUBELET2 --> API
+      SCHED --> KUBELET1
+      SCHED --> KUBELET2
+      KUBELET1 --> RUNTIME1
+      KUBELET2 --> RUNTIME2
+      RUNTIME1 --> Pod1
+      RUNTIME2 --> Pod2
+      PROXY1 --> Pod1
+      PROXY2 --> Pod2
+      LB --> ING
+      ING --> PROXY1
+      ING --> PROXY2
+
+      style API fill:#00d4ff
+      style ETCD fill:#00ff88
+      style SCHED fill:#ffa726
+      style CM fill:#ff6b6b
 ---
 
 # Kubernetes 完全指南：从入门到生产实战

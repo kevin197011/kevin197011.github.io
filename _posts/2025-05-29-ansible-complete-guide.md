@@ -6,6 +6,66 @@ category: DevOps
 tags: [Ansible, 自动化, 运维, DevOps, 配置管理]
 author: KkWiki
 excerpt: "全面掌握Ansible自动化运维工具，从基础概念到实战案例，助你提升运维效率"
+diagram: |
+  graph TB
+      subgraph "控制节点"
+          AC[Ansible Controller]
+          INV[Inventory 清单]
+          PB[Playbooks 剧本]
+          MOD[Modules 模块]
+          ROLES[Roles 角色]
+      end
+
+      subgraph "目标节点群组"
+          subgraph "Web服务器"
+              WEB1[Web Server 1]
+              WEB2[Web Server 2]
+              WEB3[Web Server 3]
+          end
+
+          subgraph "数据库服务器"
+              DB1[Database 1]
+              DB2[Database 2]
+          end
+
+          subgraph "负载均衡器"
+              LB1[Load Balancer]
+          end
+      end
+
+      subgraph "配置文件"
+          CONF[ansible.cfg]
+          HOST[hosts 文件]
+          VAULT[Ansible Vault]
+      end
+
+      AC --> INV
+      AC --> PB
+      PB --> MOD
+      PB --> ROLES
+      INV --> WEB1
+      INV --> WEB2
+      INV --> WEB3
+      INV --> DB1
+      INV --> DB2
+      INV --> LB1
+
+      CONF --> AC
+      HOST --> INV
+      VAULT --> PB
+
+      AC -.->|SSH| WEB1
+      AC -.->|SSH| WEB2
+      AC -.->|SSH| WEB3
+      AC -.->|SSH| DB1
+      AC -.->|SSH| DB2
+      AC -.->|SSH| LB1
+
+      style AC fill:#00d4ff,stroke:#fff,stroke-width:2px,color:#fff
+      style PB fill:#00ff88,stroke:#fff,stroke-width:2px,color:#000
+      style MOD fill:#ffa726,stroke:#fff,stroke-width:2px,color:#000
+      style INV fill:#e1f5fe,stroke:#0066cc,stroke-width:2px
+      style ROLES fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
 ---
 
 # Ansible 完全指南：从入门到实战

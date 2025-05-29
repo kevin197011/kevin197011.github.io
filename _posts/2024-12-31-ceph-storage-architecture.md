@@ -6,6 +6,53 @@ date: 2024-12-31
 category: DevOps
 tags: [Ceph, 分布式存储, 存储架构, 对象存储, 块存储, 文件系统, RADOS]
 author: Kk
+diagram: |
+  graph TB
+      subgraph "客户端层"
+          RBD[RBD 块设备]
+          RGW[RGW 对象存储]
+          CephFS[CephFS 文件系统]
+      end
+
+      subgraph "接口层"
+          librados[librados]
+          librbd[librbd]
+          libcephfs[libcephfs]
+          librgw[librgw]
+      end
+
+      subgraph "RADOS 核心层"
+          MON[MON 监控节点]
+          MGR[MGR 管理节点]
+          OSD[OSD 存储节点]
+          MDS[MDS 元数据服务]
+      end
+
+      subgraph "存储层"
+          BlueStore[BlueStore]
+          SSD[SSD 存储]
+          HDD[HDD 存储]
+          NVMe[NVMe 存储]
+      end
+
+      RBD --> librbd
+      RGW --> librgw
+      CephFS --> libcephfs
+      librbd --> librados
+      librgw --> librados
+      libcephfs --> librados
+      librados --> MON
+      librados --> OSD
+      CephFS --> MDS
+      OSD --> BlueStore
+      BlueStore --> SSD
+      BlueStore --> HDD
+      BlueStore --> NVMe
+
+      style MON fill:#00d4ff
+      style MGR fill:#00ff88
+      style OSD fill:#ff6b6b
+      style MDS fill:#ffa726
 ---
 
 # Ceph分布式存储架构部署维护指南

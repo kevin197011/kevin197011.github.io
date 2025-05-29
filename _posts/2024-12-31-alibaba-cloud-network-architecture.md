@@ -6,6 +6,136 @@ date: 2024-12-31
 category: DevOps
 tags: [阿里云, 云计算, 网络架构, VPC, 安全组, 负载均衡, 云原生]
 author: Kk
+diagram: |
+  graph TB
+      subgraph "阿里云网络架构"
+          subgraph "全球网络基础设施"
+              ALI_BACKBONE[阿里云全球网络骨干]
+              EXPRESS_CONNECT[高速通道 ExpressConnect]
+              CDN[阿里云CDN全球加速]
+          end
+
+          subgraph "地域 Region (华东1-杭州)"
+              subgraph "可用区A cn-hangzhou-g"
+                  VPC1[专有网络VPC 1<br/>10.1.0.0/16]
+                  VSWITCH1[交换机 Web<br/>10.1.1.0/24]
+                  ECS1[ECS云服务器 Web-1]
+                  SG1[安全组 Web-SG]
+              end
+
+              subgraph "可用区B cn-hangzhou-h"
+                  VPC2[专有网络VPC 2<br/>10.2.0.0/16]
+                  VSWITCH2[交换机 App<br/>10.2.1.0/24]
+                  ECS2[ECS云服务器 App-1]
+                  SG2[安全组 App-SG]
+              end
+
+              subgraph "可用区C cn-hangzhou-i"
+                  VPC3[专有网络VPC 3<br/>10.3.0.0/16]
+                  VSWITCH3[交换机 DB<br/>10.3.1.0/24]
+                  ECS3[ECS云服务器 DB-1]
+                  SG3[安全组 DB-SG]
+              end
+
+              SLB[负载均衡 SLB<br/>应用型负载均衡]
+              ALB[应用型负载均衡 ALB<br/>七层负载均衡]
+              NATGW[NAT网关<br/>网络地址转换]
+              VPNGW[VPN网关<br/>混合云连接]
+          end
+
+          subgraph "云安全服务"
+              CLOUDFW[云防火墙<br/>网络安全防护]
+              DDOS[DDoS高防<br/>流量清洗服务]
+              BASTION[堡垒机<br/>运维安全审计]
+              WAF[Web应用防火墙<br/>应用层防护]
+          end
+
+          subgraph "网络监控运维"
+              CLOUDMONITOR[云监控<br/>网络监控告警]
+              VPC_FLOW[VPC流日志<br/>网络流量分析]
+              NETWORK_INSIGHT[网络分析<br/>性能洞察]
+          end
+
+          subgraph "存储和数据库"
+              OSS[对象存储 OSS<br/>海量数据存储]
+              RDS[云数据库 RDS<br/>关系型数据库]
+              REDIS[云数据库 Redis<br/>内存数据库]
+              POLARDB[PolarDB<br/>云原生数据库]
+          end
+      end
+
+      subgraph "企业本地数据中心"
+          ONPREM_IDC[企业数据中心]
+          ONPREM_FW[企业防火墙]
+          ENTERPRISE_USERS[企业员工]
+      end
+
+      subgraph "公网用户"
+          INTERNET[互联网]
+          PUBLIC_USERS[公网用户]
+      end
+
+      PUBLIC_USERS --> CDN
+      CDN --> SLB
+      SLB --> VSWITCH1
+      VSWITCH1 --> ECS1
+      SG1 --> ECS1
+
+      ECS1 --> ALB
+      ALB --> VSWITCH2
+      VSWITCH2 --> ECS2
+      SG2 --> ECS2
+
+      ECS2 --> VSWITCH3
+      VSWITCH3 --> ECS3
+      SG3 --> ECS3
+
+      ECS3 --> RDS
+      ECS3 --> REDIS
+      ECS3 --> POLARDB
+      ECS1 --> OSS
+
+      ENTERPRISE_USERS --> ONPREM_FW
+      ONPREM_FW --> ONPREM_IDC
+      ONPREM_IDC --> EXPRESS_CONNECT
+      EXPRESS_CONNECT --> VPNGW
+      VPNGW --> VPC1
+
+      VPC1 -.->|云企业网CEN| VPC2
+      VPC2 -.->|云企业网CEN| VPC3
+
+      CLOUDFW --> VPC1
+      CLOUDFW --> VPC2
+      CLOUDFW --> VPC3
+
+      DDOS --> SLB
+      WAF --> SLB
+      BASTION --> ECS1
+      BASTION --> ECS2
+      BASTION --> ECS3
+
+      CLOUDMONITOR --> VPC1
+      CLOUDMONITOR --> VPC2
+      CLOUDMONITOR --> VPC3
+      VPC_FLOW --> CLOUDMONITOR
+      NETWORK_INSIGHT --> VPC_FLOW
+
+      ALI_BACKBONE --> EXPRESS_CONNECT
+      ALI_BACKBONE --> CDN
+      NATGW --> VPC1
+      NATGW --> VPC2
+
+      style SLB fill:#ff6600,stroke:#fff,stroke-width:2px,color:#fff
+      style CLOUDFW fill:#ff4757,stroke:#fff,stroke-width:2px,color:#fff
+      style VPC1 fill:#1e90ff,stroke:#fff,stroke-width:2px,color:#fff
+      style VPC2 fill:#1e90ff,stroke:#fff,stroke-width:2px,color:#fff
+      style VPC3 fill:#1e90ff,stroke:#fff,stroke-width:2px,color:#fff
+      style SG1 fill:#ffa502,stroke:#fff,stroke-width:2px,color:#fff
+      style SG2 fill:#ffa502,stroke:#fff,stroke-width:2px,color:#fff
+      style SG3 fill:#ffa502,stroke:#fff,stroke-width:2px,color:#fff
+      style OSS fill:#2ed573,stroke:#fff,stroke-width:2px,color:#fff
+      style RDS fill:#3742fa,stroke:#fff,stroke-width:2px,color:#fff
+      style REDIS fill:#ff3838,stroke:#fff,stroke-width:2px,color:#fff
 ---
 
 # 阿里云网络架构与管理实战指南

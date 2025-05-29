@@ -6,6 +6,103 @@ date: 2024-12-31
 category: DevOps
 tags: [OpenStack, 私有云, 云计算, Nova, Neutron, Cinder, 运维管理, 开源云]
 author: Kk
+diagram: |
+  graph TB
+      subgraph "OpenStack云平台架构"
+          subgraph "控制层 Control Plane"
+              KEYSTONE[Keystone 身份认证]
+              GLANCE[Glance 镜像服务]
+              NOVA_API[Nova API 计算服务]
+              NEUTRON_SRV[Neutron Server 网络服务]
+              CINDER_API[Cinder API 块存储]
+              HEAT[Heat 编排服务]
+              HORIZON[Horizon Web界面]
+          end
+
+          subgraph "计算层 Compute Plane"
+              NOVA_COMPUTE[Nova Compute 计算节点]
+              NEUTRON_AGENT[Neutron Agent 网络代理]
+              VM1[虚拟机实例 1]
+              VM2[虚拟机实例 2]
+              VM3[虚拟机实例 N]
+          end
+
+          subgraph "存储层 Storage Plane"
+              CINDER_VOL[Cinder Volume 块存储]
+              SWIFT[Swift 对象存储]
+              CEPH[Ceph 分布式存储]
+          end
+
+          subgraph "网络层 Network Plane"
+              OVS[Open vSwitch]
+              L3_AGENT[L3 Agent 路由]
+              DHCP_AGENT[DHCP Agent]
+              ML2[ML2 网络插件]
+          end
+
+          subgraph "基础设施层"
+              MYSQL[(MySQL 数据库)]
+              RABBITMQ[RabbitMQ 消息队列]
+              MEMCACHED[Memcached 缓存]
+              HAPROXY[HAProxy 负载均衡]
+          end
+      end
+
+      subgraph "外部系统"
+          CLIENT[管理员/用户]
+          EXTERNAL_NET[外部网络]
+          LDAP[LDAP 目录服务]
+      end
+
+      CLIENT --> HORIZON
+      CLIENT --> NOVA_API
+      HORIZON --> KEYSTONE
+      NOVA_API --> KEYSTONE
+      NEUTRON_SRV --> KEYSTONE
+      CINDER_API --> KEYSTONE
+      GLANCE --> KEYSTONE
+
+      NOVA_API --> NOVA_COMPUTE
+      NEUTRON_SRV --> NEUTRON_AGENT
+      CINDER_API --> CINDER_VOL
+
+      NOVA_COMPUTE --> VM1
+      NOVA_COMPUTE --> VM2
+      NOVA_COMPUTE --> VM3
+
+      NEUTRON_AGENT --> OVS
+      NEUTRON_SRV --> L3_AGENT
+      NEUTRON_SRV --> DHCP_AGENT
+      NEUTRON_SRV --> ML2
+
+      NOVA_API --> MYSQL
+      NEUTRON_SRV --> MYSQL
+      CINDER_API --> MYSQL
+      KEYSTONE --> MYSQL
+
+      NOVA_API --> RABBITMQ
+      NEUTRON_SRV --> RABBITMQ
+      CINDER_API --> RABBITMQ
+
+      CINDER_VOL --> CEPH
+      SWIFT --> CEPH
+      VM1 -.-> CINDER_VOL
+      VM2 -.-> CINDER_VOL
+
+      L3_AGENT --> EXTERNAL_NET
+      KEYSTONE -.-> LDAP
+
+      HAPROXY --> NOVA_API
+      HAPROXY --> NEUTRON_SRV
+      HAPROXY --> CINDER_API
+
+      style KEYSTONE fill:#ff6b6b,stroke:#fff,stroke-width:2px,color:#fff
+      style HORIZON fill:#4ecdc4,stroke:#fff,stroke-width:2px,color:#fff
+      style NOVA_API fill:#45b7d1,stroke:#fff,stroke-width:2px,color:#fff
+      style NEUTRON_SRV fill:#96ceb4,stroke:#fff,stroke-width:2px,color:#fff
+      style CINDER_API fill:#feca57,stroke:#fff,stroke-width:2px,color:#000
+      style MYSQL fill:#e17055,stroke:#fff,stroke-width:2px,color:#fff
+      style RABBITMQ fill:#fd79a8,stroke:#fff,stroke-width:2px,color:#fff
 ---
 
 # OpenStack架构及维护管理实战指南

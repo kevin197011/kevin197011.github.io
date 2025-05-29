@@ -6,6 +6,132 @@ date: 2024-12-30
 category: Network
 tags: [CCNA, 网络工程, 路由交换, 网络安全, 认证考试, Cisco]
 author: Kk
+diagram: |
+  graph TB
+      subgraph "企业网络拓扑架构 (CCNA)"
+          subgraph "外部网络"
+              INTERNET[互联网]
+              ISP1[ISP1 运营商]
+              ISP2[ISP2 运营商]
+          end
+
+          subgraph "企业边界网络"
+              EDGE_FW[边界防火墙<br/>ASA 5516-X]
+              EDGE_R1[边界路由器 R1<br/>ISR 4331]
+              EDGE_R2[备份路由器 R2<br/>ISR 4331]
+              DMZ_SW[DMZ交换机<br/>Catalyst 2960-X]
+          end
+
+          subgraph "DMZ区域"
+              WEB_SRV[Web服务器<br/>192.168.100.10]
+              MAIL_SRV[邮件服务器<br/>192.168.100.11]
+              DNS_SRV[DNS服务器<br/>192.168.100.12]
+          end
+
+          subgraph "核心网络层"
+              CORE_SW1[核心交换机 1<br/>Catalyst 6500]
+              CORE_SW2[核心交换机 2<br/>Catalyst 6500]
+              L3_SW1[三层交换机 1<br/>Catalyst 3850]
+              L3_SW2[三层交换机 2<br/>Catalyst 3850]
+          end
+
+          subgraph "接入网络层"
+              subgraph "VLAN 10 - 销售部门"
+                  ACCESS_SW1[接入交换机 SW1<br/>Catalyst 2960]
+                  PC1[销售PC 1<br/>192.168.10.10]
+                  PC2[销售PC 2<br/>192.168.10.11]
+                  PRINTER1[网络打印机<br/>192.168.10.20]
+              end
+
+              subgraph "VLAN 20 - 工程部门"
+                  ACCESS_SW2[接入交换机 SW2<br/>Catalyst 2960]
+                  PC3[工程PC 1<br/>192.168.20.10]
+                  PC4[工程PC 2<br/>192.168.20.11]
+                  SERVER1[部门服务器<br/>192.168.20.50]
+              end
+
+              subgraph "VLAN 30 - 管理部门"
+                  ACCESS_SW3[接入交换机 SW3<br/>Catalyst 2960]
+                  PC5[管理PC 1<br/>192.168.30.10]
+                  PC6[管理PC 2<br/>192.168.30.11]
+                  NAS[网络存储<br/>192.168.30.100]
+              end
+          end
+
+          subgraph "无线网络"
+              WLC[无线控制器<br/>WLC 3504]
+              AP1[无线接入点 AP1<br/>Aironet 3700]
+              AP2[无线接入点 AP2<br/>Aironet 3700]
+              WLAN_USER[无线用户<br/>VLAN 40]
+          end
+
+          subgraph "网络管理"
+              NMS[网络管理服务器<br/>Prime Infrastructure]
+              SYSLOG[日志服务器<br/>192.168.99.10]
+              NTP[时间服务器<br/>192.168.99.11]
+              TACACS[AAA服务器<br/>192.168.99.12]
+          end
+      end
+
+      INTERNET --> ISP1
+      INTERNET --> ISP2
+      ISP1 --> EDGE_R1
+      ISP2 --> EDGE_R2
+
+      EDGE_R1 --> EDGE_FW
+      EDGE_R2 --> EDGE_FW
+      EDGE_FW --> DMZ_SW
+      DMZ_SW --> WEB_SRV
+      DMZ_SW --> MAIL_SRV
+      DMZ_SW --> DNS_SRV
+
+      EDGE_FW --> CORE_SW1
+      EDGE_FW --> CORE_SW2
+      CORE_SW1 -.->|HSRP虚拟网关| CORE_SW2
+      CORE_SW1 --> L3_SW1
+      CORE_SW1 --> L3_SW2
+      CORE_SW2 --> L3_SW1
+      CORE_SW2 --> L3_SW2
+
+      L3_SW1 --> ACCESS_SW1
+      L3_SW1 --> ACCESS_SW2
+      L3_SW2 --> ACCESS_SW3
+
+      ACCESS_SW1 --> PC1
+      ACCESS_SW1 --> PC2
+      ACCESS_SW1 --> PRINTER1
+
+      ACCESS_SW2 --> PC3
+      ACCESS_SW2 --> PC4
+      ACCESS_SW2 --> SERVER1
+
+      ACCESS_SW3 --> PC5
+      ACCESS_SW3 --> PC6
+      ACCESS_SW3 --> NAS
+
+      L3_SW1 --> WLC
+      WLC --> AP1
+      WLC --> AP2
+      AP1 -.->|无线连接| WLAN_USER
+      AP2 -.->|无线连接| WLAN_USER
+
+      CORE_SW1 --> NMS
+      CORE_SW1 --> SYSLOG
+      CORE_SW1 --> NTP
+      CORE_SW1 --> TACACS
+
+      style EDGE_FW fill:#ff6b6b,stroke:#fff,stroke-width:2px,color:#fff
+      style CORE_SW1 fill:#4ecdc4,stroke:#fff,stroke-width:2px,color:#fff
+      style CORE_SW2 fill:#4ecdc4,stroke:#fff,stroke-width:2px,color:#fff
+      style L3_SW1 fill:#45b7d1,stroke:#fff,stroke-width:2px,color:#fff
+      style L3_SW2 fill:#45b7d1,stroke:#fff,stroke-width:2px,color:#fff
+      style ACCESS_SW1 fill:#96ceb4,stroke:#fff,stroke-width:2px,color:#fff
+      style ACCESS_SW2 fill:#96ceb4,stroke:#fff,stroke-width:2px,color:#fff
+      style ACCESS_SW3 fill:#96ceb4,stroke:#fff,stroke-width:2px,color:#fff
+      style WLC fill:#feca57,stroke:#fff,stroke-width:2px,color:#000
+      style DMZ_SW fill:#ff9ff3,stroke:#fff,stroke-width:2px,color:#000
+      style EDGE_R1 fill:#54a0ff,stroke:#fff,stroke-width:2px,color:#fff
+      style EDGE_R2 fill:#54a0ff,stroke:#fff,stroke-width:2px,color:#fff
 ---
 
 # CCNA 完全指南：网络工程师认证与技术实战

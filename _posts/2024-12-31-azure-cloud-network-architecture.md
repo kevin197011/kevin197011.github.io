@@ -6,6 +6,128 @@ date: 2024-12-31
 category: DevOps
 tags: [Azure, 微软云, 网络架构, Virtual Network, NSG, 负载均衡, 云原生]
 author: Kk
+diagram: |
+  graph TB
+      subgraph "Azure云网络架构"
+          subgraph "全球网络骨干"
+              AZURE_BACKBONE[Azure 全球网络骨干]
+              EXPRESSROUTE[ExpressRoute 专线]
+              CDN[Azure CDN边缘节点]
+          end
+
+          subgraph "区域 Region (East US)"
+              subgraph "可用性区域 AZ-1"
+                  VNET1[Virtual Network 1<br/>10.1.0.0/16]
+                  SUBNET1[Web Subnet<br/>10.1.1.0/24]
+                  VM1[虚拟机 Web-1]
+                  NSG1[Network Security Group]
+              end
+
+              subgraph "可用性区域 AZ-2"
+                  VNET2[Virtual Network 2<br/>10.2.0.0/16]
+                  SUBNET2[App Subnet<br/>10.2.1.0/24]
+                  VM2[虚拟机 App-1]
+                  NSG2[Network Security Group]
+              end
+
+              subgraph "可用性区域 AZ-3"
+                  VNET3[Virtual Network 3<br/>10.3.0.0/16]
+                  SUBNET3[DB Subnet<br/>10.3.1.0/24]
+                  VM3[虚拟机 DB-1]
+                  NSG3[Network Security Group]
+              end
+
+              APPGW[Application Gateway<br/>Web应用防火墙]
+              ALB[Azure Load Balancer<br/>四层负载均衡]
+              VPNGW[VPN Gateway<br/>混合云连接]
+          end
+
+          subgraph "网络安全服务"
+              FIREWALL[Azure Firewall<br/>网络防火墙]
+              DDOS[DDoS Protection<br/>防护服务]
+              BASTION[Azure Bastion<br/>安全跳板机]
+          end
+
+          subgraph "网络监控"
+              NETWORKWATCHER[Network Watcher<br/>网络监控]
+              TRAFFICANALYTICS[Traffic Analytics<br/>流量分析]
+              CONNECTION[Connection Monitor<br/>连接监控]
+          end
+
+          subgraph "存储和数据库"
+              STORAGE[Azure Storage<br/>对象存储]
+              SQLDB[Azure SQL Database<br/>关系数据库]
+              COSMOS[Cosmos DB<br/>NoSQL数据库]
+          end
+      end
+
+      subgraph "企业本地网络"
+          ONPREM[企业数据中心]
+          ONPREM_FW[本地防火墙]
+          ONPREM_USERS[企业用户]
+      end
+
+      subgraph "互联网用户"
+          INTERNET[互联网]
+          USERS[外部用户]
+      end
+
+      USERS --> CDN
+      CDN --> APPGW
+      APPGW --> SUBNET1
+      SUBNET1 --> VM1
+      NSG1 --> VM1
+
+      VM1 --> ALB
+      ALB --> SUBNET2
+      SUBNET2 --> VM2
+      NSG2 --> VM2
+
+      VM2 --> SUBNET3
+      SUBNET3 --> VM3
+      NSG3 --> VM3
+
+      VM3 --> STORAGE
+      VM3 --> SQLDB
+      VM3 --> COSMOS
+
+      ONPREM_USERS --> ONPREM_FW
+      ONPREM_FW --> ONPREM
+      ONPREM --> EXPRESSROUTE
+      EXPRESSROUTE --> VPNGW
+      VPNGW --> VNET1
+
+      VNET1 -.->|VNet Peering| VNET2
+      VNET2 -.->|VNet Peering| VNET3
+
+      FIREWALL --> VNET1
+      FIREWALL --> VNET2
+      FIREWALL --> VNET3
+
+      DDOS --> APPGW
+      BASTION --> VM1
+      BASTION --> VM2
+      BASTION --> VM3
+
+      NETWORKWATCHER --> VNET1
+      NETWORKWATCHER --> VNET2
+      NETWORKWATCHER --> VNET3
+      TRAFFICANALYTICS --> NETWORKWATCHER
+      CONNECTION --> NETWORKWATCHER
+
+      AZURE_BACKBONE --> EXPRESSROUTE
+      AZURE_BACKBONE --> CDN
+
+      style APPGW fill:#0078d4,stroke:#fff,stroke-width:2px,color:#fff
+      style FIREWALL fill:#ff4b4b,stroke:#fff,stroke-width:2px,color:#fff
+      style VNET1 fill:#00bcf2,stroke:#fff,stroke-width:2px,color:#fff
+      style VNET2 fill:#00bcf2,stroke:#fff,stroke-width:2px,color:#fff
+      style VNET3 fill:#00bcf2,stroke:#fff,stroke-width:2px,color:#fff
+      style NSG1 fill:#ff8c00,stroke:#fff,stroke-width:2px,color:#fff
+      style NSG2 fill:#ff8c00,stroke:#fff,stroke-width:2px,color:#fff
+      style NSG3 fill:#ff8c00,stroke:#fff,stroke-width:2px,color:#fff
+      style STORAGE fill:#68217a,stroke:#fff,stroke-width:2px,color:#fff
+      style SQLDB fill:#336791,stroke:#fff,stroke-width:2px,color:#fff
 ---
 
 # Azure云网络架构与管理实战指南

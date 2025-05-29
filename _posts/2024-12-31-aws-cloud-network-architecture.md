@@ -1,11 +1,82 @@
 ---
 layout: post
 title: "AWS Cloud 网络架构与管理实战指南"
-excerpt: "深入解析AWS云网络结构设计，从VPC规划到安全组配置，包含完整的网络架构最佳实践和故障排除方案。"
+excerpt: "深入掌握AWS云网络架构设计与管理，包含VPC、子网、路由、安全组、负载均衡等核心组件的配置与最佳实践。"
 date: 2024-12-31
 category: DevOps
-tags: [AWS, 云计算, 网络架构, VPC, 安全组, 路由表, 云原生]
+tags: [AWS, 云计算, 网络架构, VPC, 负载均衡, 安全组, 路由]
 author: Kk
+diagram: |
+  graph TB
+      subgraph "AWS Region"
+          subgraph "VPC"
+              subgraph "可用区A"
+                  PubSubA[公有子网A]
+                  PrivSubA[私有子网A]
+                  EC2A[EC2 实例]
+                  RDS_A[RDS 主库]
+              end
+
+              subgraph "可用区B"
+                  PubSubB[公有子网B]
+                  PrivSubB[私有子网B]
+                  EC2B[EC2 实例]
+                  RDS_B[RDS 备库]
+              end
+
+              IGW[Internet Gateway]
+              NAT_A[NAT Gateway A]
+              NAT_B[NAT Gateway B]
+              ALB[Application Load Balancer]
+
+              subgraph "路由表"
+                  PubRT[公有路由表]
+                  PrivRT_A[私有路由表A]
+                  PrivRT_B[私有路由表B]
+              end
+
+              subgraph "安全组"
+                  WebSG[Web 安全组]
+                  AppSG[App 安全组]
+                  DBSG[DB 安全组]
+              end
+          end
+
+          CF[CloudFront CDN]
+          R53[Route 53]
+      end
+
+      Internet[互联网] --> CF
+      CF --> ALB
+      Internet --> IGW
+      IGW --> PubSubA
+      IGW --> PubSubB
+      PubSubA --> NAT_A
+      PubSubB --> NAT_B
+      NAT_A --> PrivSubA
+      NAT_B --> PrivSubB
+      ALB --> EC2A
+      ALB --> EC2B
+      EC2A --> RDS_A
+      EC2B --> RDS_B
+      RDS_A --> RDS_B
+      R53 --> ALB
+
+      PubRT --> IGW
+      PrivRT_A --> NAT_A
+      PrivRT_B --> NAT_B
+
+      WebSG --> EC2A
+      WebSG --> EC2B
+      AppSG --> EC2A
+      AppSG --> EC2B
+      DBSG --> RDS_A
+      DBSG --> RDS_B
+
+      style IGW fill:#00d4ff
+      style ALB fill:#00ff88
+      style CF fill:#ffa726
+      style R53 fill:#ff6b6b
 ---
 
 # AWS Cloud 网络架构与管理实战指南

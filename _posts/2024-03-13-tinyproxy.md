@@ -6,6 +6,132 @@ category: DevOps
 layout: post
 tags: [proxy, tinyproxy, networking, security, http]
 excerpt: "Tinyproxy是一个轻量级、高性能的HTTP代理服务器，本文详细介绍其安装、配置和各种开发环境下的使用方法。"
+diagram: |
+  graph TB
+      subgraph "Tinyproxy代理服务器架构"
+          subgraph "客户端网络"
+              CLIENT1[开发者客户端 1]
+              CLIENT2[开发者客户端 2]
+              CLIENT3[移动设备]
+              BROWSER[Web浏览器]
+              DEV_TOOLS[开发工具]
+          end
+
+          subgraph "代理服务器层"
+              TINYPROXY[Tinyproxy服务器<br/>Port 8888]
+              CONFIG[配置文件<br/>tinyproxy.conf]
+              AUTH[认证模块<br/>BasicAuth]
+              FILTER[URL过滤器<br/>filter文件]
+              LOG[日志系统<br/>access.log]
+              ACL[访问控制列表<br/>Allow/Deny]
+          end
+
+          subgraph "代理功能模块"
+              HTTP_PROXY[HTTP代理]
+              HTTPS_PROXY[HTTPS代理]
+              REVERSE_PROXY[反向代理]
+              TRANSPARENT[透明代理]
+              ANONYMOUS[匿名代理]
+              CACHE[缓存模块]
+          end
+
+          subgraph "目标服务器"
+              WEB_SERVER[Web服务器<br/>80/443端口]
+              API_SERVER[API服务器<br/>REST/GraphQL]
+              CDN[CDN节点]
+              PACKAGE_REPO[包仓库<br/>npm/pip/gem]
+              GIT_REPO[Git仓库<br/>GitHub/GitLab]
+              DOCKER_HUB[Docker Hub]
+          end
+
+          subgraph "网络安全"
+              FIREWALL[防火墙规则]
+              SSL_CERT[SSL证书]
+              RATE_LIMIT[速率限制]
+              IP_WHITELIST[IP白名单]
+              CONTENT_FILTER[内容过滤]
+          end
+
+          subgraph "监控和管理"
+              STATS[统计信息]
+              HEALTH_CHECK[健康检查]
+              ALERT[告警系统]
+              METRICS[性能指标]
+              DASHBOARD[监控面板]
+          end
+
+          subgraph "开发环境集成"
+              NPM[NPM包管理器]
+              PIP[Python Pip]
+              GEM[Ruby Gem]
+              GO_MOD[Go Modules]
+              MAVEN[Maven仓库]
+              DOCKER[Docker镜像]
+          end
+      end
+
+      CLIENT1 --> TINYPROXY
+      CLIENT2 --> TINYPROXY
+      CLIENT3 --> TINYPROXY
+      BROWSER --> TINYPROXY
+      DEV_TOOLS --> TINYPROXY
+
+      TINYPROXY --> CONFIG
+      TINYPROXY --> AUTH
+      TINYPROXY --> FILTER
+      TINYPROXY --> LOG
+      TINYPROXY --> ACL
+
+      TINYPROXY --> HTTP_PROXY
+      TINYPROXY --> HTTPS_PROXY
+      TINYPROXY --> REVERSE_PROXY
+      TINYPROXY --> TRANSPARENT
+      TINYPROXY --> ANONYMOUS
+      TINYPROXY --> CACHE
+
+      HTTP_PROXY --> WEB_SERVER
+      HTTPS_PROXY --> API_SERVER
+      HTTP_PROXY --> CDN
+      HTTP_PROXY --> PACKAGE_REPO
+      HTTPS_PROXY --> GIT_REPO
+      HTTP_PROXY --> DOCKER_HUB
+
+      AUTH --> IP_WHITELIST
+      FILTER --> CONTENT_FILTER
+      ACL --> FIREWALL
+      HTTPS_PROXY --> SSL_CERT
+      TINYPROXY --> RATE_LIMIT
+
+      LOG --> STATS
+      TINYPROXY --> HEALTH_CHECK
+      STATS --> ALERT
+      HEALTH_CHECK --> METRICS
+      METRICS --> DASHBOARD
+
+      CLIENT1 --> NPM
+      CLIENT1 --> PIP
+      CLIENT1 --> GEM
+      CLIENT2 --> GO_MOD
+      CLIENT2 --> MAVEN
+      CLIENT3 --> DOCKER
+
+      NPM -.->|通过代理| PACKAGE_REPO
+      PIP -.->|通过代理| PACKAGE_REPO
+      GEM -.->|通过代理| PACKAGE_REPO
+      GO_MOD -.->|通过代理| GIT_REPO
+      MAVEN -.->|通过代理| PACKAGE_REPO
+      DOCKER -.->|通过代理| DOCKER_HUB
+
+      style TINYPROXY fill:#4ecdc4,stroke:#fff,stroke-width:2px,color:#fff
+      style AUTH fill:#ff6b6b,stroke:#fff,stroke-width:2px,color:#fff
+      style FILTER fill:#ffa502,stroke:#fff,stroke-width:2px,color:#000
+      style HTTP_PROXY fill:#45b7d1,stroke:#fff,stroke-width:2px,color:#fff
+      style HTTPS_PROXY fill:#96ceb4,stroke:#fff,stroke-width:2px,color:#fff
+      style FIREWALL fill:#ff4757,stroke:#fff,stroke-width:2px,color:#fff
+      style SSL_CERT fill:#2ed573,stroke:#fff,stroke-width:2px,color:#fff
+      style PACKAGE_REPO fill:#3742fa,stroke:#fff,stroke-width:2px,color:#fff
+      style DOCKER_HUB fill:#0db7ed,stroke:#fff,stroke-width:2px,color:#fff
+      style DASHBOARD fill:#f1c40f,stroke:#fff,stroke-width:2px,color:#000
 ---
 
 # Tinyproxy - 轻量级HTTP代理服务器完全指南 🌐

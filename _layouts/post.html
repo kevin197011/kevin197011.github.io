@@ -41,6 +41,24 @@ layout: default
         </div>
         {% endif %}
 
+        <!-- 架构图展示区域 -->
+        {% if page.diagram %}
+        <div class="post-diagram">
+            <div class="diagram-header">
+                <h3 class="diagram-title">
+                    <i class="fas fa-sitemap"></i>
+                    架构图
+                </h3>
+                <button class="diagram-toggle" onclick="toggleDiagram()" title="切换显示/隐藏">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <div class="diagram-content" id="diagram-content">
+                <div class="mermaid">{{ page.diagram }}</div>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- 阅读进度条 -->
         <div class="reading-progress">
             <div class="progress-bar" id="reading-progress-bar"></div>
@@ -160,6 +178,174 @@ layout: default
     {% endif %}
 </div>
 
+<!-- 架构图样式 -->
+<style>
+/* 架构图区域 */
+.post-diagram {
+    background: var(--bg-card);
+    border: 1px solid var(--border-secondary);
+    border-radius: 8px;
+    margin: var(--spacing-lg) 0;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.post-diagram:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.diagram-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+.diagram-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.diagram-title i {
+    color: var(--accent-green);
+    font-size: 1rem;
+}
+
+.diagram-toggle {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-secondary);
+    color: var(--text-secondary);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.diagram-toggle:hover {
+    background: var(--bg-hover);
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+.diagram-content {
+    padding: var(--spacing-lg);
+    background: var(--bg-primary);
+    overflow-x: auto;
+}
+
+.diagram-content .mermaid {
+    background: transparent;
+    border-radius: 6px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-primary);
+    text-align: center;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .diagram-header {
+        padding: var(--spacing-sm) var(--spacing-md);
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .diagram-title {
+        font-size: 1rem;
+    }
+
+    .diagram-content {
+        padding: var(--spacing-md);
+    }
+
+    .diagram-content .mermaid {
+        min-height: 150px;
+        font-size: 0.875rem;
+    }
+}
+
+/* 亮色主题适配 */
+html.light .post-diagram {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+}
+
+html.light .diagram-header {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+}
+
+html.light .diagram-toggle {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+}
+
+html.light .diagram-toggle:hover {
+    background: var(--bg-hover);
+}
+
+html.light .diagram-content {
+    background: var(--bg-primary);
+}
+
+/* Mermaid 图表优化 */
+.mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon {
+    stroke-width: 2px;
+}
+
+.mermaid .edgePath .path {
+    stroke-width: 2px;
+}
+
+.mermaid .cluster rect {
+    stroke-width: 2px;
+    stroke-dasharray: 5,5;
+}
+
+/* 加载状态 */
+.diagram-content.loading::before {
+    content: "正在加载架构图...";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+/* 错误状态 */
+.diagram-content.error::before {
+    content: "架构图加载失败";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--accent-red);
+    font-size: 0.875rem;
+}
+</style>
+
 <!-- 文章页面脚本 -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -174,6 +360,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 代码块增强
     enhanceCodeBlocks();
+
+    // 初始化架构图
+    initializeDiagram();
 
     // 滚动事件
     window.addEventListener('scroll', function() {
@@ -304,4 +493,154 @@ function showToast(message) {
         }, 300);
     }, 3000);
 }
+
+// 架构图功能
+function initializeDiagram() {
+    if (typeof mermaid !== 'undefined') {
+        // 获取当前主题
+        const isDark = !document.documentElement.classList.contains('light');
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: isDark ? 'dark' : 'default',
+            themeVariables: isDark ? {
+                darkMode: true,
+                primaryColor: '#00d4ff',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#00ff88',
+                lineColor: '#555555',
+                secondaryColor: '#1a1a1a',
+                tertiaryColor: '#333333',
+                background: '#0a0a0a',
+                mainBkg: '#1a1a1a',
+                secondBkg: '#2a2a2a',
+                tertiaryBkg: '#3a3a3a'
+            } : {
+                primaryColor: '#0066cc',
+                primaryTextColor: '#000000',
+                primaryBorderColor: '#0066cc',
+                lineColor: '#333333',
+                secondaryColor: '#f9f9f9',
+                tertiaryColor: '#ffffff',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f5f5f5',
+                tertiaryBkg: '#eeeeee'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            sequence: {
+                diagramMarginX: 50,
+                diagramMarginY: 10,
+                actorMargin: 50,
+                width: 150,
+                height: 65,
+                boxMargin: 10,
+                boxTextMargin: 5,
+                noteMargin: 10,
+                messageMargin: 35
+            },
+            gitgraph: {
+                theme: isDark ? 'dark' : 'base',
+                themeVariables: {
+                    primaryColor: isDark ? '#00d4ff' : '#0066cc',
+                    primaryTextColor: isDark ? '#ffffff' : '#000000'
+                }
+            }
+        });
+
+        // 监听主题变化
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const isDark = !document.documentElement.classList.contains('light');
+                    updateMermaidTheme(isDark);
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    }
+}
+
+function updateMermaidTheme(isDark) {
+    if (typeof mermaid !== 'undefined') {
+        const theme = isDark ? 'dark' : 'default';
+        mermaid.initialize({
+            theme: theme,
+            themeVariables: isDark ? {
+                darkMode: true,
+                primaryColor: '#00d4ff',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#00ff88',
+                lineColor: '#555555',
+                secondaryColor: '#1a1a1a',
+                tertiaryColor: '#333333',
+                background: '#0a0a0a',
+                mainBkg: '#1a1a1a',
+                secondBkg: '#2a2a2a',
+                tertiaryBkg: '#3a3a3a'
+            } : {
+                primaryColor: '#0066cc',
+                primaryTextColor: '#000000',
+                primaryBorderColor: '#0066cc',
+                lineColor: '#333333',
+                secondaryColor: '#f9f9f9',
+                tertiaryColor: '#ffffff',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f5f5f5',
+                tertiaryBkg: '#eeeeee'
+            }
+        });
+
+        // 重新渲染图表
+        const mermaidElements = document.querySelectorAll('.mermaid');
+        mermaidElements.forEach((element, index) => {
+            if (element.getAttribute('data-processed')) {
+                element.removeAttribute('data-processed');
+                const originalContent = element.getAttribute('data-original');
+                if (originalContent) {
+                    element.innerHTML = originalContent;
+                } else {
+                    element.setAttribute('data-original', element.innerHTML);
+                }
+            }
+        });
+
+        // 重新初始化
+        setTimeout(() => {
+            mermaid.init(undefined, '.mermaid');
+        }, 100);
+    }
+}
+
+function toggleDiagram() {
+    const diagramContent = document.getElementById('diagram-content');
+    const toggleBtn = document.querySelector('.diagram-toggle i');
+
+    if (diagramContent.style.display === 'none') {
+        diagramContent.style.display = 'block';
+        toggleBtn.className = 'fas fa-eye';
+
+        // 重新渲染图表
+        if (typeof mermaid !== 'undefined') {
+            setTimeout(() => {
+                mermaid.init(undefined, '.mermaid');
+            }, 100);
+        }
+    } else {
+        diagramContent.style.display = 'none';
+        toggleBtn.className = 'fas fa-eye-slash';
+    }
+}
 </script>
+
+<!-- Mermaid.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
