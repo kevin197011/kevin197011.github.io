@@ -148,11 +148,23 @@ layout: default
             <div class="status-card">
                 <div class="status-header">
                     <i class="fas fa-code-branch"></i>
-                    <span>版本</span>
+                    <span>构建版本</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">v2.0</span>
-                    <span class="metric-label">稳定版</span>
+                    <span class="metric-value">05292024</span>
+                    <span class="metric-label">Build</span>
+                </div>
+                <div class="status-indicator online"></div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-gem"></i>
+                    <span>Jekyll</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">4.4+</span>
+                    <span class="metric-label">静态生成</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
@@ -293,6 +305,10 @@ layout: default
                         {% assign icon_class = "fab fa-git-alt" %}
                     {% when 'Python' or 'python' %}
                         {% assign icon_class = "fab fa-python" %}
+                    {% when 'Jekyll' or 'jekyll' %}
+                        {% assign icon_class = "fas fa-gem" %}
+                    {% when 'Ruby' or 'ruby' %}
+                        {% assign icon_class = "fas fa-gem" %}
                     {% when 'DevOps' or 'devops' %}
                         {% assign icon_class = "fas fa-cogs" %}
                     {% when 'Ansible' or 'ansible' %}
@@ -335,6 +351,12 @@ layout: default
                         {% assign icon_class = "fas fa-cloud" %}
                     {% when '微服务' %}
                         {% assign icon_class = "fas fa-project-diagram" %}
+                    {% when 'static-site' or '静态网站' %}
+                        {% assign icon_class = "fas fa-file-code" %}
+                    {% when 'blog' or '博客' %}
+                        {% assign icon_class = "fas fa-blog" %}
+                    {% when 'web-development' or 'web开发' %}
+                        {% assign icon_class = "fas fa-globe" %}
                     {% else %}
                         {% assign icon_class = "fas fa-hashtag" %}
                 {% endcase %}
