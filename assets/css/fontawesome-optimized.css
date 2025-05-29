@@ -1,0 +1,173 @@
+/*!
+ * 优化的 Font Awesome CSS
+ * 只包含网站实际使用的图标，提升加载性能
+ * 基于 Font Awesome 6.4.0，使用CDN字体文件
+ */
+
+/* 字体声明 - 使用CDN字体文件 */
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2") format("woff2"),
+         url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Brands";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2") format("woff2"),
+         url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff") format("woff");
+}
+
+/* 基础类 - 优化性能 */
+.fa, .fas, .far, .fab, .fal, .fad, .fat {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+    /* 性能优化 */
+    will-change: auto;
+    transform: translateZ(0);
+}
+
+.fas {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.fab {
+    font-family: "Font Awesome 6 Brands";
+    font-weight: 400;
+}
+
+/* 实际使用的图标映射 - 减少CSS大小 */
+/* 导航和UI图标 */
+.fa-terminal::before { content: "\f120"; }
+.fa-bars::before { content: "\f0c9"; }
+.fa-home::before { content: "\f015"; }
+.fa-dashboard::before, .fa-tachometer-alt::before { content: "\f3fd"; }
+.fa-folder-open::before { content: "\f07c"; }
+.fa-code::before { content: "\f121"; }
+.fa-chevron-right::before { content: "\f054"; }
+.fa-chevron-down::before { content: "\f078"; }
+.fa-chevron-up::before { content: "\f077"; }
+.fa-file-alt::before { content: "\f15c"; }
+.fa-bolt::before { content: "\f0e7"; }
+.fa-search::before { content: "\f002"; }
+.fa-tags::before { content: "\f02c"; }
+.fa-tag::before { content: "\f02b"; }
+.fa-archive::before { content: "\f187"; }
+.fa-tools::before { content: "\f7d9"; }
+.fa-external-link-alt::before { content: "\f35d"; }
+.fa-moon::before { content: "\f186"; }
+.fa-sun::before { content: "\f185"; }
+.fa-expand::before { content: "\f065"; }
+.fa-eye::before { content: "\f06e"; }
+.fa-arrow-up::before { content: "\f062"; }
+.fa-arrow-right::before { content: "\f061"; }
+.fa-times::before { content: "\f00d"; }
+.fa-copy::before { content: "\f0c5"; }
+.fa-check::before { content: "\f00c"; }
+
+/* 系统状态图标 */
+.fa-list::before { content: "\f03a"; }
+.fa-clock::before { content: "\f017"; }
+.fa-code-branch::before { content: "\f126"; }
+.fa-gem::before { content: "\f3a5"; }
+.fa-folder::before { content: "\f07b"; }
+.fa-sitemap::before { content: "\f0e8"; }
+.fa-layer-group::before { content: "\f5fd"; }
+.fa-hashtag::before { content: "\f292"; }
+
+/* 技术栈图标 */
+.fa-cogs::before { content: "\f085"; }
+.fa-shield-alt::before { content: "\f3ed"; }
+.fa-network-wired::before { content: "\f6ff"; }
+.fa-server::before { content: "\f233"; }
+.fa-dharmachakra::before { content: "\f655"; } /* Kubernetes */
+.fa-robot::before { content: "\f544"; } /* Ansible */
+.fa-magic::before { content: "\f0d0"; } /* 自动化 */
+.fa-exchange-alt::before { content: "\f362"; } /* Proxy */
+.fa-bug::before { content: "\f188"; } /* Penetration Testing */
+.fa-user-cog::before { content: "\f4fe"; } /* System Admin */
+.fa-sliders-h::before { content: "\f1de"; } /* 配置管理 */
+.fa-cubes::before { content: "\f1b3"; } /* 容器编排 */
+.fa-cloud::before { content: "\f0c2"; } /* 云原生 */
+.fa-project-diagram::before { content: "\f542"; } /* 微服务 */
+.fa-file-code::before { content: "\f1c9"; } /* 静态网站 */
+.fa-blog::before { content: "\f781"; } /* 博客 */
+.fa-globe::before { content: "\f0ac"; } /* Web开发 */
+
+/* 品牌图标 */
+.fa-docker::before { content: "\f395"; }
+.fa-linux::before { content: "\f17c"; }
+.fa-aws::before { content: "\f375"; }
+.fa-jenkins::before { content: "\f3b6"; }
+.fa-git-alt::before { content: "\f841"; }
+.fa-python::before { content: "\f3e2"; }
+.fa-github::before { content: "\f09b"; }
+.fa-windows::before { content: "\f17a"; }
+
+/* 特殊图标和动画 */
+.fa-circle-o-notch::before { content: "\f1ce"; }
+.fa-spin {
+    animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 尺寸类 - 只保留常用的 */
+.fa-xs { font-size: 0.75em; line-height: 0.08333em; vertical-align: 0.125em; }
+.fa-sm { font-size: 0.875em; line-height: 0.07143em; vertical-align: 0.05357em; }
+.fa-lg { font-size: 1.33333em; line-height: 0.75em; vertical-align: -0.0667em; }
+.fa-xl { font-size: 1.5em; line-height: 0.6667em; vertical-align: -0.075em; }
+.fa-2x { font-size: 2em; line-height: 0.5em; vertical-align: -0.1em; }
+
+/* 对齐类 */
+.fa-fw { width: 1.25em; text-align: center; }
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .fa, .fas, .far, .fab, .fal, .fad, .fat {
+        /* 移动端减少动画和效果以提升性能 */
+        will-change: auto;
+    }
+}
+
+/* 深色主题适配 */
+@media (prefers-color-scheme: dark) {
+    .fa, .fas, .far, .fab, .fal, .fad, .fat {
+        color: inherit;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    .fa, .fas, .far, .fab, .fal, .fad, .fat {
+        color: #000 !important;
+    }
+}
+
+/* 针对常用图标的优化 */
+.fa-terminal, .fa-search, .fa-home, .fa-bars {
+    /* 常用图标缓存优化 */
+    content-visibility: auto;
+}
+
+/* 减少回流重绘 */
+.fa::before, .fas::before, .far::before, .fab::before {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+}
