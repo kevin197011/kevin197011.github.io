@@ -27,13 +27,14 @@
 <meta name="twitter:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}">
 <meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
-<!-- 字体 -->
+<!-- 字体和图标 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
 
 <!-- CSS样式 -->
 <link rel="stylesheet" href="{{ '/assets/css/cyber-style.css' | relative_url }}">
@@ -93,6 +94,15 @@
 <link rel="preload" href="{{ '/assets/js/cyber-ui.js' | relative_url }}" as="script">
 
 <!-- 安全策略 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com cdnjs.cloudflare.com; font-src 'self' fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    style-src 'self' 'unsafe-inline' fonts.googleapis.com cdnjs.cloudflare.com;
+    font-src 'self' fonts.gstatic.com cdnjs.cloudflare.com;
+    script-src 'self' 'unsafe-inline';
+    img-src 'self' data: https:;
+    connect-src 'self';
+    object-src 'none';
+    base-uri 'self';
+">
 
 {%- include google-analytics.html -%}
