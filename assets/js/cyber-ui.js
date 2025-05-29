@@ -366,26 +366,32 @@ class CyberUI {
     // 键盘快捷键
     setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
-            // Ctrl+K 或 Cmd+K 打开搜索
+            // Ctrl/Cmd + K - 打开搜索
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
                 this.openSearchModal();
             }
 
-            // ESC 关闭模态框
+            // Escape - 关闭搜索
             if (e.key === 'Escape') {
-                const searchModal = document.getElementById('search-modal');
-                if (searchModal && searchModal.classList.contains('show')) {
-                    this.closeSearchModal();
-                }
+                this.closeSearchModal();
             }
 
-            // F 全屏模式
-            if (e.key === 'f' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-                const activeElement = document.activeElement;
-                if (activeElement.tagName !== 'INPUT' && activeElement.tagName !== 'TEXTAREA') {
-                    this.toggleFullscreen();
-                }
+            // 在搜索模态框中的导航
+            if (document.getElementById('search-modal').classList.contains('open')) {
+                this.handleSearchNavigation(e);
+            }
+
+            // Ctrl/Cmd + Shift + T - 切换主题
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'T') {
+                e.preventDefault();
+                this.toggleTheme();
+            }
+
+            // Alt + T - 快速切换主题
+            if (e.altKey && e.key === 't') {
+                e.preventDefault();
+                this.toggleTheme();
             }
         });
     }
@@ -395,13 +401,17 @@ class CyberUI {
         const themeToggle = document.getElementById('theme-toggle');
 
         if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
+            themeToggle.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.toggleTheme();
             });
         }
 
         // 恢复主题设置
         this.restoreTheme();
+
+        // 监听系统主题变化
+        this.watchSystemTheme();
     }
 
     toggleTheme() {
@@ -409,35 +419,92 @@ class CyberUI {
         const currentTheme = html.classList.contains('light') ? 'light' : 'dark';
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
+        // 添加过渡动画类
+        html.classList.add('theme-transitioning');
+
+        // 切换主题
         html.classList.remove(currentTheme);
         html.classList.add(newTheme);
 
+        // 保存到localStorage
         localStorage.setItem('theme', newTheme);
 
-        // 更新图标
+        // 更新主题切换按钮
+        this.updateThemeToggleButton(newTheme);
+
+        // 显示主题切换提示
+        this.showThemeChangeToast(newTheme);
+
+        // 移除过渡动画类
+        setTimeout(() => {
+            html.classList.remove('theme-transitioning');
+        }, 400);
+    }
+
+    updateThemeToggleButton(theme) {
         const themeToggle = document.getElementById('theme-toggle');
+        if (!themeToggle) return;
+
         const icon = themeToggle.querySelector('i');
+        const span = themeToggle.querySelector('span');
+
         if (icon) {
-            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
         }
+
+        if (span) {
+            span.textContent = theme === 'dark' ? '暗色主题' : '亮色主题';
+        }
+
+        // 添加按钮动画效果
+        themeToggle.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            themeToggle.style.transform = '';
+        }, 150);
     }
 
     restoreTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.classList.add(savedTheme);
+        // 检查用户保存的主题偏好
+        const savedTheme = localStorage.getItem('theme');
+        let theme = 'dark'; // 默认暗色主题
 
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            const icon = themeToggle.querySelector('i');
-            if (icon) {
-                icon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
-            }
-
-            const span = themeToggle.querySelector('span');
-            if (span) {
-                span.textContent = savedTheme === 'dark' ? '暗色主题' : '亮色主题';
+        if (savedTheme) {
+            theme = savedTheme;
+        } else {
+            // 如果没有保存的偏好，检查系统主题
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                theme = 'light';
             }
         }
+
+        // 应用主题
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(theme);
+
+        // 更新按钮状态
+        this.updateThemeToggleButton(theme);
+    }
+
+    watchSystemTheme() {
+        // 监听系统主题变化（仅在用户没有手动设置时生效）
+        if (window.matchMedia) {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+            mediaQuery.addEventListener('change', (e) => {
+                // 只有在用户没有手动设置主题时才跟随系统
+                if (!localStorage.getItem('theme')) {
+                    const newTheme = e.matches ? 'light' : 'dark';
+                    document.documentElement.classList.remove('light', 'dark');
+                    document.documentElement.classList.add(newTheme);
+                    this.updateThemeToggleButton(newTheme);
+                }
+            });
+        }
+    }
+
+    showThemeChangeToast(theme) {
+        const message = theme === 'dark' ? '已切换到暗色主题' : '已切换到亮色主题';
+        const icon = theme === 'dark' ? '🌙' : '☀️';
+        this.showToast(`${icon} ${message}`, 'success');
     }
 
     // 分类切换
@@ -742,17 +809,36 @@ class CyberUI {
 
     // 工具方法
     showToast(message, type = 'info') {
+        // 创建或获取 toast 容器
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'toast-container';
+            document.body.appendChild(container);
+        }
+
+        // 创建 toast 元素
         const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
+        toast.className = `toast ${type}`;
         toast.textContent = message;
 
-        document.body.appendChild(toast);
+        // 添加到容器
+        container.appendChild(toast);
 
-        setTimeout(() => toast.classList.add('show'), 100);
+        // 触发显示动画
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 10);
 
+        // 自动移除
         setTimeout(() => {
             toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
+            setTimeout(() => {
+                if (container.contains(toast)) {
+                    container.removeChild(toast);
+                }
+            }, 250);
         }, 3000);
     }
 

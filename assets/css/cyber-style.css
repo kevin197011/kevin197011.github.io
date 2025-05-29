@@ -6,7 +6,7 @@
 
 /* ============= 全局变量 ============= */
 :root {
-    /* 颜色调色板 */
+    /* 颜色调色板 - 暗色主题 */
     --bg-primary: #0a0b0e;
     --bg-secondary: #12141a;
     --bg-tertiary: #1a1d26;
@@ -58,6 +58,122 @@
     /* 布局 */
     --sidebar-width: 280px;
     --topbar-height: 60px;
+}
+
+/* ============= 亮色主题变量 ============= */
+html.light {
+    /* 亮色主题背景色 */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+
+    /* 亮色主题文字色 */
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-accent: #059669;
+
+    /* 亮色主题边框色 */
+    --border-primary: #e2e8f0;
+    --border-secondary: #f1f5f9;
+    --border-accent: #059669;
+
+    /* 亮色主题强调色 */
+    --accent-green: #059669;
+    --accent-blue: #0284c7;
+    --accent-purple: #7c3aed;
+    --accent-orange: #ea580c;
+    --accent-red: #dc2626;
+
+    /* 亮色主题渐变 */
+    --gradient-primary: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    --gradient-accent: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+    --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+
+    /* 亮色主题阴影 */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
+    --shadow-glow: 0 0 20px rgba(5, 150, 105, 0.3);
+}
+
+/* ============= 主题切换过渡动画 ============= */
+*,
+*::before,
+*::after {
+    transition: background-color var(--transition-normal),
+                color var(--transition-normal),
+                border-color var(--transition-normal),
+                box-shadow var(--transition-normal);
+}
+
+/* 亮色主题下禁用过渡动画 */
+html.light *,
+html.light *::before,
+html.light *::after {
+    transition: none !important;
+}
+
+/* 亮色主题下保留必要的交互过渡效果 */
+html.light .nav-link,
+html.light .sub-nav-link,
+html.light .action-btn,
+html.light .nav-card,
+html.light .breadcrumb-link,
+html.light #theme-toggle,
+html.light .toast {
+    transition: all 0.15s ease !important;
+}
+
+html.light .nav-card:hover,
+html.light .nav-link:hover,
+html.light .action-btn:hover {
+    transition: all 0.15s ease !important;
+}
+
+/* 背景网格效果 - 亮色主题适配 */
+html.light .grid-overlay {
+    background-image:
+        linear-gradient(rgba(5, 150, 105, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(5, 150, 105, 0.08) 1px, transparent 1px);
+}
+
+html.light .scan-line {
+    background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+    opacity: 0.3;
+}
+
+/* 主题切换按钮特殊样式 */
+#theme-toggle {
+    position: relative;
+    overflow: hidden;
+}
+
+#theme-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left var(--transition-slow);
+}
+
+#theme-toggle:hover::before {
+    left: 100%;
+}
+
+/* 亮色主题下的特殊调整 */
+html.light .terminal-icon {
+    background: var(--gradient-accent);
+    color: #ffffff;
+}
+
+html.light .cyber-bg-effects {
+    opacity: 0.6;
 }
 
 /* ============= 基础重置 ============= */
@@ -381,21 +497,31 @@ body {
 
 /* 侧边栏底部 */
 .sidebar-footer {
-    padding: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-md);
     border-top: 1px solid var(--border-secondary);
+    background: var(--bg-secondary);
+    margin-top: auto;
 }
 
 .status-info {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
     font-family: var(--font-mono);
+    max-width: 280px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .status-item {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
     margin-bottom: var(--spacing-xs);
+}
+
+.status-text {
+    color: var(--text-secondary);
 }
 
 .status-dot {
@@ -414,6 +540,22 @@ body {
 .build-info {
     margin-top: var(--spacing-xs);
     font-size: 0.65rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+/* 亮色主题适配 - 侧边栏底部 */
+html.light .sidebar-footer {
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border-primary);
+}
+
+html.light .status-text {
+    color: var(--text-primary);
+}
+
+html.light .build-info {
+    color: var(--text-secondary);
 }
 
 /* ============= 主内容区域 ============= */
@@ -1180,7 +1322,7 @@ body {
     }
 
     .sidebar-footer {
-        padding: var(--spacing-sm) var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-md);
     }
 
     .status-info {
@@ -1284,4 +1426,147 @@ body,
 .fab-btn,
 .action-btn {
     will-change: transform;
+}
+
+/* ============= 主题切换过渡动画 ============= */
+.theme-transitioning {
+    pointer-events: none;
+}
+
+.theme-transitioning * {
+    transition-duration: 400ms !important;
+}
+
+/* 主题切换按钮增强效果 */
+#theme-toggle {
+    transition: all var(--transition-normal);
+}
+
+#theme-toggle:hover {
+    transform: translateY(-1px);
+    background: rgba(0, 255, 136, 0.1);
+}
+
+#theme-toggle:active {
+    transform: translateY(0);
+}
+
+/* Toast 通知样式 */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.toast {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    padding: 12px 16px;
+    min-width: 200px;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all var(--transition-normal);
+    pointer-events: auto;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast.success {
+    border-left: 4px solid var(--accent-green);
+}
+
+.toast.error {
+    border-left: 4px solid var(--accent-red);
+}
+
+.toast.info {
+    border-left: 4px solid var(--accent-blue);
+}
+
+.toast.warning {
+    border-left: 4px solid var(--accent-orange);
+}
+
+/* 亮色主题适配 - 代码块和终端 */
+html.light .hero-terminal {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-md);
+}
+
+html.light .terminal-header {
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border-bottom: 1px solid var(--border-primary);
+}
+
+html.light .terminal-body {
+    background: var(--bg-card);
+}
+
+html.light .prompt {
+    color: var(--accent-green);
+}
+
+html.light .command {
+    color: var(--accent-blue);
+}
+
+html.light .ascii-art {
+    color: var(--text-primary);
+    opacity: 0.8;
+}
+
+/* 亮色主题适配 - 导航卡片 */
+html.light .nav-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+html.light .nav-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-green);
+}
+
+html.light .nav-card::before {
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+}
+
+/* 亮色主题适配 - 状态卡片 */
+html.light .status-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+html.light .status-card::before {
+    background: var(--gradient-accent);
+}
+
+/* 响应式 Toast */
+@media (max-width: 768px) {
+    .toast-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+    }
+
+    .toast {
+        margin: 0;
+        min-width: auto;
+    }
 }
