@@ -45,7 +45,7 @@ task :post, [:title] do |_, args|
 end
 
 task :run do
-  system 'jekyll serve --watch'
+  system 'bundle exec jekyll serve --port 4000'
 end
 
 task :build do
