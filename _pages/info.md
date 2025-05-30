@@ -6,6 +6,19 @@ description: "实时汇率和数字货币价格信息"
 ---
 
 <div class="home-page">
+    <!-- 页面标题头部 -->
+    <section class="page-header">
+        <div class="page-title-container">
+            <div class="page-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="page-title-content">
+                <h1 class="page-title">实时资讯</h1>
+                <p class="page-subtitle">汇率监控 • 数字货币价格 • 市场概览</p>
+            </div>
+        </div>
+    </section>
+
     <!-- 页面标题 -->
     <section class="hero-section">
         <div class="hero-content">
@@ -334,6 +347,129 @@ description: "实时汇率和数字货币价格信息"
 </div>
 
 <style>
+/* 页面标题头部样式 */
+.page-header {
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+.page-title-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-accent);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-icon::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.page-title-content {
+    flex: 1;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-sm) 0;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: 0;
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.page-subtitle::before {
+    content: '>';
+    color: var(--accent-green);
+    font-weight: bold;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .page-header {
+        padding: var(--spacing-lg) 0;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .page-title-container {
+        gap: var(--spacing-md);
+        padding: 0 var(--spacing-md);
+    }
+
+    .page-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        border-radius: 15px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .page-subtitle {
+        font-size: 0.95rem;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title-container {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-md);
+    }
+
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .page-subtitle {
+        justify-content: center;
+        font-size: 0.9rem;
+    }
+}
+
 /* 资讯页面样式 */
 .exchange-card {
     position: relative;
