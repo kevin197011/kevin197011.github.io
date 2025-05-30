@@ -101,9 +101,9 @@
     default-src 'self';
     style-src 'self' 'unsafe-inline' fonts.googleapis.com cdnjs.cloudflare.com;
     font-src 'self' fonts.gstatic.com cdnjs.cloudflare.com;
-    script-src 'self' 'unsafe-inline' cdn.jsdelivr.net;
-    img-src 'self' data: https:;
-    connect-src 'self';
+    script-src 'self' 'unsafe-inline' cdn.jsdelivr.net www.googletagmanager.com;
+    img-src 'self' data: https: www.google-analytics.com;
+    connect-src 'self' www.google-analytics.com analytics.google.com stats.g.doubleclick.net;
     object-src 'none';
     base-uri 'self';
 ">

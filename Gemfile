@@ -4,6 +4,9 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
+# 添加 github-pages 插件
+# gem "github-pages", group: :jekyll_plugins
+
 # Jekyll和主要组件
 gem 'jekyll', '~> 4.4'
 gem 'jekyll-feed', '~> 0.17'
