@@ -258,6 +258,21 @@
     box-shadow: var(--shadow-md);
 }
 
+.tech-item.hidden {
+    display: none;
+}
+
+.tech-item-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    height: 100%;
+}
+
 .tech-item i {
     font-size: 2rem;
     color: var(--accent-blue);
@@ -269,10 +284,11 @@
     transform: scale(1.1);
 }
 
-.tech-item span {
+.tech-name {
     font-size: 0.875rem;
     color: var(--text-secondary);
     font-weight: 500;
+    text-align: center;
 }
 
 .tech-item .tag-count {
@@ -288,6 +304,158 @@
     min-width: 18px;
     text-align: center;
     font-family: var(--font-mono);
+}
+
+/* 技术栈分页标签 */
+.tech-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-sm);
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    border: 1px solid var(--border-secondary);
+}
+
+.tech-tab {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--bg-card);
+    border: 1px solid var(--border-secondary);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    min-width: 80px;
+    justify-content: center;
+}
+
+.tech-tab:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-blue);
+    color: var(--text-primary);
+}
+
+.tech-tab.active {
+    background: var(--accent-green);
+    border-color: var(--accent-green);
+    color: var(--bg-primary);
+    box-shadow: 0 2px 8px rgba(0, 255, 136, 0.3);
+}
+
+.tech-tab.active:hover {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+.tech-tab i {
+    font-size: 0.9rem;
+}
+
+/* 技术栈容器 */
+.tech-stack-container {
+    position: relative;
+}
+
+/* 技术栈统计 */
+.tech-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    border: 1px solid var(--border-secondary);
+}
+
+.tech-stat-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-green);
+    font-family: var(--font-mono);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 过渡动画 */
+.tech-item {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .tech-tabs {
+        justify-content: center;
+    }
+
+    .tech-tab {
+        flex: 1;
+        min-width: 70px;
+        font-size: 0.8rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .tech-stats {
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .tech-tabs {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tech-tab {
+        min-width: unset;
+    }
+
+    .tech-stats {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        text-align: center;
+    }
+
+    .tech-stat-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
 /* ============= 搜索模态框 ============= */

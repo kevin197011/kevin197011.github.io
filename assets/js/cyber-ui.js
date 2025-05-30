@@ -1345,3 +1345,276 @@ function closeSearchModal() {
 function triggerSearch() {
     openSearchModal();
 }
+
+// 技术栈分页功能
+class TechStackTabs {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.setupTabs();
+        this.setupTechItems();
+        this.updateStats();
+    }
+
+    setupTabs() {
+        const tabs = document.querySelectorAll('.tech-tab');
+        const techItems = document.querySelectorAll('.tech-item');
+
+        if (!tabs.length || !techItems.length) return;
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 移除所有活动状态
+                tabs.forEach(t => t.classList.remove('active'));
+
+                // 设置当前标签为活动状态
+                tab.classList.add('active');
+
+                // 获取过滤类别
+                const category = tab.dataset.category;
+
+                // 过滤技术项
+                this.filterTechItems(category);
+
+                // 更新统计
+                this.updateStats(category);
+
+                // 添加切换动画
+                this.animateItemsChange();
+            });
+        });
+    }
+
+    setupTechItems() {
+        const techItems = document.querySelectorAll('.tech-item');
+
+        // 为每个技术项添加点击跟踪
+        techItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const techName = item.querySelector('.tech-name')?.textContent;
+                if (techName) {
+                    // 可以在这里添加Google Analytics跟踪
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'tech_stack_click', {
+                            'tech_name': techName,
+                            'event_category': 'engagement'
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+    filterTechItems(category) {
+        const techItems = document.querySelectorAll('.tech-item');
+
+        techItems.forEach(item => {
+            const itemCategory = item.dataset.category;
+
+            if (category === 'all' || itemCategory === category) {
+                item.classList.remove('hidden');
+                item.style.display = '';
+            } else {
+                item.classList.add('hidden');
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    updateStats(category = 'all') {
+        const visibleTagsCountElement = document.getElementById('visible-tags-count');
+        if (!visibleTagsCountElement) return;
+
+        const techItems = document.querySelectorAll('.tech-item');
+        let visibleCount = 0;
+
+        if (category === 'all') {
+            visibleCount = techItems.length;
+        } else {
+            techItems.forEach(item => {
+                if (item.dataset.category === category) {
+                    visibleCount++;
+                }
+            });
+        }
+
+        // 数字动画效果
+        this.animateNumber(visibleTagsCountElement, visibleCount);
+    }
+
+    animateNumber(element, targetNumber) {
+        const startNumber = parseInt(element.textContent) || 0;
+        const duration = 500;
+        const startTime = performance.now();
+
+        const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // 使用缓动函数
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            const currentNumber = Math.round(startNumber + (targetNumber - startNumber) * easeOut);
+
+            element.textContent = currentNumber;
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        requestAnimationFrame(animate);
+    }
+
+    animateItemsChange() {
+        const visibleItems = document.querySelectorAll('.tech-item:not(.hidden)');
+
+        // 为可见项添加渐入动画
+        visibleItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, index * 50);
+        });
+    }
+
+    // 获取分类统计信息
+    getCategoryStats() {
+        const techItems = document.querySelectorAll('.tech-item');
+        const stats = {
+            all: 0,
+            devops: 0,
+            languages: 0,
+            cloud: 0,
+            security: 0,
+            tools: 0,
+            system: 0
+        };
+
+        techItems.forEach(item => {
+            const category = item.dataset.category;
+            if (stats.hasOwnProperty(category)) {
+                stats[category]++;
+            }
+            stats.all++;
+        });
+
+        return stats;
+    }
+
+    // 设置标签徽章显示数量
+    updateTabBadges() {
+        const stats = this.getCategoryStats();
+        const tabs = document.querySelectorAll('.tech-tab');
+
+        tabs.forEach(tab => {
+            const category = tab.dataset.category;
+            const count = stats[category] || 0;
+
+            // 移除现有徽章
+            const existingBadge = tab.querySelector('.tab-badge');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+
+            // 添加新徽章（仅在数量大于0时）
+            if (count > 0) {
+                const badge = document.createElement('span');
+                badge.className = 'tab-badge';
+                badge.textContent = count;
+                badge.style.cssText = `
+                    background: var(--accent-blue);
+                    color: white;
+                    font-size: 0.7rem;
+                    padding: 2px 6px;
+                    border-radius: 10px;
+                    margin-left: 4px;
+                    font-weight: bold;
+                    min-width: 18px;
+                    text-align: center;
+                `;
+                tab.appendChild(badge);
+            }
+        });
+    }
+}
+
+// 搜索功能增强
+function enhanceSearch() {
+    const searchInput = document.getElementById('error-search');
+    if (!searchInput) return;
+
+    // 添加搜索建议功能
+    const suggestions = [
+        'Docker', 'Kubernetes', 'Linux', 'Python', 'DevOps',
+        'Security', 'Network', 'AWS', 'Git', 'Jenkins'
+    ];
+
+    searchInput.addEventListener('focus', () => {
+        // 可以在这里显示搜索建议
+    });
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        if (query.length >= 2) {
+            // 实时搜索建议
+            const matchedSuggestions = suggestions.filter(s =>
+                s.toLowerCase().includes(query)
+            );
+            // 这里可以显示建议列表
+        }
+    });
+}
+
+// 初始化技术栈分页
+document.addEventListener('DOMContentLoaded', () => {
+    // 检查是否在首页且存在技术栈区域
+    const techStackSection = document.querySelector('.tech-stack-section');
+    if (techStackSection) {
+        const techStackTabs = new TechStackTabs();
+
+        // 初始化标签徽章
+        setTimeout(() => {
+            techStackTabs.updateTabBadges();
+        }, 100);
+
+        // 页面可见性变化时刷新统计
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                techStackTabs.updateStats();
+            }
+        });
+    }
+
+    // 初始化搜索增强
+    enhanceSearch();
+});
+
+// 性能监控
+function trackTechStackUsage() {
+    const techItems = document.querySelectorAll('.tech-item');
+
+    techItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const techName = item.querySelector('.tech-name')?.textContent;
+            const category = item.dataset.category;
+
+            // 发送使用统计
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'tech_interaction', {
+                    'tech_name': techName,
+                    'category': category,
+                    'event_category': 'tech_stack'
+                });
+            }
+        });
+    });
+}
+
+// 导出技术栈功能
+window.TechStackTabs = TechStackTabs;

@@ -280,93 +280,204 @@ layout: default
             技术栈
             <span class="section-subtitle">文档涵盖的技术领域</span>
         </h2>
-        <div class="tech-stack-grid">
-            {% comment %} 收集所有标签并统计使用次数 {% endcomment %}
-            {% assign all_tags = site.tags | sort %}
-            {% for tag in all_tags %}
-                {% assign tag_name = tag[0] %}
-                {% assign tag_posts = tag[1] %}
-                {% assign tag_count = tag_posts | size %}
 
-                {% comment %} 为标签分配图标 {% endcomment %}
-                {% assign icon_class = "fas fa-tag" %}
-                {% case tag_name %}
-                    {% when 'Docker' or 'docker' %}
-                        {% assign icon_class = "fab fa-docker" %}
-                    {% when 'Linux' or 'linux' %}
-                        {% assign icon_class = "fab fa-linux" %}
-                    {% when 'AWS' or 'aws' %}
-                        {% assign icon_class = "fab fa-aws" %}
-                    {% when 'Kubernetes' or 'K8s' or 'kubernetes' %}
-                        {% assign icon_class = "fas fa-dharmachakra" %}
-                    {% when 'Jenkins' or 'jenkins' %}
-                        {% assign icon_class = "fab fa-jenkins" %}
-                    {% when 'Git' or 'git' %}
-                        {% assign icon_class = "fab fa-git-alt" %}
-                    {% when 'Python' or 'python' %}
-                        {% assign icon_class = "fab fa-python" %}
-                    {% when 'Jekyll' or 'jekyll' %}
-                        {% assign icon_class = "fas fa-gem" %}
-                    {% when 'Ruby' or 'ruby' %}
-                        {% assign icon_class = "fas fa-gem" %}
-                    {% when 'DevOps' or 'devops' %}
-                        {% assign icon_class = "fas fa-cogs" %}
-                    {% when 'Ansible' or 'ansible' %}
-                        {% assign icon_class = "fas fa-robot" %}
-                    {% when 'Security' or 'security' %}
-                        {% assign icon_class = "fas fa-shield-alt" %}
-                    {% when 'Network' or 'networking' %}
-                        {% assign icon_class = "fas fa-network-wired" %}
-                    {% when 'Windows' or 'windows' %}
-                        {% assign icon_class = "fab fa-windows" %}
-                    {% when 'automation' or '自动化' %}
-                        {% assign icon_class = "fas fa-magic" %}
-                    {% when 'ci-cd' %}
-                        {% assign icon_class = "fas fa-code-branch" %}
-                    {% when 'proxy' %}
-                        {% assign icon_class = "fas fa-exchange-alt" %}
-                    {% when 'scanning' %}
-                        {% assign icon_class = "fas fa-search" %}
-                    {% when 'tools' %}
-                        {% assign icon_class = "fas fa-tools" %}
-                    {% when 'command-line' or 'cmd' %}
-                        {% assign icon_class = "fas fa-terminal" %}
-                    {% when 'penetration-testing' %}
-                        {% assign icon_class = "fas fa-bug" %}
-                    {% when 'nmap' %}
-                        {% assign icon_class = "fas fa-radar" %}
-                    {% when 'netcat' %}
-                        {% assign icon_class = "fas fa-broadcast-tower" %}
-                    {% when 'tinyproxy' %}
-                        {% assign icon_class = "fas fa-server" %}
-                    {% when 'powershell' %}
-                        {% assign icon_class = "fas fa-code" %}
-                    {% when 'system-administration' or '运维' %}
-                        {% assign icon_class = "fas fa-user-cog" %}
-                    {% when '配置管理' %}
-                        {% assign icon_class = "fas fa-sliders-h" %}
-                    {% when '容器编排' %}
-                        {% assign icon_class = "fas fa-cubes" %}
-                    {% when '云原生' %}
-                        {% assign icon_class = "fas fa-cloud" %}
-                    {% when '微服务' %}
-                        {% assign icon_class = "fas fa-project-diagram" %}
-                    {% when 'static-site' or '静态网站' %}
-                        {% assign icon_class = "fas fa-file-code" %}
-                    {% when 'blog' or '博客' %}
-                        {% assign icon_class = "fas fa-blog" %}
-                    {% when 'web-development' or 'web开发' %}
-                        {% assign icon_class = "fas fa-globe" %}
-                    {% else %}
-                        {% assign icon_class = "fas fa-hashtag" %}
-                {% endcase %}
+        <!-- 技术栈分页标签 -->
+        <div class="tech-tabs">
+            <button class="tech-tab active" data-category="all">
+                <i class="fas fa-globe"></i>
+                全部
+            </button>
+            <button class="tech-tab" data-category="devops">
+                <i class="fas fa-cogs"></i>
+                DevOps
+            </button>
+            <button class="tech-tab" data-category="languages">
+                <i class="fas fa-code"></i>
+                编程语言
+            </button>
+            <button class="tech-tab" data-category="cloud">
+                <i class="fas fa-cloud"></i>
+                云计算
+            </button>
+            <button class="tech-tab" data-category="security">
+                <i class="fas fa-shield-alt"></i>
+                安全
+            </button>
+            <button class="tech-tab" data-category="tools">
+                <i class="fas fa-tools"></i>
+                工具
+            </button>
+            <button class="tech-tab" data-category="system">
+                <i class="fas fa-server"></i>
+                系统
+            </button>
+        </div>
 
-                <div class="tech-item" title="{{ tag_name }} ({{ tag_count }} 篇文档)">
-                    <i class="{{ icon_class }}"></i>
-                    <span>{{ tag_name }}</span>
-                    <span class="tag-count">{{ tag_count }}</span>
-                </div>
-            {% endfor %}
+        <!-- 技术栈内容区域 -->
+        <div class="tech-stack-container">
+            <div class="tech-stack-grid" id="tech-stack-grid">
+                {% comment %} 收集所有标签并统计使用次数 {% endcomment %}
+                {% assign all_tags = site.tags | sort %}
+                {% for tag in all_tags %}
+                    {% assign tag_name = tag[0] %}
+                    {% assign tag_posts = tag[1] %}
+                    {% assign tag_count = tag_posts | size %}
+
+                    {% comment %} 为标签分配图标和类别 {% endcomment %}
+                    {% assign icon_class = "fas fa-tag" %}
+                    {% assign category = "tools" %}
+
+                    {% case tag_name %}
+                        {% when 'Docker' or 'docker' %}
+                            {% assign icon_class = "fab fa-docker" %}
+                            {% assign category = "devops" %}
+                        {% when 'Linux' or 'linux' %}
+                            {% assign icon_class = "fab fa-linux" %}
+                            {% assign category = "system" %}
+                        {% when 'AWS' or 'aws' %}
+                            {% assign icon_class = "fab fa-aws" %}
+                            {% assign category = "cloud" %}
+                        {% when 'Kubernetes' or 'K8s' or 'kubernetes' %}
+                            {% assign icon_class = "fas fa-dharmachakra" %}
+                            {% assign category = "devops" %}
+                        {% when 'Jenkins' or 'jenkins' %}
+                            {% assign icon_class = "fab fa-jenkins" %}
+                            {% assign category = "devops" %}
+                        {% when 'Git' or 'git' %}
+                            {% assign icon_class = "fab fa-git-alt" %}
+                            {% assign category = "tools" %}
+                        {% when 'Python' or 'python' %}
+                            {% assign icon_class = "fab fa-python" %}
+                            {% assign category = "languages" %}
+                        {% when 'Jekyll' or 'jekyll' %}
+                            {% assign icon_class = "fas fa-gem" %}
+                            {% assign category = "tools" %}
+                        {% when 'Ruby' or 'ruby' %}
+                            {% assign icon_class = "fas fa-gem" %}
+                            {% assign category = "languages" %}
+                        {% when 'DevOps' or 'devops' %}
+                            {% assign icon_class = "fas fa-cogs" %}
+                            {% assign category = "devops" %}
+                        {% when 'Ansible' or 'ansible' %}
+                            {% assign icon_class = "fas fa-robot" %}
+                            {% assign category = "devops" %}
+                        {% when 'Security' or 'security' %}
+                            {% assign icon_class = "fas fa-shield-alt" %}
+                            {% assign category = "security" %}
+                        {% when 'Network' or 'networking' %}
+                            {% assign icon_class = "fas fa-network-wired" %}
+                            {% assign category = "system" %}
+                        {% when 'Windows' or 'windows' %}
+                            {% assign icon_class = "fab fa-windows" %}
+                            {% assign category = "system" %}
+                        {% when 'automation' or '自动化' %}
+                            {% assign icon_class = "fas fa-magic" %}
+                            {% assign category = "devops" %}
+                        {% when 'ci-cd' %}
+                            {% assign icon_class = "fas fa-code-branch" %}
+                            {% assign category = "devops" %}
+                        {% when 'proxy' %}
+                            {% assign icon_class = "fas fa-exchange-alt" %}
+                            {% assign category = "tools" %}
+                        {% when 'scanning' %}
+                            {% assign icon_class = "fas fa-search" %}
+                            {% assign category = "security" %}
+                        {% when 'tools' %}
+                            {% assign icon_class = "fas fa-tools" %}
+                            {% assign category = "tools" %}
+                        {% when 'command-line' or 'cmd' %}
+                            {% assign icon_class = "fas fa-terminal" %}
+                            {% assign category = "tools" %}
+                        {% when 'penetration-testing' %}
+                            {% assign icon_class = "fas fa-bug" %}
+                            {% assign category = "security" %}
+                        {% when 'nmap' %}
+                            {% assign icon_class = "fas fa-radar" %}
+                            {% assign category = "security" %}
+                        {% when 'netcat' %}
+                            {% assign icon_class = "fas fa-broadcast-tower" %}
+                            {% assign category = "tools" %}
+                        {% when 'tinyproxy' %}
+                            {% assign icon_class = "fas fa-server" %}
+                            {% assign category = "tools" %}
+                        {% when 'powershell' %}
+                            {% assign icon_class = "fas fa-code" %}
+                            {% assign category = "tools" %}
+                        {% when 'system-administration' or '运维' %}
+                            {% assign icon_class = "fas fa-user-cog" %}
+                            {% assign category = "system" %}
+                        {% when '配置管理' %}
+                            {% assign icon_class = "fas fa-sliders-h" %}
+                            {% assign category = "devops" %}
+                        {% when '容器编排' %}
+                            {% assign icon_class = "fas fa-cubes" %}
+                            {% assign category = "devops" %}
+                        {% when '云原生' %}
+                            {% assign icon_class = "fas fa-cloud" %}
+                            {% assign category = "cloud" %}
+                        {% when '微服务' %}
+                            {% assign icon_class = "fas fa-project-diagram" %}
+                            {% assign category = "devops" %}
+                        {% when 'static-site' or '静态网站' %}
+                            {% assign icon_class = "fas fa-file-code" %}
+                            {% assign category = "tools" %}
+                        {% when 'blog' or '博客' %}
+                            {% assign icon_class = "fas fa-blog" %}
+                            {% assign category = "tools" %}
+                        {% when 'web-development' or 'web开发' %}
+                            {% assign icon_class = "fas fa-globe" %}
+                            {% assign category = "languages" %}
+                        {% when 'JavaScript' or 'javascript' or 'js' %}
+                            {% assign icon_class = "fab fa-js-square" %}
+                            {% assign category = "languages" %}
+                        {% when 'Azure' or 'azure' %}
+                            {% assign icon_class = "fab fa-microsoft" %}
+                            {% assign category = "cloud" %}
+                        {% when 'GCP' or 'gcp' or 'Google Cloud' %}
+                            {% assign icon_class = "fab fa-google" %}
+                            {% assign category = "cloud" %}
+                        {% when 'Terraform' or 'terraform' %}
+                            {% assign icon_class = "fas fa-layer-group" %}
+                            {% assign category = "devops" %}
+                        {% when 'Helm' or 'helm' %}
+                            {% assign icon_class = "fas fa-anchor" %}
+                            {% assign category = "devops" %}
+                        {% when 'monitoring' or '监控' %}
+                            {% assign icon_class = "fas fa-chart-line" %}
+                            {% assign category = "devops" %}
+                        {% when 'logging' or '日志' %}
+                            {% assign icon_class = "fas fa-file-alt" %}
+                            {% assign category = "devops" %}
+                        {% else %}
+                            {% assign icon_class = "fas fa-hashtag" %}
+                            {% assign category = "tools" %}
+                    {% endcase %}
+
+                    <div class="tech-item" data-category="{{ category }}" title="{{ tag_name }} ({{ tag_count }} 篇文档)">
+                        <a href="/tags#{{ tag_name | slugify }}" class="tech-item-link">
+                            <i class="{{ icon_class }}"></i>
+                            <span class="tech-name">{{ tag_name }}</span>
+                            <span class="tag-count">{{ tag_count }}</span>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 技术栈统计 -->
+        <div class="tech-stats">
+            <div class="tech-stat-item">
+                <span class="stat-number" id="visible-tags-count">{{ site.tags.size }}</span>
+                <span class="stat-label">技术标签</span>
+            </div>
+            <div class="tech-stat-item">
+                <span class="stat-number">{{ site.posts.size }}</span>
+                <span class="stat-label">技术文档</span>
+            </div>
+            <div class="tech-stat-item">
+                <span class="stat-number">{{ site.categories.size }}</span>
+                <span class="stat-label">技术分类</span>
+            </div>
         </div>
     </section>
 </div>

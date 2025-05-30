@@ -422,8 +422,49 @@ body {
 }
 
 .nav-link i {
-    width: 16px;
+    width: 18px;
     text-align: center;
+    margin-right: var(--spacing-sm);
+    color: var(--text-muted);
+    transition: var(--transition-fast);
+}
+
+/* 导航图标容器 */
+.nav-icon-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-icon-container .fa-chart-line {
+    width: 18px;
+    text-align: center;
+    margin-right: var(--spacing-sm);
+    color: var(--text-muted);
+    transition: var(--transition-fast);
+}
+
+.nav-status-dot {
+    position: absolute;
+    top: -4px;
+    right: 8px;
+    font-size: 6px !important;
+    color: var(--accent-green) !important;
+    width: auto !important;
+    margin: 0 !important;
+    animation: pulse-dot 2s infinite;
+    text-shadow: 0 0 4px var(--accent-green);
+}
+
+@keyframes pulse-dot {
+    0%, 50% { opacity: 1; transform: scale(1); }
+    51%, 100% { opacity: 0.6; transform: scale(0.8); }
+}
+
+.nav-link:hover .nav-icon-container .fa-chart-line,
+.nav-link:hover .nav-status-dot {
+    color: var(--accent-green);
 }
 
 .post-count {
