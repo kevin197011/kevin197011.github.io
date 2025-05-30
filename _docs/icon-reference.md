@@ -69,6 +69,17 @@
 | `fa-palette` | 调色板 | 颜色工具 |
 | `fa-rocket` | 火箭 | 部署平台 |
 
+## AI工具专用图标
+
+| 图标类名 | 描述 | 使用场景 |
+|---------|------|---------|
+| `fa-brain` | 大脑 | AI智能/Claude |
+| `fa-robot` | 机器人 | AI助手/ChatGPT/自动化 |
+| `fa-image` | 图片 | AI图像生成 |
+| `fa-search-plus` | 增强搜索 | AI搜索 |
+| `fa-flask` | 烧杯 | AI实验环境 |
+| `fa-cursor` | 光标 | AI代码编辑器 |
+
 ## 系统状态图标
 
 | 图标类名 | 描述 | 使用场景 |

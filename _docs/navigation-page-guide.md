@@ -11,8 +11,9 @@
 1. **开发工具** - GitHub、VS Code、Docker Hub、Kubernetes文档
 2. **云服务** - AWS、Azure、Google Cloud、Vercel
 3. **学习资源** - MDN、Stack Overflow、DEV Community、freeCodeCamp
-4. **实用工具** - JSON Formatter、Regex101、颜色工具、Base64编码
-5. **监控和状态** - GitHub Status、DownDetector、Speedtest、网络诊断
+4. **AI工具** - ChatGPT、Claude、Midjourney、Perplexity、GitHub Copilot、Hugging Face、Google Colab、Cursor
+5. **实用工具** - JSON Formatter、Regex101、颜色工具、Base64编码
+6. **监控和状态** - GitHub Status、DownDetector、Speedtest、网络诊断
 
 ## 自定义添加链接
 

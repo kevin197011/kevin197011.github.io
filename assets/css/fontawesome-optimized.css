@@ -197,3 +197,10 @@
 .fa-pound-sign::before { content: "\f154"; }
 .fa-bitcoin::before { content: "\f379"; }
 .fa-ethereum::before { content: "\f42e"; }
+
+/* AI工具图标 */
+.fa-brain::before { content: "\f5dc"; }
+.fa-image::before { content: "\f03e"; }
+.fa-search-plus::before { content: "\f00e"; }
+.fa-flask::before { content: "\f0c3"; }
+.fa-cursor::before { content: "\f245"; }

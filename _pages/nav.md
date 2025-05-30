@@ -220,6 +220,119 @@ description: "常用链接和工具导航"
         </div>
     </section>
 
+    <!-- AI工具 -->
+    <section class="quick-nav-section">
+        <h2 class="section-title">
+            <i class="fas fa-brain"></i>
+            AI工具
+        </h2>
+        <div class="nav-links-grid">
+            <div class="nav-link-card">
+                <div class="nav-link-icon chatgpt">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="nav-link-content">
+                    <h3>ChatGPT</h3>
+                    <p>OpenAI的对话AI助手</p>
+                    <a href="https://chat.openai.com" target="_blank" class="nav-link-btn">
+                        访问 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-link-card">
+                <div class="nav-link-icon claude">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="nav-link-content">
+                    <h3>Claude</h3>
+                    <p>Anthropic的AI助手</p>
+                    <a href="https://claude.ai" target="_blank" class="nav-link-btn">
+                        访问 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-link-card">
+                <div class="nav-link-icon midjourney">
+                    <i class="fas fa-image"></i>
+                </div>
+                <div class="nav-link-content">
+                    <h3>Midjourney</h3>
+                    <p>AI图像生成工具</p>
+                    <a href="https://midjourney.com" target="_blank" class="nav-link-btn">
+                        访问 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-link-card">
+                <div class="nav-link-icon perplexity">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+                <div class="nav-link-content">
+                    <h3>Perplexity</h3>
+                    <p>AI搜索引擎</p>
+                    <a href="https://perplexity.ai" target="_blank" class="nav-link-btn">
+                        访问 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-link-card">
+                <div class="nav-link-icon copilot">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="nav-link-content">
+                    <h3>GitHub Copilot</h3>
+                    <p>AI编程助手</p>
+                    <a href="https://github.com/features/copilot" target="_blank" class="nav-link-btn">
+                        访问 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-link-card">
+                <div class="nav-link-icon huggingface">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="nav-link-content">
+                    <h3>Hugging Face</h3>
+                    <p>AI模型平台</p>
+                    <a href="https://huggingface.co" target="_blank" class="nav-link-btn">
+                        访问 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-link-card">
+                <div class="nav-link-icon colab">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="nav-link-content">
+                    <h3>Google Colab</h3>
+                    <p>AI开发环境</p>
+                    <a href="https://colab.research.google.com" target="_blank" class="nav-link-btn">
+                        访问 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-link-card">
+                <div class="nav-link-icon cursor">
+                    <i class="fas fa-cursor"></i>
+                </div>
+                <div class="nav-link-content">
+                    <h3>Cursor</h3>
+                    <p>AI代码编辑器</p>
+                    <a href="https://cursor.sh" target="_blank" class="nav-link-btn">
+                        访问 <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- 实用工具 -->
     <section class="quick-nav-section">
         <h2 class="section-title">
@@ -482,6 +595,47 @@ description: "常用链接和工具导航"
 
 .nav-link-icon.ping {
     background: linear-gradient(135deg, #17a2b8, #20c997);
+    color: white;
+}
+
+/* AI工具品牌颜色 */
+.nav-link-icon.chatgpt {
+    background: linear-gradient(135deg, #10a37f, #1a7f64);
+    color: white;
+}
+
+.nav-link-icon.claude {
+    background: linear-gradient(135deg, #d4763a, #c65c2a);
+    color: white;
+}
+
+.nav-link-icon.midjourney {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white;
+}
+
+.nav-link-icon.perplexity {
+    background: linear-gradient(135deg, #20bcc0, #1aa5a9);
+    color: white;
+}
+
+.nav-link-icon.copilot {
+    background: linear-gradient(135deg, #24292e, #586069);
+    color: white;
+}
+
+.nav-link-icon.huggingface {
+    background: linear-gradient(135deg, #ff9a00, #ff7f00);
+    color: white;
+}
+
+.nav-link-icon.colab {
+    background: linear-gradient(135deg, #f9ab00, #e8710a);
+    color: white;
+}
+
+.nav-link-icon.cursor {
+    background: linear-gradient(135deg, #000000, #2d2d2d);
     color: white;
 }
 
