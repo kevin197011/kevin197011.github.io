@@ -1,10 +1,24 @@
 {% if site.google_analytics %}
-<!-- Google Analytics -->
+<!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+
+  // 默认同意状态（可根据需要调整）
+  gtag('consent', 'default', {
+    'analytics_storage': 'granted',
+    'ad_storage': 'denied'
+  });
+
   gtag('js', new Date());
-  gtag('config', '{{ site.google_analytics }}');
+  gtag('config', '{{ site.google_analytics }}', {
+    // 匿名IP
+    'anonymize_ip': true,
+    // 尊重Do Not Track
+    'allow_google_signals': false,
+    // 禁用广告功能
+    'allow_ad_personalization_signals': false
+  });
 </script>
 {% endif %}

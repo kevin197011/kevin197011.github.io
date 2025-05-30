@@ -1,0 +1,71 @@
+{% if site.google_analytics %}
+<!-- Analytics Privacy Notice -->
+<div class="analytics-privacy-notice" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--bg-card, #1a1a1a);
+  color: var(--text-primary, #e0e0e0);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  max-width: 350px;
+  font-size: 14px;
+  line-height: 1.4;
+  z-index: 1000;
+  display: none;
+" id="privacy-notice">
+  <p style="margin: 0 0 10px 0;">
+    <strong>🍪 Analytics Notice</strong><br>
+    本站使用 Google Analytics 来分析访问情况，已启用隐私保护模式。
+  </p>
+  <div style="display: flex; gap: 10px;">
+    <button onclick="acceptAnalytics()" style="
+      background: var(--primary-color, #00ff88);
+      color: var(--bg-primary, #000);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    ">了解</button>
+    <button onclick="hidePrivacyNotice()" style="
+      background: transparent;
+      color: var(--text-secondary, #999);
+      border: 1px solid var(--text-secondary, #999);
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    ">关闭</button>
+  </div>
+</div>
+
+<script>
+function acceptAnalytics() {
+  if (typeof gtag !== 'undefined') {
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted'
+    });
+  }
+  localStorage.setItem('analytics_consent', 'granted');
+  hidePrivacyNotice();
+}
+
+function hidePrivacyNotice() {
+  document.getElementById('privacy-notice').style.display = 'none';
+  localStorage.setItem('privacy_notice_shown', 'true');
+}
+
+// 检查是否需要显示隐私通知
+document.addEventListener('DOMContentLoaded', function() {
+  const noticeShown = localStorage.getItem('privacy_notice_shown');
+  if (!noticeShown) {
+    setTimeout(() => {
+      document.getElementById('privacy-notice').style.display = 'block';
+    }, 2000);
+  }
+});
+</script>
+{% endif %}

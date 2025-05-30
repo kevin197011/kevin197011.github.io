@@ -62,7 +62,7 @@ collections:
     permalink: /:collection/:path/
 
 # SEO和分析
-google_analytics: # 添加你的Google Analytics ID
+google_analytics: G-49HKC1ECQ7 # 添加你的Google Analytics ID
 google_site_verification: # 添加Google站点验证代码
 
 # 社交媒体
