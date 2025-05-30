@@ -61,6 +61,7 @@
 .fa-file-alt::before { content: "\f15c"; }
 .fa-bolt::before { content: "\f0e7"; }
 .fa-search::before { content: "\f002"; }
+.fa-chart-bar::before { content: "\f080"; }
 .fa-tags::before { content: "\f02c"; }
 .fa-tag::before { content: "\f02b"; }
 .fa-archive::before { content: "\f187"; }
@@ -75,6 +76,8 @@
 .fa-times::before { content: "\f00d"; }
 .fa-copy::before { content: "\f0c5"; }
 .fa-check::before { content: "\f00c"; }
+.fa-percentage::before { content: "\f295"; }
+.fa-coins::before { content: "\f51e"; }
 
 /* 系统状态图标 */
 .fa-list::before { content: "\f03a"; }

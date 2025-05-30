@@ -248,6 +248,8 @@ layout: default
                                 <i class="fas fa-network-wired"></i>
                             {% when 'System' %}
                                 <i class="fas fa-server"></i>
+                            {% when "金融科技" %}
+                                <i class="fas fa-chart-bar"></i>
                             {% else %}
                                 <i class="fas fa-code"></i>
                         {% endcase %}
@@ -443,7 +445,7 @@ layout: default
                             {% assign icon_class = "fas fa-anchor" %}
                             {% assign category = "devops" %}
                         {% when 'monitoring' or '监控' %}
-                            {% assign icon_class = "fas fa-chart-line" %}
+                            {% assign icon_class = "fas fa-chart-bar" %}
                             {% assign category = "devops" %}
                         {% when 'logging' or '日志' %}
                             {% assign icon_class = "fas fa-file-alt" %}

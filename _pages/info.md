@@ -286,7 +286,7 @@ description: "实时汇率和数字货币价格信息"
     <!-- 市场概览 -->
     <section class="market-overview">
         <h2 class="section-title">
-            <i class="fas fa-chart-line"></i>
+            <i class="fas fa-chart-bar"></i>
             市场概览
         </h2>
         <div class="overview-grid">
