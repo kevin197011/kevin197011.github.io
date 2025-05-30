@@ -57,7 +57,7 @@ layout: default
                 <div class="mermaid">{{ page.diagram }}</div>
             </div>
         </div>
-        {% endif %}
+                        {% endif %}
 
         <!-- 阅读进度条 -->
         <div class="reading-progress">
@@ -129,8 +129,8 @@ layout: default
                 <span>上一篇</span>
             </div>
             <div class="nav-title">{{ page.previous.title | truncate: 40 }}</div>
-        </a>
-        {% endif %}
+                        </a>
+                    {% endif %}
 
         <a href="{{ '/' | relative_url }}" class="nav-link nav-home" title="返回首页">
             <div class="nav-icon">
@@ -146,8 +146,8 @@ layout: default
                 <i class="fas fa-chevron-right"></i>
             </div>
             <div class="nav-title">{{ page.next.title | truncate: 40 }}</div>
-        </a>
-        {% endif %}
+                        </a>
+                    {% endif %}
     </nav>
 
     <!-- 相关文章 -->
@@ -176,7 +176,7 @@ layout: default
         </div>
     </section>
     {% endif %}
-</div>
+            </div>
 
 <!-- 架构图样式 -->
 <style>
@@ -347,7 +347,7 @@ html.light .diagram-content {
 </style>
 
 <!-- 文章页面脚本 -->
-<script>
+            <script>
 document.addEventListener('DOMContentLoaded', function() {
     // 生成目录
     generateTOC();
@@ -640,7 +640,7 @@ function toggleDiagram() {
         toggleBtn.className = 'fas fa-eye-slash';
     }
 }
-</script>
+            </script>
 
 <!-- Mermaid.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>

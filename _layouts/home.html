@@ -198,7 +198,7 @@ layout: default
                     </h3>
                     {% if post.excerpt %}
                         <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
-                    {% endif %}
+        {% endif %}
                 </div>
 
                 <div class="post-card-footer">
@@ -215,7 +215,7 @@ layout: default
                 </div>
             </article>
             {% endfor %}
-        </div>
+                </div>
 
         <div class="section-footer">
             <a href="/archive" class="view-all-btn">
