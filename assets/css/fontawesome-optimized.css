@@ -62,6 +62,7 @@
 .fa-bolt::before { content: "\f0e7"; }
 .fa-search::before { content: "\f002"; }
 .fa-chart-bar::before { content: "\f080"; }
+.fa-compass::before { content: "\f14e"; }
 .fa-tags::before { content: "\f02c"; }
 .fa-tag::before { content: "\f02b"; }
 .fa-archive::before { content: "\f187"; }
@@ -78,6 +79,13 @@
 .fa-check::before { content: "\f00c"; }
 .fa-percentage::before { content: "\f295"; }
 .fa-coins::before { content: "\f51e"; }
+.fa-graduation-cap::before { content: "\f19d"; }
+.fa-book::before { content: "\f02d"; }
+.fa-dev::before { content: "\f6cc"; }
+.fa-palette::before { content: "\f53f"; }
+.fa-rocket::before { content: "\f135"; }
+.fa-heartbeat::before { content: "\f21e"; }
+.fa-satellite::before { content: "\f7bf"; }
 
 /* 系统状态图标 */
 .fa-list::before { content: "\f03a"; }
@@ -117,6 +125,10 @@
 .fa-python::before { content: "\f3e2"; }
 .fa-github::before { content: "\f09b"; }
 .fa-windows::before { content: "\f17a"; }
+.fa-microsoft::before { content: "\f3ca"; }
+.fa-google::before { content: "\f1a0"; }
+.fa-stack-overflow::before { content: "\f16c"; }
+.fa-free-code-camp::before { content: "\f2c5"; }
 
 /* 特殊图标和动画 */
 .fa-circle-o-notch::before { content: "\f1ce"; }
@@ -128,6 +140,9 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.fa-exclamation-triangle::before { content: "\f071"; }
+.fa-chart-line::before { content: "\f201"; }
 
 /* 尺寸类 - 只保留常用的 */
 .fa-xs { font-size: 0.75em; line-height: 0.08333em; vertical-align: 0.125em; }
@@ -174,3 +189,11 @@
     height: 1em;
     vertical-align: -0.125em;
 }
+
+/* 货币图标 */
+.fa-dollar-sign::before { content: "\f155"; }
+.fa-yen-sign::before { content: "\f157"; }
+.fa-euro-sign::before { content: "\f153"; }
+.fa-pound-sign::before { content: "\f154"; }
+.fa-bitcoin::before { content: "\f379"; }
+.fa-ethereum::before { content: "\f42e"; }
