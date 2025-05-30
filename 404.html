@@ -5,423 +5,267 @@ permalink: /404.html
 sitemap: false
 ---
 
-<style type="text/css">
-.error-container {
-    min-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
-    position: relative;
-    overflow: hidden;
+<div class="home-page">
+    <!-- 404错误终端 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span class="btn-close"></span>
+                        <span class="btn-minimize"></span>
+                        <span class="btn-maximize"></span>
+                    </div>
+                    <div class="terminal-title">kk@wiki:~$ error 404</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-line">
+                        <span class="prompt">kk@wiki:~$</span>
+                        <span class="command">ls {{ page.url }}</span>
+                    </div>
+                    <div class="terminal-output">
+                        <div class="error-message">
+                            <p class="error-text">ls: cannot access '{{ page.url }}': No such file or directory</p>
+                            <p>> 错误代码: <span class="highlight">404</span></p>
+                            <p>> 请求路径: <span class="highlight">{{ page.url }}</span></p>
+                            <p>> 状态: <span class="error-highlight">文件未找到</span></p>
+                        </div>
+                        <div class="cursor-blink">_</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 快速恢复选项 -->
+    <section class="quick-nav-section">
+        <h2 class="section-title">
+            <i class="fas fa-tools"></i>
+            快速恢复
+        </h2>
+        <div class="quick-nav-grid">
+            <div class="nav-card">
+                <div class="nav-card-content">
+                    <div class="nav-card-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="nav-card-text">
+                        <h3>返回首页</h3>
+                        <p>回到网站主页</p>
+                        <a href="{{ '/' | relative_url }}" class="nav-card-link">cd ~/ <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-card">
+                <div class="nav-card-content">
+                    <div class="nav-card-icon">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <div class="nav-card-text">
+                        <h3>返回上页</h3>
+                        <p>回到之前的页面</p>
+                        <a href="javascript:history.back()" class="nav-card-link">history -1 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-card">
+                <div class="nav-card-content">
+                    <div class="nav-card-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="nav-card-text">
+                        <h3>搜索内容</h3>
+                        <p>查找您需要的内容</p>
+                        <a href="#" class="nav-card-link" onclick="openSearchModal()">grep -r <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-card">
+                <div class="nav-card-content">
+                    <div class="nav-card-icon">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <div class="nav-card-text">
+                        <h3>浏览文档</h3>
+                        <p>查看所有可用文档</p>
+                        <a href="{{ '/archive' | relative_url }}" class="nav-card-link">ls -la <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 系统建议 -->
+    <section class="system-status-section">
+        <h2 class="section-title">
+            <i class="fas fa-lightbulb"></i>
+            系统建议
+        </h2>
+        <div class="status-grid">
+            {% assign popular_categories = site.categories | sort %}
+            {% for category in popular_categories limit:4 %}
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-folder"></i>
+                    <span>{{ category[0] }}</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">{{ category[1].size }}</span>
+                    <span class="metric-label">篇文档</span>
+                </div>
+                <a href="{{ '/categories' | relative_url }}#category-{{ category[0] | slugify }}" class="status-link"></a>
+            </div>
+            {% endfor %}
+
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-tags"></i>
+                    <span>标签索引</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">{{ site.tags.size }}</span>
+                    <span class="metric-label">个标签</span>
+                </div>
+                <a href="{{ '/tags' | relative_url }}" class="status-link"></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 搜索框 -->
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-header">
+                <h3>快速搜索</h3>
+            </div>
+            <div class="search-box-wrapper">
+                <input type="text" id="error-search" class="search-input" placeholder="输入搜索关键词..." />
+                <button onclick="performSearch()" class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="search-shortcuts">
+                <span>快捷键: <kbd>Ctrl</kbd> + <kbd>K</kbd> 打开搜索</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+/* 404页面特定样式 */
+.error-message {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    line-height: 1.6;
 }
 
-.error-container::before {
-    content: '';
+.error-text {
+    color: var(--error-color, #ff6b6b);
+    font-weight: 500;
+    margin-bottom: var(--spacing-md);
+}
+
+.error-highlight {
+    color: var(--error-color, #ff6b6b);
+}
+
+.search-section {
+    margin-top: var(--spacing-xl);
+}
+
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.search-header h3 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.25rem;
+}
+
+.search-header p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.search-box-wrapper {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.search-input {
+    flex: 1;
+    padding: var(--spacing-md);
+    background: var(--bg-card);
+    border: 1px solid var(--border-secondary);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    transition: border-color var(--transition-fast);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+}
+
+.search-btn {
+    padding: var(--spacing-md);
+    background: var(--accent-green);
+    border: none;
+    border-radius: 8px;
+    color: var(--bg-primary);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    min-width: 50px;
+}
+
+.search-btn:hover {
+    background: var(--accent-blue);
+}
+
+.search-shortcuts {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.search-shortcuts kbd {
+    background: var(--bg-tertiary);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-link {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-    opacity: 0.3;
-    z-index: -1;
-}
-
-.error-code {
-    font-size: 8rem;
-    font-weight: 900;
-    background: linear-gradient(45deg, #00ff88, #00d4ff, #ff6b6b);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradientShift 3s ease-in-out infinite;
-    margin: 0;
-    line-height: 1;
-    text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-}
-
-.error-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 1rem 0;
-    animation: glow 2s ease-in-out infinite alternate;
-}
-
-.error-description {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    margin: 1rem 0 2rem;
-    max-width: 600px;
-    line-height: 1.6;
-}
-
-.error-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    margin: 2rem 0;
-}
-
-.error-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.5rem;
-    border: 2px solid var(--accent-primary);
-    background: transparent;
-    color: var(--accent-primary);
-    text-decoration: none;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.error-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.error-btn:hover::before {
-    left: 100%;
-}
-
-.error-btn:hover {
-    background: var(--accent-primary);
-    color: var(--bg-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
-}
-
-.error-btn.primary {
-    background: var(--accent-primary);
-    color: var(--bg-primary);
-}
-
-.error-btn.primary:hover {
-    background: var(--accent-secondary);
-    border-color: var(--accent-secondary);
-}
-
-.suggestions {
-    margin-top: 3rem;
-    max-width: 800px;
-}
-
-.suggestions h3 {
-    color: var(--text-primary);
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.suggestion-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.suggestion-item {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.suggestion-item:hover {
-    border-color: var(--accent-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
-}
-
-.suggestion-item a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.suggestion-item h4 {
-    color: var(--accent-primary);
-    margin: 0 0 0.5rem 0;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.suggestion-item p {
-    color: var(--text-secondary);
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-.floating-elements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-}
-
-.floating-element {
-    position: absolute;
-    background: rgba(0, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: float 6s ease-in-out infinite;
-}
-
-.floating-element:nth-child(1) {
-    width: 80px;
-    height: 80px;
-    top: 20%;
-    left: 10%;
-    animation-delay: 0s;
-}
-
-.floating-element:nth-child(2) {
-    width: 60px;
-    height: 60px;
-    top: 60%;
-    right: 15%;
-    animation-delay: 2s;
-}
-
-.floating-element:nth-child(3) {
-    width: 100px;
-    height: 100px;
-    bottom: 20%;
-    left: 20%;
-    animation-delay: 4s;
-}
-
-.search-suggestion {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: rgba(0, 255, 255, 0.05);
-    border: 1px solid rgba(0, 255, 255, 0.2);
-    border-radius: 0.5rem;
-    backdrop-filter: blur(10px);
-}
-
-.search-box {
-    display: flex;
-    margin-top: 1rem;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.search-input {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    border: 1px solid var(--border-color);
-    border-right: none;
-    border-radius: 0.5rem 0 0 0.5rem;
-    background: var(--input-bg);
-    color: var(--text-primary);
-    font-size: 1rem;
-}
-
-.search-input:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-}
-
-.search-btn {
-    padding: 0.8rem 1rem;
-    background: var(--accent-primary);
-    color: var(--bg-primary);
-    border: 1px solid var(--accent-primary);
-    border-radius: 0 0.5rem 0.5rem 0;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.search-btn:hover {
-    background: var(--accent-secondary);
-}
-
-/* 动画 */
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-@keyframes glow {
-    from { text-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
-    to { text-shadow: 0 0 20px rgba(0, 255, 255, 0.6); }
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    33% { transform: translateY(-20px) rotate(120deg); }
-    66% { transform: translateY(10px) rotate(240deg); }
+    z-index: 2;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-    .error-code {
-        font-size: 6rem;
-    }
-
-    .error-title {
-        font-size: 2rem;
-    }
-
-    .error-description {
-        font-size: 1rem;
-    }
-
-    .error-actions {
+    .search-box-wrapper {
         flex-direction: column;
-        align-items: center;
     }
 
-    .suggestion-list {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .error-code {
-        font-size: 4rem;
-    }
-
-    .error-title {
-        font-size: 1.5rem;
-    }
-
-    .error-container {
-        padding: 1rem;
+    .search-btn {
+        align-self: center;
+        min-width: 120px;
     }
 }
 </style>
-
-<div class="error-container">
-    <!-- 浮动装饰元素 -->
-    <div class="floating-elements">
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-    </div>
-
-    <!-- 错误代码 -->
-    <h1 class="error-code">404</h1>
-
-    <!-- 错误标题 -->
-    <h2 class="error-title">
-        <i class="fas fa-exclamation-triangle"></i>
-        页面迷路了
-    </h2>
-
-    <!-- 错误描述 -->
-    <p class="error-description">
-        抱歉，您访问的页面似乎已经消失在数字世界的某个角落。<br>
-        也许它正在另一个维度等待被发现，或者只是需要重新编译。
-    </p>
-
-    <!-- 操作按钮 -->
-    <div class="error-actions">
-        <a href="{{ '/' | relative_url }}" class="error-btn primary">
-            <i class="fas fa-home"></i>
-            返回首页
-        </a>
-        <a href="javascript:history.back()" class="error-btn">
-            <i class="fas fa-arrow-left"></i>
-            返回上页
-        </a>
-        <a href="{{ '/search' | relative_url }}" class="error-btn">
-            <i class="fas fa-search"></i>
-            搜索内容
-        </a>
-    </div>
-
-    <!-- 搜索建议 -->
-    <div class="search-suggestion">
-        <h3>
-            <i class="fas fa-lightbulb"></i>
-            尝试搜索您需要的内容
-        </h3>
-        <div class="search-box">
-            <input type="text" class="search-input" placeholder="输入关键词搜索..." id="error-search">
-            <button class="search-btn" onclick="performSearch()">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- 建议内容 -->
-    <div class="suggestions">
-        <h3>
-            <i class="fas fa-compass"></i>
-            您可能感兴趣的内容
-        </h3>
-        <div class="suggestion-list">
-            <div class="suggestion-item">
-                <a href="{{ '/' | relative_url }}">
-                    <h4>
-                        <i class="fas fa-home"></i>
-                        首页
-                    </h4>
-                    <p>浏览最新的技术文章和教程</p>
-                </a>
-            </div>
-            <div class="suggestion-item">
-                <a href="{{ '/archive' | relative_url }}">
-                    <h4>
-                        <i class="fas fa-archive"></i>
-                        文章归档
-                    </h4>
-                    <p>按时间顺序查看所有文章</p>
-                </a>
-            </div>
-            <div class="suggestion-item">
-                <a href="{{ '/tags' | relative_url }}">
-                    <h4>
-                        <i class="fas fa-tags"></i>
-                        标签云
-                    </h4>
-                    <p>通过标签快速找到相关内容</p>
-                </a>
-            </div>
-            {% assign categories_array = site.categories | sort %}
-            {% for category in categories_array limit:3 %}
-            <div class="suggestion-item">
-                <a href="#" onclick="searchByCategory('{{ category[0] }}')">
-                    <h4>
-                        <i class="fas fa-folder-open"></i>
-                        {{ category[0] }}
-                    </h4>
-                    <p>共 {{ category[1].size }} 篇文章</p>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
 
 <script>
 // 搜索功能
@@ -431,36 +275,61 @@ function performSearch() {
 
     if (query) {
         // 如果有搜索页面，跳转到搜索页面
-        window.location.href = `{{ '/search' | relative_url }}?q=${encodeURIComponent(query)}`;
+        if (typeof openSearchModal === 'function') {
+            openSearchModal();
+            // 设置搜索词
+            setTimeout(() => {
+                const modalInput = document.getElementById('modal-search-input');
+                if (modalInput) {
+                    modalInput.value = query;
+                    modalInput.dispatchEvent(new Event('input'));
+                }
+            }, 100);
+        } else {
+            // 简单的页面搜索或跳转到Google搜索
+            window.location.href = `https://www.google.com/search?q=site:${window.location.hostname} ${encodeURIComponent(query)}`;
+        }
+    } else {
+        searchInput.focus();
     }
 }
 
-// 按分类搜索
-function searchByCategory(category) {
-    window.location.href = `{{ '/search' | relative_url }}?category=${encodeURIComponent(category)}`;
-}
+// 键盘快捷键
+document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT') return;
 
-// 回车搜索
-document.getElementById('error-search').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        performSearch();
+    switch(e.key.toLowerCase()) {
+        case 'h':
+            window.location.href = '{{ "/" | relative_url }}';
+            break;
+        case 'b':
+            history.back();
+            break;
+    }
+
+    // Ctrl+K 搜索
+    if (e.ctrlKey && e.key === 'k') {
+        e.preventDefault();
+        if (typeof openSearchModal === 'function') {
+            openSearchModal();
+        } else {
+            document.getElementById('error-search').focus();
+        }
     }
 });
 
-// 页面加载动画
+// 搜索框回车事件
 document.addEventListener('DOMContentLoaded', function() {
-    // 添加加载动画
-    const container = document.querySelector('.error-container');
-    container.style.opacity = '0';
-    container.style.transform = 'translateY(20px)';
+    const searchInput = document.getElementById('error-search');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
 
-    setTimeout(() => {
-        container.style.transition = 'all 0.6s ease';
-        container.style.opacity = '1';
-        container.style.transform = 'translateY(0)';
-    }, 100);
-
-    // 统计404错误（可选）
+    // 统计404错误
     if (typeof gtag !== 'undefined') {
         gtag('event', 'page_view', {
             'page_title': '404 Error',
@@ -468,9 +337,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-// 自动聚焦搜索框
-setTimeout(() => {
-    document.getElementById('error-search').focus();
-}, 1000);
 </script>
