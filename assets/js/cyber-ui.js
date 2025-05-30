@@ -1326,3 +1326,22 @@ function setupMobileSidebar() {
         }
     });
 }
+
+// 全局搜索函数，供外部调用
+function openSearchModal() {
+    if (window.cyberUI) {
+        window.cyberUI.openSearchModal();
+    }
+}
+
+// 全局关闭搜索函数
+function closeSearchModal() {
+    if (window.cyberUI) {
+        window.cyberUI.closeSearchModal();
+    }
+}
+
+// 快捷键函数，供外部调用
+function triggerSearch() {
+    openSearchModal();
+}
