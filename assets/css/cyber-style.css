@@ -364,7 +364,98 @@ body {
     height: 100vh;
     z-index: 100;
     backdrop-filter: blur(10px);
-    transition: transform var(--transition-normal);
+    transition: width var(--transition-normal), transform var(--transition-normal);
+}
+
+/* 侧边栏收起状态 */
+.sidebar.collapsed {
+    width: 60px;
+    border-right: 3px solid var(--accent-green);
+}
+
+.sidebar.collapsed .sidebar-header {
+    padding: var(--spacing-md) var(--spacing-sm);
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+.sidebar.collapsed .site-title,
+.sidebar.collapsed .nav-header span,
+.sidebar.collapsed .nav-link span,
+.sidebar.collapsed .post-count,
+.sidebar.collapsed .kbd,
+.sidebar.collapsed .external-icon,
+.sidebar.collapsed .expand-icon,
+.sidebar.collapsed .sub-nav-list {
+    display: none;
+}
+
+/* 收起状态下保留底部状态，但简化显示 */
+.sidebar.collapsed .sidebar-footer {
+    padding: var(--spacing-sm);
+    text-align: center;
+}
+
+.sidebar.collapsed .status-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.sidebar.collapsed .status-item {
+    justify-content: center;
+}
+
+.sidebar.collapsed .status-text {
+    display: none;
+}
+
+.sidebar.collapsed .status-dot {
+    margin: 0;
+}
+
+.sidebar.collapsed .nav-link {
+    justify-content: center;
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+    position: relative;
+}
+
+.sidebar.collapsed .nav-link i {
+    margin-right: 0;
+    font-size: 1.1rem;
+}
+
+.sidebar.collapsed .sidebar-toggle {
+    transform: none;
+    background: var(--bg-hover);
+    border-radius: 6px;
+}
+
+.sidebar.collapsed .sidebar-toggle i {
+    transform: rotate(0deg);
+    color: var(--accent-green);
+    font-size: 1.2rem;
+}
+
+.sidebar.collapsed .logo-section {
+    justify-content: center;
+}
+
+.sidebar.collapsed .terminal-icon {
+    margin: 0;
+    animation: pulse 3s infinite;
+}
+
+/* 收起状态下的导航项悬停效果 */
+.sidebar.collapsed .nav-link:hover {
+    transform: none;
+    background: var(--bg-hover);
+}
+
+.sidebar.collapsed .nav-link:hover i {
+    color: var(--accent-green);
+    transform: scale(1.1);
 }
 
 .sidebar-header {
@@ -448,6 +539,10 @@ body {
 .sidebar-toggle:hover {
     color: var(--accent-green);
     background: var(--bg-hover);
+}
+
+.sidebar-toggle i {
+    transition: var(--transition-fast);
 }
 
 /* 导航样式 */
@@ -622,6 +717,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    transition: margin-left var(--transition-normal);
 }
 
 /* 顶部工具栏 */
@@ -1619,19 +1715,60 @@ body,
 
 /* ============= 专注模式样式 ============= */
 .zen-mode {
-    overflow: hidden;
+    /* 移除 overflow: hidden; 以允许页面滚动 */
+    /* 可以添加其他专注模式的样式优化 */
 }
 
 .zen-mode .main-content {
     margin-left: 0 !important;
     width: 100% !important;
     transition: margin-left var(--transition-normal), width var(--transition-normal);
+    /* 确保专注模式下有足够的内边距 */
+    padding: 0 var(--spacing-md) !important;
 }
 
 .zen-mode .content-wrapper {
     max-width: 100% !important;
     padding: var(--spacing-xl) var(--spacing-lg) !important;
     margin: 0 auto;
+    /* 限制内容最大宽度，提供更好的阅读体验 */
+    max-width: 1200px !important;
+}
+
+/* 专注模式下优化文章内容显示 */
+.zen-mode .post-page {
+    max-width: 100% !important;
+}
+
+.zen-mode .post-header {
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+}
+
+.zen-mode .post-title {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+.zen-mode .article-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 专注模式下的代码块优化 */
+.zen-mode .article-content pre {
+    font-size: 0.95rem;
+    margin: var(--spacing-xl) calc(-1 * var(--spacing-md));
+    border-radius: 8px;
+}
+
+/* 专注模式下隐藏干扰元素 */
+.zen-mode .post-toc,
+.zen-mode .post-navigation,
+.zen-mode .related-posts {
+    display: none !important;
 }
 
 /* 专注模式下的背景效果增强 */
@@ -1660,14 +1797,44 @@ body,
 
 /* 专注模式响应式适配 */
 @media (max-width: 768px) {
+    .zen-mode .main-content {
+        padding: 0 var(--spacing-sm) !important;
+    }
+
     .zen-mode .content-wrapper {
         padding: var(--spacing-md) var(--spacing-sm) !important;
+        max-width: 100% !important;
+    }
+
+    .zen-mode .post-title {
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+
+    .zen-mode .article-content {
+        font-size: 1rem;
+        line-height: 1.7;
+        max-width: 100%;
+    }
+
+    .zen-mode .article-content pre {
+        margin: var(--spacing-lg) calc(-1 * var(--spacing-sm));
+        font-size: 0.85rem;
     }
 }
 
 @media (max-width: 480px) {
     .zen-mode .content-wrapper {
         padding: var(--spacing-sm) var(--spacing-xs) !important;
+    }
+
+    .zen-mode .post-title {
+        font-size: 1.6rem;
+    }
+
+    .zen-mode .article-content {
+        font-size: 0.95rem;
+        line-height: 1.65;
     }
 }
 
@@ -1800,4 +1967,55 @@ body,
         font-size: 0.8rem;
         padding: var(--spacing-xs) var(--spacing-sm);
     }
+}
+
+/* 收起状态下的底部展开指示器 */
+.sidebar.collapsed .sidebar-footer::after {
+    content: '';
+    display: block;
+    width: 2px;
+    height: 20px;
+    background: var(--accent-green);
+    margin: var(--spacing-sm) auto var(--spacing-xs);
+    border-radius: 1px;
+    animation: expandHint 2s ease-in-out infinite;
+}
+
+@keyframes expandHint {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scaleY(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scaleY(1.2);
+    }
+}
+
+/* 收起状态下的工具提示 */
+.sidebar.collapsed .nav-link::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+    margin-left: var(--spacing-sm);
+    border: 1px solid var(--border-primary);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-fast), visibility var(--transition-fast);
+}
+
+.sidebar.collapsed .nav-link:hover::before {
+    opacity: 1;
+    visibility: visible;
 }

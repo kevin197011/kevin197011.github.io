@@ -59,10 +59,23 @@ class CyberUI {
         const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
         const sidebar = document.getElementById('sidebar');
 
+        console.log('CyberUI: Setting up sidebar...', { sidebarToggle, mobileSidebarToggle, sidebar });
+
         if (sidebarToggle) {
-            sidebarToggle.addEventListener('click', () => {
+            sidebarToggle.addEventListener('click', (e) => {
+                e.preventDefault();
                 sidebar.classList.toggle('collapsed');
                 this.updateMainContentMargin();
+
+                // 更新按钮图标和标题
+                const icon = sidebarToggle.querySelector('i');
+                if (sidebar.classList.contains('collapsed')) {
+                    icon.className = 'fas fa-chevron-right';
+                    sidebarToggle.title = '展开侧边栏';
+                } else {
+                    icon.className = 'fas fa-bars';
+                    sidebarToggle.title = '收起侧边栏';
+                }
             });
         }
 
@@ -92,6 +105,9 @@ class CyberUI {
             }
             this.updateMainContentMargin();
         });
+
+        // 初始化时设置正确的边距
+        this.updateMainContentMargin();
     }
 
     updateMainContentMargin() {
