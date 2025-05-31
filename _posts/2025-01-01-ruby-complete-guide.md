@@ -2,7 +2,7 @@
 layout: post
 title: "Ruby 完全学习指南：从入门到高级实战"
 date: 2025-01-01 20:00:00 +0800
-category: dev
+category: Dev
 tags: [Ruby, 编程语言, Web开发, Rails, 后端开发]
 author: Kk
 excerpt: "全面掌握Ruby编程语言，从基础语法到高级特性，包含实战项目和最佳实践"
