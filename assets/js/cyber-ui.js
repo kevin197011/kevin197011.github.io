@@ -13,7 +13,6 @@ class CyberUI {
         this.setupSearch();
         this.setupScrollEffects();
         this.setupKeyboardShortcuts();
-        this.setupThemeToggle();
         this.setupCategoryToggles();
         this.setupFloatingActions();
         this.setupTypingEffect();
@@ -21,12 +20,10 @@ class CyberUI {
         this.setupLazyLoading();
         this.enhanceCodeBlocks();
         this.initializePerformanceMonitor();
+        this.setupThemeToggle();
 
         // 移动端特定功能
         setupMobileSidebar();
-
-        // 页面加载完成提示
-        console.log('🚀 KkWiki 系统已启动');
     }
 
     // 侧边栏功能
@@ -372,8 +369,24 @@ class CyberUI {
                 this.openSearchModal();
             }
 
-            // Escape - 关闭搜索
+            // Ctrl/Cmd + Shift + T - 切换主题
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'T') {
+                e.preventDefault();
+                this.toggleTheme();
+            }
+
+            // Escape - 退出专注模式或关闭搜索
             if (e.key === 'Escape') {
+                e.preventDefault();
+
+                // 优先检查是否在专注模式中，如果是则退出专注模式
+                if (document.body.classList.contains('zen-mode')) {
+                    this.toggleZenMode();
+                    this.showToast('已退出专注模式', 'info');
+                    return;
+                }
+
+                // 如果不在专注模式中，则关闭搜索模态框
                 this.closeSearchModal();
             }
 
@@ -381,144 +394,7 @@ class CyberUI {
             if (document.getElementById('search-modal').classList.contains('open')) {
                 this.handleSearchNavigation(e);
             }
-
-            // Ctrl/Cmd + Shift + T - 切换主题
-            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'T') {
-                e.preventDefault();
-                this.toggleTheme();
-            }
-
-            // Alt + T - 快速切换主题
-            if (e.altKey && e.key === 't') {
-                e.preventDefault();
-                this.toggleTheme();
-            }
         });
-    }
-
-    // 主题切换
-    setupThemeToggle() {
-        const themeToggle = document.getElementById('theme-toggle');
-
-        if (themeToggle) {
-            themeToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.toggleTheme();
-            });
-        }
-
-        // 恢复主题设置
-        this.restoreTheme();
-
-        // 监听系统主题变化
-        this.watchSystemTheme();
-    }
-
-    toggleTheme() {
-        const html = document.documentElement;
-        const currentTheme = html.classList.contains('light') ? 'light' : 'dark';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-        // 添加过渡动画类
-        html.classList.add('theme-transitioning');
-
-        // 切换主题
-        html.classList.remove(currentTheme);
-        html.classList.add(newTheme);
-
-        // 保存到localStorage
-        localStorage.setItem('theme', newTheme);
-
-        // 更新主题切换按钮
-        this.updateThemeToggleButton(newTheme);
-
-        // 显示主题切换提示
-        this.showThemeChangeToast(newTheme);
-
-        // 移除过渡动画类
-        setTimeout(() => {
-            html.classList.remove('theme-transitioning');
-        }, 400);
-    }
-
-    updateThemeToggleButton(theme) {
-        const themeToggle = document.getElementById('theme-toggle');
-        if (!themeToggle) return;
-
-        const icon = themeToggle.querySelector('i');
-        const span = themeToggle.querySelector('span');
-
-        if (icon) {
-            icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
-        }
-
-        if (span) {
-            span.textContent = theme === 'dark' ? '暗色主题' : '亮色主题';
-        }
-
-        // 添加按钮动画效果
-        themeToggle.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            themeToggle.style.transform = '';
-        }, 150);
-    }
-
-    restoreTheme() {
-        // 检查用户保存的主题偏好
-        const savedTheme = localStorage.getItem('theme');
-        let theme = 'dark'; // 默认暗色主题
-
-        if (savedTheme) {
-            // 如果用户有明确的主题偏好，使用保存的设置
-            theme = savedTheme;
-        } else {
-            // 检测是否为移动设备
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-                             || window.innerWidth <= 768;
-
-            if (isMobile) {
-                // 移动设备强制使用暗色主题
-                theme = 'dark';
-            } else {
-                // 桌面设备检查系统主题偏好
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-                    theme = 'light';
-                }
-            }
-        }
-
-        // 应用主题
-        document.documentElement.classList.remove('light', 'dark');
-        document.documentElement.classList.add(theme);
-
-        // 更新按钮状态
-        this.updateThemeToggleButton(theme);
-    }
-
-    watchSystemTheme() {
-        // 监听系统主题变化（仅在用户没有手动设置时生效）
-        if (window.matchMedia) {
-            const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
-            mediaQuery.addEventListener('change', (e) => {
-                // 检测是否为移动设备
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-                                 || window.innerWidth <= 768;
-
-                // 只有在用户没有手动设置主题且不是移动设备时才跟随系统
-                if (!localStorage.getItem('theme') && !isMobile) {
-                    const newTheme = e.matches ? 'light' : 'dark';
-                    document.documentElement.classList.remove('light', 'dark');
-                    document.documentElement.classList.add(newTheme);
-                    this.updateThemeToggleButton(newTheme);
-                }
-            });
-        }
-    }
-
-    showThemeChangeToast(theme) {
-        const message = theme === 'dark' ? '已切换到暗色主题' : '已切换到亮色主题';
-        const icon = theme === 'dark' ? '🌙' : '☀️';
-        this.showToast(`${icon} ${message}`, 'success');
     }
 
     // 分类切换
@@ -574,7 +450,7 @@ class CyberUI {
     toggleFullscreen() {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen().catch(err => {
-                console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                // Error handling for fullscreen request
             });
         } else {
             document.exitFullscreen();
@@ -589,15 +465,19 @@ class CyberUI {
         const isZenMode = document.body.classList.contains('zen-mode');
 
         if (isZenMode) {
+            // 退出专注模式
             document.body.classList.remove('zen-mode');
             sidebar.style.display = '';
             topBar.style.display = '';
             floatingActions.style.display = '';
+            this.showToast('已退出专注模式', 'info');
         } else {
+            // 进入专注模式
             document.body.classList.add('zen-mode');
             sidebar.style.display = 'none';
             topBar.style.display = 'none';
             floatingActions.style.display = 'none';
+            this.showToast('已进入专注模式，按ESC键退出', 'info');
         }
     }
 
@@ -798,26 +678,16 @@ class CyberUI {
 
     // 性能监控
     initializePerformanceMonitor() {
-        // 监控页面加载性能
-        window.addEventListener('load', () => {
-            if ('performance' in window) {
-                const perfData = performance.timing;
-                const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+        // 性能监控
+        const loadTime = performance.now();
 
-                console.log(`KkWiki loaded in ${loadTime}ms`);
-
-                // 可以在这里发送性能数据到分析服务
-            }
-        });
-
-        // 监控内存使用（仅支持的浏览器）
-        if ('memory' in performance) {
-            setInterval(() => {
-                const memory = performance.memory;
-                if (memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.9) {
-                    console.warn('High memory usage detected');
-                }
-            }, 30000);
+        // 内存使用监控（如果支持）
+        if (performance.memory) {
+            const memoryInfo = {
+                used: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024),
+                total: Math.round(performance.memory.totalJSHeapSize / 1024 / 1024),
+                limit: Math.round(performance.memory.jsHeapSizeLimit / 1024 / 1024)
+            };
         }
     }
 
@@ -1148,6 +1018,96 @@ class CyberUI {
             style.id = 'line-numbers-style';
             document.head.appendChild(style);
         }
+    }
+
+    setupThemeToggle() {
+        const themeToggle = document.getElementById('theme-toggle');
+
+        if (!themeToggle) return;
+
+        // 从本地存储加载主题偏好
+        this.loadThemePreference();
+
+        // 监听主题切换按钮点击事件
+        themeToggle.addEventListener('click', () => {
+            this.toggleTheme();
+        });
+
+        // 监听系统主题变化
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', (e) => {
+            // 只有在用户没有手动设置主题时才跟随系统主题
+            if (!localStorage.getItem('theme-preference')) {
+                this.setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    }
+
+    loadThemePreference() {
+        // 优先级：本地存储 > 系统偏好 > 默认浅色
+        const savedTheme = localStorage.getItem('theme-preference');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        let theme = 'light'; // 默认主题
+
+        if (savedTheme) {
+            theme = savedTheme;
+        } else if (systemPrefersDark) {
+            theme = 'dark';
+        }
+
+        this.setTheme(theme);
+    }
+
+    toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+        this.setTheme(newTheme);
+
+        // 保存用户偏好到本地存储
+        localStorage.setItem('theme-preference', newTheme);
+
+        // 显示主题切换提示
+        this.showToast(`已切换到${newTheme === 'dark' ? '暗黑' : '浅色'}主题`, 'info');
+    }
+
+    setTheme(theme) {
+        // 添加切换类以进行平滑过渡
+        document.documentElement.classList.add('theme-switching');
+
+        // 设置HTML元素的data-theme属性
+        document.documentElement.setAttribute('data-theme', theme);
+
+        // 更新主题切换按钮的标题
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.setAttribute('title',
+                theme === 'dark' ? '切换到浅色模式 (Ctrl+Shift+T)' : '切换到暗黑模式 (Ctrl+Shift+T)'
+            );
+        }
+
+        // 更新meta theme-color（用于移动端浏览器主题色）
+        this.updateMetaThemeColor(theme);
+
+        // 移除切换类
+        setTimeout(() => {
+            document.documentElement.classList.remove('theme-switching');
+        }, 200);
+    }
+
+    updateMetaThemeColor(theme) {
+        let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+
+        if (!metaThemeColor) {
+            metaThemeColor = document.createElement('meta');
+            metaThemeColor.name = 'theme-color';
+            document.head.appendChild(metaThemeColor);
+        }
+
+        // 根据主题设置不同的颜色
+        const color = theme === 'dark' ? '#0f172a' : '#ffffff';
+        metaThemeColor.content = color;
     }
 }
 

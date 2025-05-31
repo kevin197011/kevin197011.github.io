@@ -1,7 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     {%- include head.html -%}
+
+    <!-- 主题预加载脚本，避免闪烁 -->
+    <script>
+        (function() {
+            // 从本地存储或系统偏好获取主题
+            const savedTheme = localStorage.getItem('theme-preference');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            let theme = 'light'; // 默认主题
+
+            if (savedTheme) {
+                theme = savedTheme;
+            } else if (systemPrefersDark) {
+                theme = 'dark';
+            }
+
+            // 立即设置主题属性
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 <body class="cyber-body">
     <div id="app-container" class="app-container">
@@ -120,7 +140,7 @@
                 <div class="nav-section">
                     <div class="nav-header">
                         <i class="fas fa-tools"></i>
-                        <span>工具</span>
+                        <span>其他</span>
                     </div>
                     <ul class="nav-list">
                         <li>
@@ -128,12 +148,6 @@
                                 <i class="fab fa-github"></i>
                                 <span>GitHub</span>
                                 <i class="fas fa-external-link-alt external-icon"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link" id="theme-toggle">
-                                <i class="fas fa-moon"></i>
-                                <span>暗色主题</span>
                             </a>
                         </li>
                     </ul>
@@ -182,10 +196,14 @@
                     </div>
 
                     <div class="top-actions">
+                        <button class="action-btn" id="theme-toggle" title="切换暗黑模式 (Ctrl+Shift+T)">
+                            <i class="fas fa-moon"></i>
+                            <i class="fas fa-sun"></i>
+                        </button>
                         <button class="action-btn" id="fullscreen-toggle" title="全屏模式">
                             <i class="fas fa-expand"></i>
                         </button>
-                        <button class="action-btn" id="zen-mode" title="专注模式">
+                        <button class="action-btn" id="zen-mode" title="专注模式 (ESC退出)">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>

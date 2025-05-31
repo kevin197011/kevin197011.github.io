@@ -183,7 +183,7 @@ layout: default
 /* 架构图区域 */
 .post-diagram {
     background: var(--bg-card);
-    border: 1px solid var(--border-secondary);
+    border: 1px solid var(--border-primary);
     border-radius: 8px;
     margin: var(--spacing-lg) 0;
     overflow: hidden;
@@ -201,7 +201,7 @@ layout: default
     justify-content: space-between;
     padding: var(--spacing-md) var(--spacing-lg);
     background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-secondary);
+    border-bottom: 1px solid var(--border-primary);
 }
 
 .diagram-title {
@@ -220,8 +220,8 @@ layout: default
 }
 
 .diagram-toggle {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-secondary);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
     color: var(--text-secondary);
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: 4px;
@@ -278,27 +278,27 @@ layout: default
     }
 }
 
-/* 亮色主题适配 */
-html.light .post-diagram {
+/* 亮色主题样式调整 */
+.post-diagram {
     background: var(--bg-card);
     border: 1px solid var(--border-primary);
 }
 
-html.light .diagram-header {
+.diagram-header {
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-primary);
 }
 
-html.light .diagram-toggle {
+.diagram-toggle {
     background: var(--bg-primary);
     border: 1px solid var(--border-primary);
 }
 
-html.light .diagram-toggle:hover {
+.diagram-toggle:hover {
     background: var(--bg-hover);
 }
 
-html.light .diagram-content {
+.diagram-content {
     background: var(--bg-primary);
 }
 
@@ -497,25 +497,10 @@ function showToast(message) {
 // 架构图功能
 function initializeDiagram() {
     if (typeof mermaid !== 'undefined') {
-        // 获取当前主题
-        const isDark = !document.documentElement.classList.contains('light');
-
         mermaid.initialize({
             startOnLoad: true,
-            theme: isDark ? 'dark' : 'default',
-            themeVariables: isDark ? {
-                darkMode: true,
-                primaryColor: '#00d4ff',
-                primaryTextColor: '#ffffff',
-                primaryBorderColor: '#00ff88',
-                lineColor: '#555555',
-                secondaryColor: '#1a1a1a',
-                tertiaryColor: '#333333',
-                background: '#0a0a0a',
-                mainBkg: '#1a1a1a',
-                secondBkg: '#2a2a2a',
-                tertiaryBkg: '#3a3a3a'
-            } : {
+            theme: 'default',
+            themeVariables: {
                 primaryColor: '#0066cc',
                 primaryTextColor: '#000000',
                 primaryBorderColor: '#0066cc',
@@ -544,49 +529,22 @@ function initializeDiagram() {
                 messageMargin: 35
             },
             gitgraph: {
-                theme: isDark ? 'dark' : 'base',
+                theme: 'base',
                 themeVariables: {
-                    primaryColor: isDark ? '#00d4ff' : '#0066cc',
-                    primaryTextColor: isDark ? '#ffffff' : '#000000'
+                    primaryColor: '#0066cc',
+                    primaryTextColor: '#000000'
                 }
             }
-        });
-
-        // 监听主题变化
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    const isDark = !document.documentElement.classList.contains('light');
-                    updateMermaidTheme(isDark);
-                }
-            });
-        });
-
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['class']
         });
     }
 }
 
-function updateMermaidTheme(isDark) {
+function updateMermaidTheme() {
+    // 移除主题切换功能，保持亮色主题
     if (typeof mermaid !== 'undefined') {
-        const theme = isDark ? 'dark' : 'default';
         mermaid.initialize({
-            theme: theme,
-            themeVariables: isDark ? {
-                darkMode: true,
-                primaryColor: '#00d4ff',
-                primaryTextColor: '#ffffff',
-                primaryBorderColor: '#00ff88',
-                lineColor: '#555555',
-                secondaryColor: '#1a1a1a',
-                tertiaryColor: '#333333',
-                background: '#0a0a0a',
-                mainBkg: '#1a1a1a',
-                secondBkg: '#2a2a2a',
-                tertiaryBkg: '#3a3a3a'
-            } : {
+            theme: 'default',
+            themeVariables: {
                 primaryColor: '#0066cc',
                 primaryTextColor: '#000000',
                 primaryBorderColor: '#0066cc',

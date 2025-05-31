@@ -19,8 +19,9 @@
 <!-- 页脚样式 -->
 <style>
 .site-footer {
-    background: var(--gradient-card);
-    border-top: 1px solid var(--border-secondary);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-primary);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
     margin-top: var(--spacing-xl, 2rem);
     padding: var(--spacing-lg, 1.5rem) 0;
     position: relative;
@@ -37,7 +38,7 @@
 }
 
 .footer-content p {
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-size: 0.75rem;
     margin: 0;
     line-height: 1.5;
@@ -55,25 +56,6 @@
     color: var(--accent-green);
 }
 
-/* 亮色主题适配 */
-html.light .site-footer {
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-primary);
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
-}
-
-html.light .footer-content p {
-    color: var(--text-secondary);
-}
-
-html.light .footer-content a {
-    color: var(--accent-blue);
-}
-
-html.light .footer-content a:hover {
-    color: var(--accent-green);
-}
-
 /* 面包屑导航样式 */
 .breadcrumb-link {
     color: var(--text-secondary);
@@ -85,11 +67,6 @@ html.light .footer-content a:hover {
 
 .breadcrumb-link:hover {
     color: var(--accent-green);
-    background: rgba(0, 255, 136, 0.1);
-}
-
-/* 亮色主题下的面包屑适配 */
-html.light .breadcrumb-link:hover {
     background: rgba(5, 150, 105, 0.1);
 }
 

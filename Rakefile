@@ -46,6 +46,7 @@ end
 
 task :run do
   system 'bundle exec jekyll serve --port 4000'
+  system 'open http://localhost:4000'
 end
 
 task :build do
