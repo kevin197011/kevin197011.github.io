@@ -4,7 +4,7 @@ title: "Ansible 完全指南：从入门到实战"
 date: 2025-05-29 20:00:00 +0800
 category: DevOps
 tags: [Ansible, 自动化, 运维, DevOps, 配置管理]
-author: KkWiki
+author: Kk
 excerpt: "全面掌握Ansible自动化运维工具，从基础概念到实战案例，助你提升运维效率"
 diagram: |
   graph TB

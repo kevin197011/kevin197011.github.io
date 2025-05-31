@@ -29,7 +29,28 @@ class CyberUI {
             this.initializePerformanceMonitor();
         }, 100);
 
+        // 窗口resize时重新检查滚动
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                this.recheckScrollableElements();
+            }, 100);
+        });
+
         console.log('CyberUI: Initialization complete');
+    }
+
+    recheckScrollableElements() {
+        // 重新检查所有可滚动元素
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll('pre, .article-content table').forEach(element => {
+                this.checkScrollable(element);
+            });
+        } else {
+            // 移除桌面端的滚动指示器
+            document.querySelectorAll('[data-scrollable]').forEach(element => {
+                element.removeAttribute('data-scrollable');
+            });
+        }
     }
 
     // 侧边栏功能
@@ -514,24 +535,58 @@ class CyberUI {
 
     setupTocToggle() {
         const tocToggle = document.querySelector('.toc-toggle');
+        const tocHeader = document.querySelector('.toc-header');
         const tocNav = document.querySelector('.toc-nav');
 
+        // 处理目录切换按钮点击
         if (tocToggle && tocNav) {
-            tocToggle.addEventListener('click', () => {
-                tocNav.classList.toggle('collapsed');
-
-                // 更新切换按钮图标
-                const icon = tocToggle.querySelector('i');
-                if (icon) {
-                    icon.className = tocNav.classList.contains('collapsed') ?
-                        'fas fa-chevron-down' : 'fas fa-chevron-up';
-                }
+            tocToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleTocCollapse();
             });
+        }
 
-            // 在移动设备上默认折叠
-            if (window.innerWidth <= 768) {
-                tocNav.classList.add('collapsed');
+        // 在移动端，整个头部都可以点击
+        if (tocHeader && tocNav && window.innerWidth <= 768) {
+            tocHeader.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleTocCollapse();
+            });
+        }
+
+        // 在移动设备上默认折叠
+        if (window.innerWidth <= 768 && tocNav) {
+            tocNav.classList.add('collapsed');
+            this.updateTocToggleIcon(true);
+        }
+
+        // 窗口大小改变时重新设置
+        window.addEventListener('resize', () => {
+            if (tocNav) {
+                if (window.innerWidth <= 768) {
+                    tocNav.classList.add('collapsed');
+                    this.updateTocToggleIcon(true);
+                } else {
+                    tocNav.classList.remove('collapsed');
+                    this.updateTocToggleIcon(false);
+                }
             }
+        });
+    }
+
+    toggleTocCollapse() {
+        const tocNav = document.querySelector('.toc-nav');
+        if (tocNav) {
+            const isCollapsed = tocNav.classList.toggle('collapsed');
+            this.updateTocToggleIcon(isCollapsed);
+        }
+    }
+
+    updateTocToggleIcon(isCollapsed) {
+        const tocToggle = document.querySelector('.toc-toggle i');
+        if (tocToggle) {
+            tocToggle.className = isCollapsed ?
+                'fas fa-chevron-down' : 'fas fa-chevron-up';
         }
     }
 
@@ -727,92 +782,78 @@ class CyberUI {
     }
 
     enhanceCodeBlocks() {
-        // 为每个代码块添加容器和增强功能
-        const processedElements = new Set();
-
-        // 统一处理所有代码块
-        const codeBlocks = [
-            ...document.querySelectorAll('pre'),
-            ...document.querySelectorAll('.highlight')
-        ];
-
-        codeBlocks.forEach((element) => {
-            // 如果已经处理过，跳过
-            if (processedElements.has(element) || element.closest('.code-block-container')) {
-                return;
-            }
-
-            let targetElement = element;
-            let codeElement;
-
-            // 确定实际的代码元素
-            if (element.classList.contains('highlight')) {
-                // Jekyll Rouge highlight 容器
-                const preElement = element.querySelector('pre');
-                if (!preElement) return;
-
-                targetElement = element;
-                codeElement = element.querySelector('code');
-
-                // 标记相关的 pre 元素也已处理
-                processedElements.add(preElement);
-            } else if (element.tagName === 'PRE') {
-                // 直接的 pre 元素
-                codeElement = element.querySelector('code');
-                if (!codeElement) return;
-
-                // 检查是否在 highlight 容器内
-                const highlightParent = element.closest('.highlight');
-                if (highlightParent) {
-                    // 如果在 highlight 内，跳过单独处理
-                    return;
-                }
-
-                targetElement = element;
-            } else {
-                return;
-            }
-
-            // 标记为已处理
-            processedElements.add(element);
-
-            // 创建代码块容器
-            const container = document.createElement('div');
-            container.className = 'code-block-container';
-            targetElement.parentNode.insertBefore(container, targetElement);
-            container.appendChild(targetElement);
-
-            // 检测语言
-            const language = this.detectCodeLanguage(codeElement) ||
-                           this.detectLanguageFromClass(targetElement);
-
-            // 添加语言标签
-            if (language) {
-                const langTag = document.createElement('div');
-                langTag.className = 'code-language';
-                langTag.textContent = language;
-                container.appendChild(langTag);
-            }
+        document.querySelectorAll('pre code').forEach((block) => {
+            const pre = block.parentNode;
 
             // 添加复制按钮
             const copyBtn = document.createElement('button');
             copyBtn.className = 'copy-code-btn';
-            copyBtn.innerHTML = '<i class="fas fa-copy"></i><span>复制</span>';
-            copyBtn.title = '复制代码到剪贴板';
+            copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+            copyBtn.title = '复制代码';
 
-            // 复制功能
             copyBtn.addEventListener('click', () => {
-                this.copyCodeToClipboard(codeElement, copyBtn);
+                this.copyCodeToClipboard(block, copyBtn);
             });
 
-            container.appendChild(copyBtn);
+            pre.style.position = 'relative';
+            pre.appendChild(copyBtn);
 
-            // 添加行号（对于较长的代码块）
-            const preElement = targetElement.tagName === 'PRE' ? targetElement : targetElement.querySelector('pre');
-            if (preElement && codeElement) {
-                this.addLineNumbers(preElement, codeElement);
+            // 检测语言并添加标签
+            const language = this.detectCodeLanguage(block);
+            if (language) {
+                const langLabel = document.createElement('span');
+                langLabel.className = 'code-language';
+                langLabel.textContent = language;
+                pre.appendChild(langLabel);
+            }
+
+            // 添加行号（可选）
+            if (pre.classList.contains('line-numbers')) {
+                this.addLineNumbers(pre, block);
+            }
+
+            // 移动端滚动检测
+            if (window.innerWidth <= 768) {
+                this.checkScrollable(pre);
+
+                // 监听滚动事件
+                pre.addEventListener('scroll', () => {
+                    this.updateScrollIndicator(pre);
+                });
             }
         });
+
+        // 检测表格是否需要滚动
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll('.article-content table').forEach(table => {
+                this.checkScrollable(table);
+
+                // 监听滚动事件
+                table.addEventListener('scroll', () => {
+                    this.updateScrollIndicator(table);
+                });
+            });
+        }
+    }
+
+    checkScrollable(element) {
+        // 检查是否内容超出容器宽度
+        if (element.scrollWidth > element.clientWidth) {
+            element.setAttribute('data-scrollable', 'true');
+        } else {
+            element.removeAttribute('data-scrollable');
+        }
+    }
+
+    updateScrollIndicator(element) {
+        // 更新滚动指示器的显示
+        const isAtEnd = element.scrollLeft >= (element.scrollWidth - element.clientWidth - 5);
+
+        if (isAtEnd) {
+            element.removeAttribute('data-scrollable');
+        } else {
+            element.setAttribute('data-scrollable', 'true');
+        }
     }
 
     detectCodeLanguage(codeElement) {

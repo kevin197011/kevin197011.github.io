@@ -4,7 +4,7 @@ title: "Kubernetes 完全指南：从入门到生产实战"
 date: 2024-12-29 21:00:00 +0800
 category: DevOps
 tags: [Kubernetes, K8s, 容器编排, 云原生, DevOps, 微服务]
-author: KkWiki
+author: Kk
 excerpt: "深入掌握Kubernetes容器编排平台，从基础概念到生产级部署，全面提升云原生技能"
 diagram: |
   graph TB
