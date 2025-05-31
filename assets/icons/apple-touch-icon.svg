@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <!-- Background with rounded corners -->
+  <rect width="180" height="180" fill="#0a0b0e" rx="25"/>
+
+  <!-- Terminal window -->
+  <rect x="25" y="40" width="130" height="100" fill="#1a1a1a" rx="8" stroke="#00ff88" stroke-width="2"/>
+
+  <!-- Terminal header bar -->
+  <rect x="25" y="40" width="130" height="20" fill="#2a2a2a" rx="8 8 0 0"/>
+
+  <!-- Traffic light buttons -->
+  <circle cx="38" cy="50" r="3" fill="#ff5555"/>
+  <circle cx="50" cy="50" r="3" fill="#ffff55"/>
+  <circle cx="62" cy="50" r="3" fill="#55ff55"/>
+
+  <!-- Terminal content -->
+  <text x="35" y="80" font-family="Monaco, Courier New, monospace" font-size="8" fill="#00ff88">$ cd kk-wiki</text>
+  <text x="35" y="95" font-family="Monaco, Courier New, monospace" font-size="8" fill="#ffffff">DevOps Cloud</text>
+  <text x="35" y="110" font-family="Monaco, Courier New, monospace" font-size="8" fill="#888888">Ready ✓</text>
+
+  <!-- Cursor -->
+  <rect x="35" y="115" width="6" height="10" fill="#00ff88"/>
+
+  <!-- Large K logo -->
+  <text x="90" y="165" font-family="Monaco, Courier New, monospace" font-size="24" fill="#00ff88" text-anchor="middle" font-weight="bold">K</text>
+</svg>

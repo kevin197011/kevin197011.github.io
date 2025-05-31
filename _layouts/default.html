@@ -73,18 +73,19 @@
                     <ul class="nav-list">
                         {% for category in categories %}
                         <li>
-                            <a href="#" class="nav-link category-toggle" data-category="{{ category[0] }}">
+                            <a href="#" class="nav-link category-toggle" data-category="{{ category[0] | slugify }}">
                                 <i class="fas fa-code"></i>
                                 <span>{{ category[0] }}</span>
                                 <span class="post-count">{{ category[1].size }}</span>
                                 <i class="fas fa-chevron-right expand-icon"></i>
                             </a>
-                            <ul class="sub-nav-list" data-category="{{ category[0] }}">
-                                {% for post in category[1] %}
+                            <ul class="sub-nav-list" data-category="{{ category[0] | slugify }}">
+                                {% assign posts = category[1] | sort: 'date' | reverse %}
+                                {% for post in posts %}
                                 <li>
                                     <a href="{{ post.url | relative_url }}" class="sub-nav-link {% if page.url == post.url %}active{% endif %}">
                                         <i class="fas fa-file-alt"></i>
-                                        <span>{{ post.title | truncate: 25 }}</span>
+                                        <span>{{ post.title | truncate: 60 }}</span>
                                     </a>
                                 </li>
                                 {% endfor %}
@@ -131,6 +132,12 @@
                             <a href="{{ '/archive' | relative_url }}" class="nav-link">
                                 <i class="fas fa-archive"></i>
                                 <span>归档</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ '/about' | relative_url }}" class="nav-link {% if page.url == '/about/' %}active{% endif %}">
+                                <i class="fas fa-user"></i>
+                                <span>关于</span>
                             </a>
                         </li>
                     </ul>

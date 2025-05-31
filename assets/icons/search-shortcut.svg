@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <!-- Background -->
+  <rect width="96" height="96" fill="#0a0b0e" rx="12"/>
+
+  <!-- Search circle -->
+  <circle cx="38" cy="38" r="18" fill="none" stroke="#00ff88" stroke-width="3"/>
+
+  <!-- Search handle -->
+  <line x1="52" y1="52" x2="70" y2="70" stroke="#00ff88" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Terminal cursor at bottom -->
+  <rect x="25" y="78" width="2" height="8" fill="#00ff88"/>
+  <text x="30" y="85" font-family="Monaco, monospace" font-size="8" fill="#888888">search</text>
+</svg>

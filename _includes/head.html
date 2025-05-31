@@ -43,12 +43,20 @@
 <link rel="stylesheet" href="{{ '/assets/css/cyber-style.css' | relative_url }}">
 <link rel="stylesheet" href="{{ '/assets/css/components.css' | relative_url }}">
 
-<!-- 网站图标 - 使用简单的方式 -->
+<!-- 网站图标 -->
+<link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/icons/favicon-16x16.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/icons/favicon-32x32.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="48x48" href="{{ '/assets/icons/favicon-48x48.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="96x96" href="{{ '/assets/icons/favicon-96x96.png' | relative_url }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/icons/apple-touch-icon.png' | relative_url }}">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2300ff88'/%3E%3Ctext x='16' y='20' text-anchor='middle' fill='%230a0b0e' font-family='monospace' font-size='16' font-weight='bold'%3EK%3C/text%3E%3C/svg%3E">
 
 <!-- 主题色 -->
 <meta name="theme-color" content="#00ff88">
 <meta name="msapplication-TileColor" content="#0a0b0e">
+<meta name="msapplication-TileImage" content="{{ '/assets/icons/mstile-150x150.png' | relative_url }}">
+<meta name="msapplication-config" content="{{ '/assets/icons/browserconfig.xml' | relative_url }}">
 
 <!-- RSS -->
 <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
@@ -93,7 +101,6 @@
 <link rel="manifest" href="{{ '/assets/icons/site.webmanifest' | relative_url }}">
 
 <!-- 预加载关键资源 -->
-<link rel="preload" href="{{ '/assets/css/cyber-style.css' | relative_url }}" as="style">
 <link rel="preload" href="{{ '/assets/js/cyber-ui.js' | relative_url }}" as="script">
 
 <!-- 安全策略 -->

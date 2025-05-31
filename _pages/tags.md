@@ -20,7 +20,7 @@ description: 按标签浏览所有技术文档
             <div class="terminal-body">
                 <div class="terminal-line">
                     <span class="prompt">kk@wiki:~/tags$</span>
-                    <span class="command">find . -name "*.md" | xargs grep -h "tags:" | sort | uniq</span>
+                    <span class="command typed-text">find . -name "*.md" | xargs grep -h "tags:" | sort | uniq</span>
                 </div>
                 <div class="tags-stats">
                     <div class="stat-item">

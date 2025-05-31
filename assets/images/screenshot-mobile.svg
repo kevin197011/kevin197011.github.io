@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <!-- Phone background -->
+  <rect width="390" height="844" fill="#000000" rx="30"/>
+
+  <!-- Screen -->
+  <rect x="15" y="30" width="360" height="784" fill="#0a0b0e" rx="20"/>
+
+  <!-- Status bar -->
+  <rect x="15" y="30" width="360" height="30" fill="#1a1a1a" rx="20 20 0 0"/>
+  <text x="30" y="50" font-family="Monaco, monospace" font-size="10" fill="#ffffff">9:41</text>
+  <text x="330" y="50" font-family="Monaco, monospace" font-size="10" fill="#00ff88">100%</text>
+
+  <!-- Header -->
+  <rect x="15" y="60" width="360" height="60" fill="#1a1a1a"/>
+  <text x="30" y="85" font-family="Monaco, monospace" font-size="12" fill="#00ff88" font-weight="bold">KK's Wiki</text>
+  <text x="30" y="105" font-family="Monaco, monospace" font-size="10" fill="#888888">DevOps Knowledge Base</text>
+
+  <!-- Menu button -->
+  <rect x="320" y="75" width="30" height="20" fill="none" stroke="#00ff88" stroke-width="1"/>
+  <line x1="325" y1="80" x2="340" y2="80" stroke="#00ff88" stroke-width="1"/>
+  <line x1="325" y1="85" x2="340" y2="85" stroke="#00ff88" stroke-width="1"/>
+  <line x1="325" y1="90" x2="340" y2="90" stroke="#00ff88" stroke-width="1"/>
+
+  <!-- Content area -->
+  <rect x="30" y="140" width="330" height="640" fill="#111111" rx="8"/>
+
+  <!-- Article card -->
+  <rect x="45" y="160" width="300" height="120" fill="#1a1a1a" rx="6"/>
+  <text x="60" y="180" font-family="Monaco, monospace" font-size="12" fill="#00ff88">Kubernetes部署实践</text>
+  <text x="60" y="200" font-family="Monaco, monospace" font-size="10" fill="#ffffff">容器编排与微服务架构</text>
+  <text x="60" y="220" font-family="Monaco, monospace" font-size="8" fill="#888888">2024-12-31 | DevOps</text>
+
+  <!-- Code snippet -->
+  <rect x="60" y="240" width="270" height="20" fill="#000000" rx="4"/>
+  <text x="70" y="255" font-family="Monaco, monospace" font-size="8" fill="#00ff88">$ kubectl apply -f deployment.yaml</text>
+
+  <!-- Navigation dots -->
+  <circle cx="180" cy="750" r="4" fill="#00ff88"/>
+  <circle cx="200" cy="750" r="4" fill="#333333"/>
+  <circle cx="220" cy="750" r="4" fill="#333333"/>
+</svg>

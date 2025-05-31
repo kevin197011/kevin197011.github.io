@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#0a0b0e"/>
+
+  <!-- Browser window -->
+  <rect x="80" y="60" width="1120" height="600" fill="#1a1a1a" rx="8" stroke="#00ff88" stroke-width="2"/>
+
+  <!-- Browser header -->
+  <rect x="80" y="60" width="1120" height="40" fill="#2a2a2a" rx="8 8 0 0"/>
+
+  <!-- Browser buttons -->
+  <circle cx="110" cy="80" r="8" fill="#ff5555"/>
+  <circle cx="140" cy="80" r="8" fill="#ffff55"/>
+  <circle cx="170" cy="80" r="8" fill="#55ff55"/>
+
+  <!-- Address bar -->
+  <rect x="220" y="70" width="400" height="20" fill="#1a1a1a" rx="10"/>
+  <text x="240" y="83" font-family="Monaco, monospace" font-size="12" fill="#888888">kevin197011.github.io</text>
+
+  <!-- Main content area -->
+  <rect x="100" y="120" width="1080" height="520" fill="#0a0b0e" rx="4"/>
+
+  <!-- Sidebar -->
+  <rect x="120" y="140" width="200" height="480" fill="#1a1a1a" rx="4"/>
+  <text x="140" y="165" font-family="Monaco, monospace" font-size="14" fill="#00ff88" font-weight="bold">KK's Wiki</text>
+
+  <!-- Content -->
+  <rect x="340" y="140" width="820" height="480" fill="#111111" rx="4"/>
+  <text x="380" y="180" font-family="Monaco, monospace" font-size="24" fill="#00ff88">DevOps and Cloud Native</text>
+  <text x="380" y="220" font-family="Monaco, monospace" font-size="16" fill="#ffffff">技术知识库</text>
+
+  <!-- Terminal window in content -->
+  <rect x="380" y="260" width="600" height="300" fill="#000000" rx="4" stroke="#00ff88" stroke-width="1"/>
+  <rect x="380" y="260" width="600" height="30" fill="#2a2a2a" rx="4 4 0 0"/>
+  <text x="400" y="280" font-family="Monaco, monospace" font-size="10" fill="#00ff88">$ kubectl get pods</text>
+  <text x="400" y="300" font-family="Monaco, monospace" font-size="10" fill="#ffffff">NAME    READY   STATUS</text>
+  <text x="400" y="320" font-family="Monaco, monospace" font-size="10" fill="#ffffff">app-1   1/1     Running</text>
+  <text x="400" y="340" font-family="Monaco, monospace" font-size="10" fill="#ffffff">app-2   1/1     Running</text>
+</svg>

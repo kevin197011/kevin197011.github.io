@@ -66,6 +66,7 @@
 .fa-tags::before { content: "\f02c"; }
 .fa-tag::before { content: "\f02b"; }
 .fa-archive::before { content: "\f187"; }
+.fa-user::before { content: "\f007"; }
 .fa-tools::before { content: "\f7d9"; }
 .fa-external-link-alt::before { content: "\f35d"; }
 .fa-moon::before { content: "\f186"; }
@@ -74,18 +75,27 @@
 .fa-eye::before { content: "\f06e"; }
 .fa-arrow-up::before { content: "\f062"; }
 .fa-arrow-right::before { content: "\f061"; }
+.fa-arrow-left::before { content: "\f060"; }
 .fa-times::before { content: "\f00d"; }
 .fa-copy::before { content: "\f0c5"; }
 .fa-check::before { content: "\f00c"; }
-.fa-percentage::before { content: "\f295"; }
-.fa-coins::before { content: "\f51e"; }
-.fa-graduation-cap::before { content: "\f19d"; }
-.fa-book::before { content: "\f02d"; }
-.fa-dev::before { content: "\f6cc"; }
-.fa-palette::before { content: "\f53f"; }
-.fa-rocket::before { content: "\f135"; }
-.fa-heartbeat::before { content: "\f21e"; }
-.fa-satellite::before { content: "\f7bf"; }
+.fa-th::before { content: "\f00a"; }
+.fa-th-large::before { content: "\f009"; }
+.fa-heart::before { content: "\f004"; }
+.fa-server::before { content: "\f233"; }
+.fa-laptop-code::before { content: "\f5fc"; }
+.fa-calendar-alt::before { content: "\f073"; }
+.fa-commit::before { content: "\f386"; }
+.fa-history::before { content: "\f1da"; }
+.fa-users::before { content: "\f0c0"; }
+.fa-envelope::before { content: "\f0e0"; }
+.fa-paper-plane::before { content: "\f1d8"; }
+.fa-share-alt::before { content: "\f1e0"; }
+.fa-lightbulb::before { content: "\f0eb"; }
+.fa-keyboard::before { content: "\f11c"; }
+.fa-chart-pie::before { content: "\f200"; }
+.fa-exclamation-triangle::before { content: "\f071"; }
+.fa-chart-line::before { content: "\f201"; }
 
 /* 系统状态图标 */
 .fa-list::before { content: "\f03a"; }
@@ -101,7 +111,6 @@
 .fa-cogs::before { content: "\f085"; }
 .fa-shield-alt::before { content: "\f3ed"; }
 .fa-network-wired::before { content: "\f6ff"; }
-.fa-server::before { content: "\f233"; }
 .fa-dharmachakra::before { content: "\f655"; } /* Kubernetes */
 .fa-robot::before { content: "\f544"; } /* Ansible */
 .fa-magic::before { content: "\f0d0"; } /* 自动化 */
@@ -115,6 +124,15 @@
 .fa-file-code::before { content: "\f1c9"; } /* 静态网站 */
 .fa-blog::before { content: "\f781"; } /* 博客 */
 .fa-globe::before { content: "\f0ac"; } /* Web开发 */
+.fa-percentage::before { content: "\f295"; }
+.fa-coins::before { content: "\f51e"; }
+.fa-graduation-cap::before { content: "\f19d"; }
+.fa-book::before { content: "\f02d"; }
+.fa-dev::before { content: "\f6cc"; }
+.fa-palette::before { content: "\f53f"; }
+.fa-rocket::before { content: "\f135"; }
+.fa-heartbeat::before { content: "\f21e"; }
+.fa-satellite::before { content: "\f7bf"; }
 
 /* 品牌图标 */
 .fa-docker::before { content: "\f395"; }
@@ -123,6 +141,13 @@
 .fa-jenkins::before { content: "\f3b6"; }
 .fa-git-alt::before { content: "\f841"; }
 .fa-python::before { content: "\f3e2"; }
+.fa-java::before { content: "\f4e4"; }
+.fa-node-js::before { content: "\f3d3"; }
+.fa-gitlab::before { content: "\f296"; }
+.fa-react::before { content: "\f41b"; }
+.fa-vuejs::before { content: "\f41f"; }
+.fa-twitter::before { content: "\f099"; }
+.fa-linkedin::before { content: "\f08c"; }
 .fa-github::before { content: "\f09b"; }
 .fa-windows::before { content: "\f17a"; }
 .fa-microsoft::before { content: "\f3ca"; }
@@ -140,9 +165,6 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
-.fa-exclamation-triangle::before { content: "\f071"; }
-.fa-chart-line::before { content: "\f201"; }
 
 /* 尺寸类 - 只保留常用的 */
 .fa-xs { font-size: 0.75em; line-height: 0.08333em; vertical-align: 0.125em; }

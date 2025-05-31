@@ -551,50 +551,6 @@ body {
     font-family: var(--font-mono);
 }
 
-.expand-icon {
-    margin-left: auto;
-    transition: transform var(--transition-fast);
-}
-
-.nav-link.expanded .expand-icon {
-    transform: rotate(90deg);
-}
-
-.sub-nav-list {
-    list-style: none;
-    margin-left: var(--spacing-lg);
-    margin-top: var(--spacing-sm);
-    border-left: 1px solid var(--border-secondary);
-    display: none;
-}
-
-.sub-nav-list.expanded {
-    display: block;
-}
-
-.sub-nav-link {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-xs) var(--spacing-md);
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.8rem;
-    margin-bottom: 1px;
-    border-radius: 4px;
-    transition: var(--transition-fast);
-}
-
-.sub-nav-link:hover {
-    color: var(--text-secondary);
-    background: var(--bg-hover);
-}
-
-.sub-nav-link.active {
-    color: var(--accent-blue);
-    background: rgba(0, 212, 255, 0.1);
-}
-
 .kbd {
     background: var(--bg-tertiary);
     color: var(--text-muted);
@@ -1412,11 +1368,6 @@ body {
         padding: var(--spacing-xs) var(--spacing-sm);
     }
 
-    .sub-nav-link {
-        font-size: 0.75rem;
-        padding: var(--spacing-xs) var(--spacing-sm);
-    }
-
     .sidebar-footer {
         padding: var(--spacing-md) var(--spacing-md);
     }
@@ -1717,5 +1668,136 @@ body,
 @media (max-width: 480px) {
     .zen-mode .content-wrapper {
         padding: var(--spacing-sm) var(--spacing-xs) !important;
+    }
+}
+
+/* ============= 分类下拉导航样式 ============= */
+.category-toggle {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: var(--transition-fast);
+    font-size: 0.875rem;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.category-toggle:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+    transform: translateX(4px);
+}
+
+.category-toggle.expanded {
+    color: var(--accent-green);
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.expand-icon {
+    margin-left: auto;
+    font-size: 0.8rem;
+    transition: transform var(--transition-normal);
+    color: var(--text-muted);
+}
+
+.category-toggle.expanded .expand-icon {
+    transform: rotate(90deg);
+    color: var(--accent-green);
+}
+
+.sub-nav-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-normal), opacity var(--transition-normal);
+    opacity: 0;
+    background: var(--bg-secondary);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-radius: 0 0 8px 8px;
+    margin-left: var(--spacing-md);
+    border-left: 2px solid var(--border-secondary);
+}
+
+.sub-nav-list.expanded {
+    max-height: 800px;
+    opacity: 1;
+    overflow-y: auto;
+    border-left-color: var(--accent-green);
+}
+
+.sub-nav-link {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition-fast);
+    font-size: 0.8rem;
+    border-bottom: 1px solid transparent;
+    position: relative;
+    min-height: 32px;
+}
+
+.sub-nav-link:hover {
+    color: var(--accent-green);
+    background: var(--bg-hover);
+    padding-left: calc(var(--spacing-md) + 4px);
+    border-bottom-color: var(--border-secondary);
+}
+
+.sub-nav-link.active {
+    color: var(--accent-green);
+    background: rgba(0, 255, 136, 0.1);
+    border-left: 3px solid var(--accent-green);
+    font-weight: 500;
+}
+
+.sub-nav-link i {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    width: 12px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.sub-nav-link:hover i,
+.sub-nav-link.active i {
+    color: var(--accent-green);
+}
+
+.sub-nav-link span {
+    flex: 1;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .sub-nav-list {
+        margin-left: var(--spacing-sm);
+    }
+
+    .sub-nav-link {
+        font-size: 0.75rem;
+        padding: var(--spacing-sm) var(--spacing-sm);
+        min-height: 28px;
+    }
+
+    .sub-nav-link span {
+        line-height: 1.3;
+    }
+
+    .category-toggle {
+        font-size: 0.8rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
     }
 }

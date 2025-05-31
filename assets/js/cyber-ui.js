@@ -9,21 +9,26 @@ class CyberUI {
     }
 
     init() {
+        console.log('CyberUI: Initializing...');
+
+        // 初始化各个功能模块
         this.setupSidebar();
         this.setupSearch();
         this.setupScrollEffects();
         this.setupKeyboardShortcuts();
-        this.setupCategoryToggles();
-        this.setupFloatingActions();
-        this.setupTypingEffect();
-        this.setupTableOfContents();
-        this.setupLazyLoading();
-        this.enhanceCodeBlocks();
-        this.initializePerformanceMonitor();
         this.setupThemeToggle();
+        this.setupTableOfContents();
+        this.setupCategoryDropdown();
 
-        // 移动端特定功能
-        setupMobileSidebar();
+        // 延迟加载非关键功能
+        setTimeout(() => {
+            this.setupFloatingActions();
+            this.enhanceCodeBlocks();
+            this.setupLazyLoading();
+            this.initializePerformanceMonitor();
+        }, 100);
+
+        console.log('CyberUI: Initialization complete');
     }
 
     // 侧边栏功能
@@ -394,30 +399,6 @@ class CyberUI {
             if (document.getElementById('search-modal').classList.contains('open')) {
                 this.handleSearchNavigation(e);
             }
-        });
-    }
-
-    // 分类切换
-    setupCategoryToggles() {
-        const categoryToggles = document.querySelectorAll('.category-toggle');
-
-        categoryToggles.forEach(toggle => {
-            toggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                const category = toggle.dataset.category;
-                const subNav = document.querySelector(`[data-category="${category}"].sub-nav-list`);
-                const expandIcon = toggle.querySelector('.expand-icon');
-
-                if (subNav) {
-                    subNav.classList.toggle('expanded');
-                    toggle.classList.toggle('expanded');
-
-                    if (expandIcon) {
-                        expandIcon.style.transform = subNav.classList.contains('expanded')
-                            ? 'rotate(90deg)' : 'rotate(0deg)';
-                    }
-                }
-            });
         });
     }
 
@@ -1108,6 +1089,102 @@ class CyberUI {
         // 根据主题设置不同的颜色
         const color = theme === 'dark' ? '#0f172a' : '#ffffff';
         metaThemeColor.content = color;
+    }
+
+    setupCategoryDropdown() {
+        const categoryToggles = document.querySelectorAll('.category-toggle');
+
+        categoryToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const categoryName = toggle.dataset.category;
+                const subNavList = document.querySelector(`.sub-nav-list[data-category="${categoryName}"]`);
+                const isExpanded = toggle.classList.contains('expanded');
+
+                // 切换当前分类
+                if (isExpanded) {
+                    // 折叠当前分类
+                    toggle.classList.remove('expanded');
+                    subNavList?.classList.remove('expanded');
+                } else {
+                    // 先关闭其他展开的分类（可选：如果想要手风琴效果）
+                    // categoryToggles.forEach(otherToggle => {
+                    //     if (otherToggle !== toggle) {
+                    //         otherToggle.classList.remove('expanded');
+                    //         const otherCategoryName = otherToggle.dataset.category;
+                    //         const otherSubNavList = document.querySelector(`.sub-nav-list[data-category="${otherCategoryName}"]`);
+                    //         otherSubNavList?.classList.remove('expanded');
+                    //     }
+                    // });
+
+                    // 展开当前分类
+                    toggle.classList.add('expanded');
+                    subNavList?.classList.add('expanded');
+
+                    // 平滑滚动到可见区域
+                    setTimeout(() => {
+                        if (subNavList && subNavList.scrollHeight > 400) {
+                            subNavList.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'nearest'
+                            });
+                        }
+                    }, 300);
+                }
+            });
+
+            // 为子导航链接添加点击关闭功能（移动端）
+            const categoryName = toggle.dataset.category;
+            const subNavList = document.querySelector(`.sub-nav-list[data-category="${categoryName}"]`);
+
+            if (subNavList) {
+                const subNavLinks = subNavList.querySelectorAll('.sub-nav-link');
+                subNavLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        // 在移动设备上点击链接后关闭侧边栏
+                        if (window.innerWidth <= 768) {
+                            const sidebar = document.getElementById('sidebar');
+                            if (sidebar && sidebar.classList.contains('open')) {
+                                setTimeout(() => {
+                                    sidebar.classList.remove('open');
+                                    this.removeOverlay();
+                                }, 150);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+        // 初始化时展开当前页面所在的分类
+        this.expandCurrentCategory();
+
+        console.log('CyberUI: Category dropdown initialized');
+    }
+
+    expandCurrentCategory() {
+        // 获取当前页面URL
+        const currentPath = window.location.pathname;
+
+        // 查找当前页面对应的子导航链接
+        const currentSubNavLink = document.querySelector(`.sub-nav-link[href="${currentPath}"]`);
+
+        if (currentSubNavLink) {
+            // 找到对应的分类容器
+            const subNavList = currentSubNavLink.closest('.sub-nav-list');
+            const categoryName = subNavList?.dataset.category;
+
+            if (categoryName) {
+                // 展开对应的分类
+                const categoryToggle = document.querySelector(`.category-toggle[data-category="${categoryName}"]`);
+                if (categoryToggle && subNavList) {
+                    categoryToggle.classList.add('expanded');
+                    subNavList.classList.add('expanded');
+                }
+            }
+        }
     }
 }
 

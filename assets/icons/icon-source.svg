@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <!-- Background -->
+  <rect width="180" height="180" fill="#0a0b0e" rx="20"/>
+
+  <!-- Terminal screen -->
+  <rect x="20" y="35" width="140" height="110" fill="#1a1a1a" rx="8" stroke="#00ff88" stroke-width="2"/>
+
+  <!-- Terminal header -->
+  <rect x="20" y="35" width="140" height="25" fill="#2a2a2a" rx="8 8 0 0"/>
+
+  <!-- Terminal buttons -->
+  <circle cx="35" cy="47.5" r="4" fill="#ff5555"/>
+  <circle cx="50" cy="47.5" r="4" fill="#ffff55"/>
+  <circle cx="65" cy="47.5" r="4" fill="#55ff55"/>
+
+  <!-- Terminal text -->
+  <text x="30" y="80" font-family="monospace" font-size="8" fill="#00ff88">$ kk-wiki --serve</text>
+  <text x="30" y="95" font-family="monospace" font-size="8" fill="#ffffff">Starting server...</text>
+  <text x="30" y="110" font-family="monospace" font-size="8" fill="#00ff88">✓ Ready on port 4000</text>
+  <text x="30" y="125" font-family="monospace" font-size="8" fill="#888888">DevOps | Cloud | K8s</text>
+
+  <!-- Cursor blink -->
+  <rect x="30" y="130" width="8" height="12" fill="#00ff88">
+    <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Bottom text -->
+  <text x="90" y="165" font-family="monospace" font-size="12" fill="#00ff88" text-anchor="middle" font-weight="bold">KK</text>
+</svg>

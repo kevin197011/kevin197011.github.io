@@ -20,7 +20,7 @@ description: 按时间查看所有技术文档
             <div class="terminal-body">
                 <div class="terminal-line">
                     <span class="prompt">kk@wiki:~/archive$</span>
-                    <span class="command">ls -la --group-directories-first</span>
+                    <span class="command typed-text">ls -la --group-directories-first</span>
                 </div>
                 <div class="archive-stats">
                     <div class="stat-item">

@@ -20,7 +20,7 @@ description: 按分类浏览所有技术文档
             <div class="terminal-body">
                 <div class="terminal-line">
                     <span class="prompt">kk@wiki:~/categories$</span>
-                    <span class="command">find . -type f -name "*.md" | xargs grep -h "category:" | sort | uniq -c</span>
+                    <span class="command typed-text">find . -type f -name "*.md" | xargs grep -h "category:" | sort | uniq -c</span>
                 </div>
                 <div class="categories-stats">
                     <div class="stat-item">
@@ -538,23 +538,6 @@ description: 按分类浏览所有技术文档
     font-family: var(--font-mono);
 }
 
-.category-toggle {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: var(--transition-fast);
-    padding: var(--spacing-xs);
-    border-radius: 4px;
-}
-
-.category-toggle:hover {
-    color: var(--accent-blue);
-    background: var(--bg-hover);
-}
-
-.category-toggle.collapsed i {
     transform: rotate(-90deg);
 }
 
@@ -1100,9 +1083,6 @@ function initCategoriesPage() {
     // 初始化筛选功能
     setupCategoryFilters();
 
-    // 初始化分类折叠
-    setupCategoryToggle();
-
     // 初始化回到顶部
     setupBackToTop();
 
@@ -1227,11 +1207,6 @@ function sortCategories(order) {
     categoryCards.forEach(card => {
         categoriesGrid.appendChild(card);
     });
-}
-
-function setupCategoryToggle() {
-    // 现在没有详细内容区域需要折叠，这个函数可以移除或保留为空
-    console.log('Category toggle not needed - simplified layout');
 }
 
 function setupBackToTop() {
