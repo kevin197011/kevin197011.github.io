@@ -248,3 +248,21 @@
 .fa-question-circle::before { content: "\f059"; }
 .fa-radar::before { content: "\f924"; }
 .fa-chevron-left::before { content: "\f053"; }
+
+/* 系统图标 */
+.fa-dashboard:before { content: "\f3fd"; }
+.fa-expand:before { content: "\f065"; }
+.fa-compress:before { content: "\f066"; }
+
+/* 天气相关图标 */
+.fa-cloud-drizzle:before { content: "\f73c"; }
+.fa-cloud-showers-heavy:before { content: "\f740"; }
+.fa-thunderstorm:before { content: "\f76c"; }
+.fa-smog:before { content: "\f75f"; }
+.fa-cloud-sun:before { content: "\f6c4"; }
+.fa-snowflake:before { content: "\f2dc"; }
+.fa-cloud-rain:before { content: "\f73d"; }
+
+/* 加载和动画图标 */
+.fa-circle-o-notch:before { content: "\f1ce"; }
+.fa-spinner:before { content: "\f110"; }

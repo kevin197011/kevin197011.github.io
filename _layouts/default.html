@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {%- include head.html -%}
 
     <!-- 主题预加载脚本，避免闪烁 -->
     <script>
-        (function() {
+        (function () {
             // 从本地存储或系统偏好获取主题
             const savedTheme = localStorage.getItem('theme-preference');
             const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -23,6 +24,7 @@
         })();
     </script>
 </head>
+
 <body class="cyber-body">
     <div id="app-container" class="app-container">
         <!-- 侧边栏 -->
@@ -54,7 +56,8 @@
                     </div>
                     <ul class="nav-list">
                         <li>
-                            <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' %}active{% endif %}" data-tooltip="首页">
+                            <a href="{{ '/' | relative_url }}"
+                                class="nav-link {% if page.url == '/' %}active{% endif %}" data-tooltip="首页">
                                 <i class="fas fa-dashboard"></i>
                                 <span>首页</span>
                             </a>
@@ -73,7 +76,8 @@
                     <ul class="nav-list">
                         {% for category in categories %}
                         <li>
-                            <a href="#" class="nav-link category-toggle" data-category="{{ category[0] | slugify }}" data-tooltip="{{ category[0] }}">
+                            <a href="#" class="nav-link category-toggle" data-category="{{ category[0] | slugify }}"
+                                data-tooltip="{{ category[0] }}">
                                 <i class="fas fa-code"></i>
                                 <span>{{ category[0] }}</span>
                                 <span class="post-count">{{ category[1].size }}</span>
@@ -83,7 +87,8 @@
                                 {% assign posts = category[1] | sort: 'date' | reverse %}
                                 {% for post in posts %}
                                 <li>
-                                    <a href="{{ post.url | relative_url }}" class="sub-nav-link {% if page.url == post.url %}active{% endif %}">
+                                    <a href="{{ post.url | relative_url }}"
+                                        class="sub-nav-link {% if page.url == post.url %}active{% endif %}">
                                         <i class="fas fa-file-alt"></i>
                                         <span>{{ post.title | truncate: 60 }}</span>
                                     </a>
@@ -135,7 +140,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ '/about' | relative_url }}" class="nav-link {% if page.url == '/about/' %}active{% endif %}" data-tooltip="关于">
+                            <a href="{{ '/about' | relative_url }}"
+                                class="nav-link {% if page.url == '/about/' %}active{% endif %}" data-tooltip="关于">
                                 <i class="fas fa-user"></i>
                                 <span>关于</span>
                             </a>
@@ -151,7 +157,8 @@
                     </div>
                     <ul class="nav-list">
                         <li>
-                            <a href="https://github.com/kevin197011" target="_blank" class="nav-link" data-tooltip="GitHub">
+                            <a href="https://github.com/kevin197011" target="_blank" class="nav-link"
+                                data-tooltip="GitHub">
                                 <i class="fab fa-github"></i>
                                 <span>GitHub</span>
                                 <i class="fas fa-external-link-alt external-icon"></i>
@@ -185,15 +192,34 @@
                     </button>
                     <div class="breadcrumb">
                         {% if page.layout == 'post' %}
-                            <a href="{{ '/' | relative_url }}" class="breadcrumb-link">首页</a>
-                            <i class="fas fa-chevron-right"></i>
-                            <span>{{ page.category | default: "Uncategorized" }}</span>
-                            <i class="fas fa-chevron-right"></i>
-                            <span>{{ page.title }}</span>
+                        <a href="{{ '/' | relative_url }}" class="breadcrumb-link">首页</a>
+                        <i class="fas fa-chevron-right"></i>
+                        <span>{{ page.category | default: "Uncategorized" }}</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span>{{ page.title }}</span>
                         {% else %}
-                            <a href="{{ '/' | relative_url }}" class="breadcrumb-link">首页</a>
+                        <a href="{{ '/' | relative_url }}" class="breadcrumb-link">首页</a>
                         {% endif %}
                     </div>
+                </div>
+
+                <!-- 中间区域 - 日期时间和天气 -->
+                <div class="top-bar-center">
+                        <div class="datetime-info">
+                            <span id="current-date" class="current-date">----年--月--日</span>
+                            <span class="datetime-separator">|</span>
+                            <span id="current-time" class="current-time">--:--:--</span>
+                            <span class="datetime-separator">|</span>
+                            <span id="current-weekday" class="current-weekday">星期-</span>
+                        </div>
+                        <div class="weather-info">
+                            <span id="weather-icon" class="weather-icon">
+                                <i class="fas fa-cloud"></i>
+                            </span>
+                            <span id="weather-city" class="weather-city">本地</span>
+                            <span id="weather-temp" class="weather-temp">--°C</span>
+                            <span id="weather-desc" class="weather-desc">获取中...</span>
+                        </div>
                 </div>
 
                 <div class="top-bar-right">
@@ -266,4 +292,5 @@
     <script src="{{ '/assets/js/cyber-ui.js' | relative_url }}"></script>
     {%- include footer.html -%}
 </body>
+
 </html>

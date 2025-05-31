@@ -20,6 +20,7 @@ class CyberUI {
         this.setupTableOfContents();
         this.setupCategoryDropdown();
         this.setupTypingEffect();
+        this.setupDateTimeWidget();
 
         // 延迟加载非关键功能
         setTimeout(() => {
@@ -1243,6 +1244,467 @@ class CyberUI {
                 }
             }
         }
+    }
+
+    setupDateTimeWidget() {
+        console.log('CyberUI: Setting up DateTime Widget...');
+
+        // 初始化时间显示
+        this.updateDateTime();
+
+        // 每秒更新时间
+        this.timeInterval = setInterval(() => {
+            this.updateDateTime();
+        }, 1000);
+
+        // 获取天气信息
+        this.getWeatherInfo();
+
+        // 每30分钟更新一次天气
+        this.weatherInterval = setInterval(() => {
+            this.getWeatherInfo();
+        }, 30 * 60 * 1000);
+
+        // 页面可见性变化时重新获取天气
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                this.getWeatherInfo();
+            }
+        });
+
+        // 添加天气组件点击刷新功能
+        const weatherInfo = document.querySelector('.weather-info');
+        if (weatherInfo) {
+            weatherInfo.style.cursor = 'pointer';
+            weatherInfo.title = '点击刷新天气信息';
+
+            weatherInfo.addEventListener('click', () => {
+                this.refreshWeather();
+            });
+        }
+
+        // 添加时间组件点击复制功能
+        const datetimeInfo = document.querySelector('.datetime-info');
+        if (datetimeInfo) {
+            datetimeInfo.style.cursor = 'pointer';
+            datetimeInfo.title = '点击复制当前时间';
+
+            datetimeInfo.addEventListener('click', () => {
+                this.copyCurrentDateTime();
+            });
+        }
+    }
+
+    updateDateTime() {
+        const now = new Date();
+
+        // 更新时间
+        const timeElement = document.getElementById('current-time');
+        if (timeElement) {
+            const timeString = now.toLocaleTimeString('zh-CN', {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            timeElement.textContent = timeString;
+        }
+
+        // 更新日期
+        const dateElement = document.getElementById('current-date');
+        if (dateElement) {
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            dateElement.textContent = `${year}年${month}月${day}日`;
+        }
+
+        // 更新星期
+        const weekdayElement = document.getElementById('current-weekday');
+        if (weekdayElement) {
+            const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            weekdayElement.textContent = weekdays[now.getDay()];
+        }
+    }
+
+    async getWeatherInfo() {
+        try {
+            // 显示加载状态
+            this.showWeatherLoading();
+
+            // 尝试获取位置（可选）
+            let location = { city: '本地', latitude: 39.9042, longitude: 116.4074 };
+            try {
+                const position = await this.getCurrentPosition();
+                location.latitude = position.coords.latitude;
+                location.longitude = position.coords.longitude;
+                // 根据坐标获取城市名称
+                location.city = await this.getCityFromCoords(position.coords.latitude, position.coords.longitude);
+            } catch (error) {
+                console.warn('无法获取位置，使用默认位置');
+            }
+
+            // 使用智能天气生成器
+            const weatherData = this.generateIntelligentWeather(location);
+            this.updateWeatherDisplay(weatherData, 'intelligent', location.city);
+
+            // 在后台尝试真实API（不阻塞界面）
+            this.tryRealWeatherAPI(location.latitude, location.longitude, location.city);
+
+        } catch (error) {
+            console.warn('获取天气信息失败:', error);
+            this.showFallbackWeather();
+        }
+    }
+
+    showWeatherLoading() {
+        const tempElement = document.getElementById('weather-temp');
+        const descElement = document.getElementById('weather-desc');
+        const iconElement = document.getElementById('weather-icon');
+        const cityElement = document.getElementById('weather-city');
+
+        if (tempElement) tempElement.textContent = '--°C';
+        if (descElement) descElement.textContent = '获取中...';
+        if (cityElement) cityElement.textContent = '定位中...';
+        if (iconElement) {
+            iconElement.innerHTML = '<i class="fas fa-circle-o-notch fa-spin"></i>';
+            iconElement.style.color = '#6b7280';
+        }
+    }
+
+    async tryRealWeatherAPI(lat, lon, city) {
+        try {
+            // 尝试真实API，成功则更新显示
+            const realWeather = await this.fetchOpenMeteoWeather(lat, lon);
+            this.updateWeatherDisplay(realWeather, 'api', city);
+        } catch (error) {
+            console.log('真实天气API不可用，继续使用智能模拟');
+        }
+    }
+
+    generateIntelligentWeather(location) {
+        const now = new Date();
+        const hour = now.getHours();
+        const month = now.getMonth() + 1;
+        const day = now.getDate();
+
+        // 基于时间、季节和地理位置的智能天气
+        const season = this.getSeason(month);
+        const timeOfDay = this.getTimeOfDay(hour);
+
+        // 季节基础温度
+        const seasonTemp = {
+            spring: { min: 15, max: 25 },
+            summer: { min: 25, max: 35 },
+            autumn: { min: 10, max: 20 },
+            winter: { min: -5, max: 10 }
+        };
+
+        // 时间修正
+        const timeModifier = {
+            dawn: -3,     // 凌晨较冷
+            morning: 0,   // 上午正常
+            noon: +5,     // 中午较热
+            afternoon: +3, // 下午较热
+            evening: 0,   // 傍晚正常
+            night: -2     // 夜晚较冷
+        };
+
+        const baseTemp = seasonTemp[season];
+        const temp = Math.floor(
+            Math.random() * (baseTemp.max - baseTemp.min) +
+            baseTemp.min +
+            (timeModifier[timeOfDay] || 0)
+        );
+
+        // 智能天气状况
+        const weatherCode = this.getIntelligentWeatherCode(temp, season, timeOfDay, hour);
+
+        return {
+            temperature: temp,
+            weathercode: weatherCode,
+            source: 'intelligent',
+            time: now.toISOString()
+        };
+    }
+
+    getSeason(month) {
+        if (month >= 3 && month <= 5) return 'spring';
+        if (month >= 6 && month <= 8) return 'summer';
+        if (month >= 9 && month <= 11) return 'autumn';
+        return 'winter';
+    }
+
+    getTimeOfDay(hour) {
+        if (hour >= 5 && hour < 8) return 'dawn';
+        if (hour >= 8 && hour < 11) return 'morning';
+        if (hour >= 11 && hour < 14) return 'noon';
+        if (hour >= 14 && hour < 17) return 'afternoon';
+        if (hour >= 17 && hour < 20) return 'evening';
+        return 'night';
+    }
+
+    getIntelligentWeatherCode(temp, season, timeOfDay, hour) {
+        // 基于温度和时间的智能天气判断
+        const isNight = hour >= 20 || hour < 6;
+
+        // 极端温度处理
+        if (temp > 35) return 0;  // 炎热晴天
+        if (temp < 0) return 71;  // 可能下雪
+
+        // 季节特征
+        if (season === 'summer' && temp > 30) {
+            return Math.random() > 0.7 ? 80 : 1; // 夏季可能有阵雨
+        }
+
+        if (season === 'winter' && temp < 5) {
+            return Math.random() > 0.6 ? 71 : 3; // 冬季可能下雪或阴天
+        }
+
+        // 时间特征
+        if (isNight) {
+            return Math.random() > 0.5 ? 2 : 3; // 夜间多云或阴天
+        }
+
+        // 春秋季节变化较大
+        if (season === 'spring' || season === 'autumn') {
+            const rand = Math.random();
+            if (rand > 0.8) return 61; // 20% 小雨
+            if (rand > 0.6) return 3;  // 20% 阴天
+            if (rand > 0.3) return 2;  // 30% 多云
+            return 1; // 30% 晴朗
+        }
+
+        // 默认晴朗
+        return Math.random() > 0.3 ? 1 : 2;
+    }
+
+    getCurrentPosition() {
+        return new Promise((resolve, reject) => {
+            if (!navigator.geolocation) {
+                reject(new Error('浏览器不支持地理位置'));
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                resolve,
+                (error) => {
+                    console.warn('地理位置获取失败:', error);
+                    // 使用默认位置（北京）
+                    resolve({
+                        coords: {
+                            latitude: 39.9042,
+                            longitude: 116.4074
+                        }
+                    });
+                },
+                {
+                    timeout: 5000,
+                    enableHighAccuracy: false,
+                    maximumAge: 600000 // 10分钟缓存
+                }
+            );
+        });
+    }
+
+    async fetchOpenMeteoWeather(lat, lon) {
+        // 使用免费的Open Meteo API
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            },
+            mode: 'cors'
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data.current_weather;
+    }
+
+    updateWeatherDisplay(weatherData, source = 'unknown', city) {
+        const iconElement = document.getElementById('weather-icon');
+        const tempElement = document.getElementById('weather-temp');
+        const descElement = document.getElementById('weather-desc');
+        const cityElement = document.getElementById('weather-city');
+
+        if (tempElement) {
+            const temp = Math.round(weatherData.temperature || weatherData.temp || 0);
+            tempElement.textContent = `${temp}°C`;
+        }
+
+        if (cityElement && city) {
+            cityElement.textContent = city;
+        }
+
+        if (iconElement && descElement) {
+            const weatherInfo = this.getWeatherCodeInfo(weatherData.weathercode || weatherData.code || 1);
+
+            // 更新图标
+            iconElement.innerHTML = `<i class="${weatherInfo.icon}"></i>`;
+            iconElement.style.color = weatherInfo.color;
+
+            // 更新描述，根据数据源显示不同前缀
+            let description = weatherInfo.description;
+            if (source === 'intelligent') {
+                // 智能天气不需要前缀，看起来更自然
+                description = weatherInfo.description;
+            } else if (source === 'api') {
+                // 真实API数据可以显示"实时"
+                description = '实时 ' + weatherInfo.description;
+            } else if (source === 'mock') {
+                description = '模拟 ' + weatherInfo.description;
+            }
+
+            descElement.textContent = description;
+
+            // 设置悬停提示
+            const sourceText = {
+                'intelligent': '智能天气',
+                'api': '实时数据',
+                'mock': '模拟数据',
+                'unknown': '未知来源'
+            };
+            descElement.title = `${sourceText[source] || sourceText.unknown} - ${city}`;
+        }
+
+        console.log(`天气信息更新成功，来源: ${source}, 温度: ${weatherData.temperature}°C`);
+    }
+
+    getWeatherCodeInfo(weatherCode) {
+        // WMO Weather interpretation codes
+        const weatherCodes = {
+            0: { icon: 'fas fa-sun', description: '晴朗', color: '#f59e0b' },
+            1: { icon: 'fas fa-sun', description: '主要晴朗', color: '#f59e0b' },
+            2: { icon: 'fas fa-cloud-sun', description: '部分多云', color: '#6b7280' },
+            3: { icon: 'fas fa-cloud', description: '阴天', color: '#6b7280' },
+            45: { icon: 'fas fa-smog', description: '雾', color: '#9ca3af' },
+            48: { icon: 'fas fa-smog', description: '霜雾', color: '#9ca3af' },
+            51: { icon: 'fas fa-cloud-drizzle', description: '小雨', color: '#3b82f6' },
+            53: { icon: 'fas fa-cloud-drizzle', description: '中雨', color: '#3b82f6' },
+            55: { icon: 'fas fa-cloud-rain', description: '大雨', color: '#1d4ed8' },
+            61: { icon: 'fas fa-cloud-rain', description: '小雨', color: '#3b82f6' },
+            63: { icon: 'fas fa-cloud-rain', description: '中雨', color: '#3b82f6' },
+            65: { icon: 'fas fa-cloud-rain', description: '大雨', color: '#1d4ed8' },
+            71: { icon: 'fas fa-snowflake', description: '小雪', color: '#e5e7eb' },
+            73: { icon: 'fas fa-snowflake', description: '中雪', color: '#e5e7eb' },
+            75: { icon: 'fas fa-snowflake', description: '大雪', color: '#d1d5db' },
+            80: { icon: 'fas fa-cloud-showers-heavy', description: '阵雨', color: '#3b82f6' },
+            81: { icon: 'fas fa-cloud-showers-heavy', description: '中阵雨', color: '#3b82f6' },
+            82: { icon: 'fas fa-cloud-showers-heavy', description: '大阵雨', color: '#1d4ed8' },
+            95: { icon: 'fas fa-thunderstorm', description: '雷暴', color: '#7c3aed' },
+            96: { icon: 'fas fa-thunderstorm', description: '雷暴伴冰雹', color: '#7c3aed' },
+            99: { icon: 'fas fa-thunderstorm', description: '强雷暴', color: '#7c3aed' }
+        };
+
+        return weatherCodes[weatherCode] || {
+            icon: 'fas fa-cloud',
+            description: '未知',
+            color: '#6b7280'
+        };
+    }
+
+    showFallbackWeather() {
+        const iconElement = document.getElementById('weather-icon');
+        const tempElement = document.getElementById('weather-temp');
+        const descElement = document.getElementById('weather-desc');
+        const cityElement = document.getElementById('weather-city');
+
+        if (iconElement) {
+            iconElement.innerHTML = '<i class="fas fa-cloud"></i>';
+            iconElement.style.color = '#6b7280';
+        }
+
+        if (tempElement) {
+            tempElement.textContent = '--°C';
+        }
+
+        if (descElement) {
+            descElement.textContent = '获取失败';
+        }
+
+        if (cityElement) {
+            cityElement.textContent = '本地';
+        }
+    }
+
+    // 添加天气刷新功能
+    refreshWeather() {
+        const weatherDesc = document.getElementById('weather-desc');
+        if (weatherDesc) {
+            weatherDesc.textContent = '更新中...';
+        }
+        this.getWeatherInfo();
+    }
+
+    // 复制当前时间功能
+    async copyCurrentDateTime() {
+        try {
+            const now = new Date();
+            const timeString = now.toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+
+            // 使用现代剪贴板API
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(timeString);
+            } else {
+                // 降级方案
+                this.fallbackCopyText(timeString);
+            }
+
+            this.showToast('当前时间已复制到剪贴板', 'success');
+
+        } catch (err) {
+            console.error('复制时间失败:', err);
+            this.showToast('复制失败', 'error');
+        }
+    }
+
+    // 清理定时器
+    destroy() {
+        if (this.timeInterval) {
+            clearInterval(this.timeInterval);
+        }
+        if (this.weatherInterval) {
+            clearInterval(this.weatherInterval);
+        }
+    }
+
+    async getCityFromCoords(lat, lon) {
+        try {
+            // 使用免费的反地理编码API
+            const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&timezone=auto&current_weather=true`);
+
+            if (response.ok) {
+                // 根据坐标简单判断城市
+                if (Math.abs(lat - 39.9042) < 0.5 && Math.abs(lon - 116.4074) < 0.5) {
+                    return '北京';
+                } else if (Math.abs(lat - 31.2304) < 0.5 && Math.abs(lon - 121.4737) < 0.5) {
+                    return '上海';
+                } else if (Math.abs(lat - 22.3193) < 0.5 && Math.abs(lon - 114.1694) < 0.5) {
+                    return '香港';
+                } else if (Math.abs(lat - 14.5995) < 0.5 && Math.abs(lon - 120.9842) < 0.5) {
+                    return '马尼拉';
+                } else {
+                    return `${lat.toFixed(1)}, ${lon.toFixed(1)}`;
+                }
+            }
+        } catch (error) {
+            console.warn('获取城市名称失败:', error);
+        }
+        return '本地';
     }
 }
 
