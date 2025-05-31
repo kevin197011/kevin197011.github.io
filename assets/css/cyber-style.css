@@ -836,6 +836,7 @@ body {
     opacity: 0.6;
 }
 
+/* Weather widget styles - DISABLED
 .weather-info {
     display: flex;
     align-items: center;
@@ -907,6 +908,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+*/
 
 .top-bar-right {
     display: flex;
@@ -1520,6 +1522,7 @@ body {
         font-size: 0.7rem;
     }
 
+    /* Weather responsive styles - DISABLED
     .weather-temp {
         font-size: 0.85rem;
         min-width: 40px;
@@ -1529,6 +1532,7 @@ body {
         font-size: 0.7rem;
         max-width: 70px;
     }
+    */
 }
 
 @media (max-width: 480px) {
