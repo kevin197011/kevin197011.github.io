@@ -226,3 +226,10 @@
 .fa-search-plus::before { content: "\f00e"; }
 .fa-flask::before { content: "\f0c3"; }
 .fa-cursor::before { content: "\f245"; }
+
+/* 新增的contact页面需要的图标 */
+.fa-handshake::before { content: "\f2b5"; }
+.fa-chalkboard-teacher::before { content: "\f51c"; }
+.fa-info-circle::before { content: "\f05a"; }
+.fa-comments::before { content: "\f086"; }
+.fa-circle::before { content: "\f111"; }

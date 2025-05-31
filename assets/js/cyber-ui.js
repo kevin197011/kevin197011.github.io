@@ -19,6 +19,7 @@ class CyberUI {
         this.setupThemeToggle();
         this.setupTableOfContents();
         this.setupCategoryDropdown();
+        this.setupTypingEffect();
 
         // 延迟加载非关键功能
         setTimeout(() => {
