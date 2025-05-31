@@ -739,26 +739,3 @@ done
 ---
 
 💡 **小贴士**: Tinyproxy适合轻量级场景，对于高并发场景建议考虑Squid或Nginx等更强大的代理服务器。
-
-```bash
-# gem
-vim ~/.gemrc
-http_proxy: http://tinyproxy:port
-https_proxy: http://tinyproxy:port
-```
-
-```bash
-# pip
-vim ~/.pip/pip.conf
-[global]
-proxy = http://tinyproxy:port
-```
-
-```bash
-# go
-vim ~/.bashrc
-
-export GOPROXY="https//proxy.golang.org,direct"
-export http_proxy=http://tinyproxy:port
-export https_proxy=http://tinyproxy:port
-```
