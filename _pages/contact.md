@@ -161,12 +161,12 @@ description: "与我取得联系，交流技术心得或合作机会"
         <div class="status-grid">
             <div class="status-card">
                 <div class="status-header">
-                    <i class="fas fa-project-diagram"></i>
-                    <span>技术咨询</span>
+                    <i class="fas fa-comments"></i>
+                    <span>技术交流</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">开放</span>
-                    <span class="metric-label">架构设计、技术选型</span>
+                    <span class="metric-value">欢迎</span>
+                    <span class="metric-label">技术问题讨论</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
@@ -174,23 +174,23 @@ description: "与我取得联系，交流技术心得或合作机会"
             <div class="status-card">
                 <div class="status-header">
                     <i class="fas fa-code"></i>
-                    <span>代码审查</span>
+                    <span>代码交流</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">可约</span>
-                    <span class="metric-label">代码质量、最佳实践</span>
+                    <span class="metric-value">互相学习</span>
+                    <span class="metric-label">代码分享、经验交流</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
 
             <div class="status-card">
                 <div class="status-header">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    <span>技术培训</span>
+                    <i class="fas fa-book"></i>
+                    <span>学习分享</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">有空</span>
-                    <span class="metric-label">团队培训、知识分享</span>
+                    <span class="metric-value">乐于分享</span>
+                    <span class="metric-label">学习心得、技术笔记</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
@@ -198,11 +198,11 @@ description: "与我取得联系，交流技术心得或合作机会"
             <div class="status-card">
                 <div class="status-header">
                     <i class="fas fa-users"></i>
-                    <span>开源协作</span>
+                    <span>开源参与</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">欢迎</span>
-                    <span class="metric-label">开源项目合作</span>
+                    <span class="metric-value">积极参与</span>
+                    <span class="metric-label">开源项目贡献</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
@@ -267,9 +267,9 @@ description: "与我取得联系，交流技术心得或合作机会"
                 </div>
                 <div class="terminal-output">
                     <div class="welcome-text">
-                        <p>> 🔥 <strong>当前专注</strong>: 云原生技术栈、Kubernetes生态</p>
-                        <p>> 📚 <strong>正在学习</strong>: Service Mesh、可观测性、FinOps</p>
-                        <p>> 🎯 <strong>近期目标</strong>: 完善DevOps最佳实践文档</p>
+                        <p>> 📚 <strong>当前学习</strong>: DevOps工具链、容器化技术</p>
+                        <p>> 💡 <strong>正在探索</strong>: 云原生技术、自动化运维</p>
+                        <p>> 🎯 <strong>近期目标</strong>: 整理学习笔记、分享实践经验</p>
                         <p>> 🌍 <strong>位置</strong>: 中国 (UTC+8)</p>
                         <p>> ⚡ <strong>活跃时间</strong>: 通常在晚上和周末较为活跃</p>
                         <br>

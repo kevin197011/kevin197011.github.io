@@ -54,7 +54,7 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
                         <p>基于现代设计语言的可复用组件系统，支持暗黑/亮色主题切换。</p>
                         <div class="project-meta">
                             <span class="status-badge working">开发中</span>
-                            <span class="progress-text">进度: 65%</span>
+                            <span class="progress-text">初期阶段</span>
                         </div>
                         <a href="#ui-components" class="nav-card-link">
                             查看原型 <i class="fas fa-arrow-down"></i>
@@ -70,10 +70,10 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
                     </div>
                     <div class="nav-card-text">
                         <h3>微服务架构</h3>
-                        <p>云原生微服务架构设计，包含服务发现、配置管理、监控告警。</p>
+                        <p>简单的微服务架构设计练习，学习服务拆分和容器化部署。</p>
                         <div class="project-meta">
-                            <span class="status-badge planning">规划中</span>
-                            <span class="progress-text">架构设计阶段</span>
+                            <span class="status-badge planning">学习中</span>
+                            <span class="progress-text">概念验证阶段</span>
                         </div>
                         <a href="#microservices" class="nav-card-link">
                             查看架构 <i class="fas fa-arrow-down"></i>
@@ -89,10 +89,10 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
                     </div>
                     <div class="nav-card-text">
                         <h3>AI助手集成</h3>
-                        <p>将AI助手集成到开发流程中，提供智能代码生成和技术文档支持。</p>
+                        <p>探索AI工具在日常开发中的应用，提高代码编写和文档整理效率。</p>
                         <div class="project-meta">
-                            <span class="status-badge research">研究中</span>
-                            <span class="progress-text">技术调研阶段</span>
+                            <span class="status-badge research">探索中</span>
+                            <span class="progress-text">工具试用阶段</span>
                         </div>
                         <a href="#ai-integration" class="nav-card-link">
                             查看方案 <i class="fas fa-arrow-down"></i>
@@ -136,18 +136,18 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
                     <h4>进度条组件</h4>
                     <div class="progress-demos">
                         <div class="progress-item">
-                            <span class="progress-label">项目进度</span>
+                            <span class="progress-label">学习进度</span>
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: 75%"></div>
+                                <div class="progress-fill" style="width: 30%"></div>
                             </div>
-                            <span class="progress-value">75%</span>
+                            <span class="progress-value">30%</span>
                         </div>
                         <div class="progress-item">
-                            <span class="progress-label">加载状态</span>
+                            <span class="progress-label">练习完成</span>
                             <div class="progress-bar">
-                                <div class="progress-fill animated" style="width: 45%"></div>
+                                <div class="progress-fill animated" style="width: 15%"></div>
                             </div>
-                            <span class="progress-value">45%</span>
+                            <span class="progress-value">15%</span>
                         </div>
                     </div>
                 </div>
@@ -165,11 +165,11 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
             <div class="status-card">
                 <div class="status-header">
                     <i class="fas fa-globe"></i>
-                    <span>API Gateway</span>
+                    <span>Web入口</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">Kong</span>
-                    <span class="metric-label">统一入口</span>
+                    <span class="metric-value">Nginx</span>
+                    <span class="metric-label">反向代理</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
@@ -177,11 +177,11 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
             <div class="status-card">
                 <div class="status-header">
                     <i class="fas fa-users"></i>
-                    <span>User Service</span>
+                    <span>后端服务</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">Go</span>
-                    <span class="metric-label">用户管理</span>
+                    <span class="metric-value">Node.js</span>
+                    <span class="metric-label">API服务</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
@@ -189,23 +189,23 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
             <div class="status-card">
                 <div class="status-header">
                     <i class="fas fa-database"></i>
-                    <span>Database</span>
+                    <span>数据存储</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">PostgreSQL</span>
-                    <span class="metric-label">主数据库</span>
+                    <span class="metric-value">MySQL</span>
+                    <span class="metric-label">关系数据库</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
 
             <div class="status-card">
                 <div class="status-header">
-                    <i class="fas fa-memory"></i>
-                    <span>Cache</span>
+                    <i class="fas fa-box"></i>
+                    <span>容器化</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">Redis</span>
-                    <span class="metric-label">缓存层</span>
+                    <span class="metric-value">Docker</span>
+                    <span class="metric-label">应用打包</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
@@ -222,11 +222,11 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
             <div class="status-card">
                 <div class="status-header">
                     <i class="fas fa-code"></i>
-                    <span>代码生成</span>
+                    <span>代码辅助</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">Beta</span>
-                    <span class="metric-label">智能代码补全</span>
+                    <span class="metric-value">试用中</span>
+                    <span class="metric-label">代码补全工具</span>
                 </div>
                 <div class="status-indicator research"></div>
             </div>
@@ -234,35 +234,35 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
             <div class="status-card">
                 <div class="status-header">
                     <i class="fas fa-file-alt"></i>
-                    <span>文档生成</span>
+                    <span>文档整理</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">计划</span>
-                    <span class="metric-label">自动API文档</span>
+                    <span class="metric-value">学习中</span>
+                    <span class="metric-label">markdown生成</span>
                 </div>
                 <div class="status-indicator planning"></div>
             </div>
 
             <div class="status-card">
                 <div class="status-header">
-                    <i class="fas fa-bug"></i>
-                    <span>代码审查</span>
+                    <i class="fas fa-search"></i>
+                    <span>代码检查</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">研究</span>
-                    <span class="metric-label">智能Bug检测</span>
+                    <span class="metric-value">探索中</span>
+                    <span class="metric-label">静态分析工具</span>
                 </div>
                 <div class="status-indicator research"></div>
             </div>
 
             <div class="status-card">
                 <div class="status-header">
-                    <i class="fas fa-comments"></i>
-                    <span>智能问答</span>
+                    <i class="fas fa-question-circle"></i>
+                    <span>技术问答</span>
                 </div>
                 <div class="status-metric">
-                    <span class="metric-value">原型</span>
-                    <span class="metric-label">技术咨询助手</span>
+                    <span class="metric-value">想法</span>
+                    <span class="metric-label">知识库助手</span>
                 </div>
                 <div class="status-indicator prototype"></div>
             </div>
@@ -286,15 +286,15 @@ description: "项目设计草稿和原型展示 - 探索创新想法的实验室
             </div>
             <div class="terminal-body">
                 <div class="welcome-text">
-                    <p>> 🔥 <strong>代码质量评估工具</strong>: 集成多种静态分析引擎</p>
-                    <p>> 📚 <strong>云原生实践模板</strong>: 最佳实践模板库</p>
-                    <p>> 🎯 <strong>文档协作平台</strong>: 支持实时编辑</p>
-                    <p>> 🚀 <strong>DevOps工具链</strong>: 一站式CI/CD解决方案</p>
-                    <p>> 🤖 <strong>智能运维监控</strong>: 支持异常预测</p>
+                    <p>> 📝 <strong>个人博客优化</strong>: 提升网站加载速度和SEO</p>
+                    <p>> 🔧 <strong>开发工具集合</strong>: 常用开发工具的整理和分享</p>
+                    <p>> 📚 <strong>学习笔记系统</strong>: 更好的知识管理方式</p>
+                    <p>> 🐳 <strong>Docker实践</strong>: 容器化应用部署练习</p>
+                    <p>> 📊 <strong>数据可视化</strong>: 简单的图表展示工具</p>
                     <br>
                     <p style="color: var(--accent-green);">
-                        <i class="fas fa-plus"></i>
-                        持续收集新想法中...
+                        <i class="fas fa-lightbulb"></i>
+                        记录学习过程中的想法...
                     </p>
                 </div>
             </div>

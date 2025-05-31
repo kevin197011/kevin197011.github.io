@@ -111,12 +111,24 @@ layout: default
         <div class="status-grid">
             <div class="status-card">
                 <div class="status-header">
-                    <i class="fas fa-database"></i>
-                    <span>文档库</span>
+                    <i class="fas fa-hashtag"></i>
+                    <span>文档总数</span>
                 </div>
                 <div class="status-metric">
                     <span class="metric-value">{{ site.posts.size }}</span>
                     <span class="metric-label">篇文档</span>
+                </div>
+                <div class="status-indicator online"></div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-gem"></i>
+                    <span>Jekyll</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">4.4+</span>
+                    <span class="metric-label">静态生成</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>
@@ -141,30 +153,6 @@ layout: default
                 <div class="status-metric">
                     <span class="metric-value">{{ site.time | date: "%m/%d" }}</span>
                     <span class="metric-label">{{ site.time | date: "%H:%M" }}</span>
-                </div>
-                <div class="status-indicator online"></div>
-            </div>
-
-            <div class="status-card">
-                <div class="status-header">
-                    <i class="fas fa-code-branch"></i>
-                    <span>构建版本</span>
-                </div>
-                <div class="status-metric">
-                    <span class="metric-value">05292024</span>
-                    <span class="metric-label">Build</span>
-                </div>
-                <div class="status-indicator online"></div>
-            </div>
-
-            <div class="status-card">
-                <div class="status-header">
-                    <i class="fas fa-gem"></i>
-                    <span>Jekyll</span>
-                </div>
-                <div class="status-metric">
-                    <span class="metric-value">4.4+</span>
-                    <span class="metric-label">静态生成</span>
                 </div>
                 <div class="status-indicator online"></div>
             </div>

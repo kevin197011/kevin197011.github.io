@@ -150,6 +150,6 @@ gh pr create --title "新增Docker教程" --body "详细的Docker入门教程"
 
 [![GitHub stars](https://img.shields.io/github/stars/kevin197011/kevin197011.github.io?style=social)](https://github.com/kevin197011/kevin197011.github.io)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/kevin197011/kevin197011.github.io)
-[![Last Update](https://img.shields.io/badge/last%20update-{{ site.time | date: "%Y.%m.%d" }}-blue)](/)
+[![Build Version](https://img.shields.io/badge/build-{{ site.time | date: "%m%d%H%M" }}-blue)](/)
 
 </div>
