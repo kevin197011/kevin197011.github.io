@@ -68,6 +68,7 @@
 .fa-archive::before { content: "\f187"; }
 .fa-user::before { content: "\f007"; }
 .fa-tools::before { content: "\f7d9"; }
+.fa-briefcase::before { content: "\f0b1"; }
 .fa-external-link-alt::before { content: "\f35d"; }
 .fa-moon::before { content: "\f186"; }
 .fa-sun::before { content: "\f185"; }
