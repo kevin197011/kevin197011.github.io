@@ -1,0 +1,29 @@
+{
+  "name": "web3-devops-jobs",
+  "version": "2.0.0",
+  "description": "Web3/区块链DevOps和SRE职位薪资榜 - 纯前端实现",
+  "main": "_pages/jobs.md",
+  "scripts": {
+    "serve": "python3 -m http.server 8080",
+    "test": "echo 'Testing frontend crawler...'",
+    "start": "npm run serve"
+  },
+  "keywords": [
+    "web3",
+    "blockchain",
+    "devops",
+    "sre",
+    "jobs",
+    "frontend",
+    "crypto",
+    "remote",
+    "salary"
+  ],
+  "author": "KK",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevin197011/kevin197011.github.io.git"
+  },
+  "homepage": "https://kevin197011.github.io/jobs/"
+}
