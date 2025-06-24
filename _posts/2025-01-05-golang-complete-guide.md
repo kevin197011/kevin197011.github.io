@@ -1488,7 +1488,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
     </head>
     <body>
         <h1>Welcome to Go HTTP Server</h1>
-        <p>Current time: {{.}}</p>
+        <p>Current time: {%- raw -%}{{}}{%- endraw -%}.</p>
         <ul>
             <li><a href="/users">Get all users</a></li>
             <li><a href="/users/1">Get user by ID</a></li>

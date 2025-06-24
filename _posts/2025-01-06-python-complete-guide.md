@@ -1894,7 +1894,7 @@ myapp/
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}My App{% endblock %}</title>
+    <title>{%- raw -%}{% block title %}My App{% endblock %}{%- endraw -%}</title>
 </head>
 <body>
     <nav>
@@ -1902,7 +1902,7 @@ myapp/
         <a href="/about">About</a>
     </nav>
     <main>
-        {% block content %}{% endblock %}
+        {%- raw -%}{% block content %}{% endblock %}{%- endraw -%}
     </main>
 </body>
 </html>
@@ -1910,20 +1910,20 @@ myapp/
 
 # templates/index.html
 """
-{% extends "base.html" %}
+{%- raw -%}{% extends "base.html" %}
 
 {% block title %}Home - My App{% endblock %}
 
-{% block content %}
-<h1>Welcome, {{ name }}!</h1>
-<p>Current time: {{ current_time }}</p>
+{% block content %}{%- endraw -%}
+<h1>Welcome, {%- raw -%}{{ name }}{%- endraw -%}!</h1>
+<p>Current time: {%- raw -%}{{ current_time }}{%- endraw -%}</p>
 
 <ul>
-{% for item in items %}
-    <li>{{ item }}</li>
-{% endfor %}
+{%- raw -%}{% for item in items %}
+    <li>{%- raw -%}{{ item }}{%- endraw -%}</li>
+{% endfor %}{%- endraw -%}
 </ul>
-{% endblock %}
+{%- raw -%}{% endblock %}{%- endraw -%}
 """
 
 @app.route('/template-demo')
