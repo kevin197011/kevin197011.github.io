@@ -920,6 +920,7 @@ func main() {
     p2 := Person{Name: "Test", Age: 20, Email: "test@example.com"}
     fmt.Printf("p1 == p2: %t\n", p1 == p2)
 }
+```
 
 ### 2. 接口详解
 
