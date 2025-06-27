@@ -1,6 +1,6 @@
 ---
 layout: home
-title: KkWiki - 技术知识库
+title: Kk'wiki - 首页
 description: DevOps、系统管理、网络技术的现代化知识库，采用极客风格设计，提供高效的技术文档检索和学习体验。
 ---
 

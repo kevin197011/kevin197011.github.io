@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Web3 DevOps & SRE 职位薪资榜"
+title: "Kk'wiki - Web3 DevOps & SRE 职位薪资榜"
 permalink: /jobs/
 description: "实时追踪Web3/区块链领域DevOps和SRE职位薪资排行，来自CryptoJobsList的一手数据"
 ---

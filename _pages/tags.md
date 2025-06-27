@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 标签集合
+title: Kk'wiki - 标签集合
 permalink: /tags/
 description: 按标签浏览所有技术文档
 ---
@@ -39,6 +39,7 @@ description: 按标签浏览所有技术文档
                         <span class="stat-label">平均标签</span>
                     </div>
                 </div>
+                <div class="cursor-blink">_</div>
             </div>
         </div>
     </header>

@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "实时资讯"
+title: "Kk'wiki - 实时资讯"
 permalink: /info/
 description: "实时汇率和数字货币价格信息"
 ---

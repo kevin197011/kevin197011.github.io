@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "关于我"
+title: "Kk'wiki - 关于我"
 permalink: /about/
 description: "了解更多关于KkWiki的创建者和这个技术分享平台的故事"
 ---

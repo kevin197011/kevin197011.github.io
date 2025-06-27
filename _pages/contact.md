@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "联系我"
+title: "Kk'wiki - 联系我"
 permalink: /contact/
 description: "与我取得联系，交流技术心得或合作机会"
 ---

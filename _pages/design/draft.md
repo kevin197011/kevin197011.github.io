@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "设计草稿"
+title: "Kk'wiki - 设计草稿"
 permalink: /design/draft/
 description: "项目设计草稿和原型展示 - 探索创新想法的实验室"
 ---

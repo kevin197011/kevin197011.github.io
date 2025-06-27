@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "导航"
+title: "Kk'wiki - 导航"
 permalink: /nav/
 description: "常用链接和工具导航"
 ---

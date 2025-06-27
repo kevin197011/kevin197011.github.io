@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 分类导航
+title: Kk'wiki - 分类导航
 permalink: /categories/
 description: 按分类浏览所有技术文档
 ---
@@ -39,6 +39,7 @@ description: 按分类浏览所有技术文档
                         <span class="stat-label">平均文档</span>
                     </div>
                 </div>
+                <div class="cursor-blink">_</div>
             </div>
         </div>
     </header>

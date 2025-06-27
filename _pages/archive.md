@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 文档归档
+title: Kk'wiki - 文档归档
 permalink: /archive/
 description: 按时间查看所有技术文档
 ---
