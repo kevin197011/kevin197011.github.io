@@ -109,7 +109,18 @@ sitemap: false
             {% for category in popular_categories limit:4 %}
             <div class="status-card">
                 <div class="status-header">
-                    <i class="fas fa-folder"></i>
+                    {% case category[0] %}
+                        {% when 'Dev' %}
+                            <i class="fas fa-code"></i>
+                        {% when 'DevOps' %}
+                            <i class="fas fa-cogs"></i>
+                        {% when 'Network' %}
+                            <i class="fas fa-network-wired"></i>
+                        {% when 'Security' %}
+                            <i class="fas fa-shield-alt"></i>
+                        {% else %}
+                            <i class="fas fa-folder"></i>
+                    {% endcase %}
                     <span>{{ category[0] }}</span>
                 </div>
                 <div class="status-metric">
@@ -131,6 +142,30 @@ sitemap: false
                 </div>
                 <a href="{{ '/tags' | relative_url }}" class="status-link"></a>
             </div>
+
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-archive"></i>
+                    <span>文档归档</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">{{ site.posts.size }}</span>
+                    <span class="metric-label">总文档</span>
+                </div>
+                <a href="{{ '/archive' | relative_url }}" class="status-link"></a>
+            </div>
+
+            <div class="status-card">
+                <div class="status-header">
+                    <i class="fas fa-info-circle"></i>
+                    <span>关于我们</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-value">更多</span>
+                    <span class="metric-label">了解详情</span>
+                </div>
+                <a href="{{ '/about' | relative_url }}" class="status-link"></a>
+            </div>
         </div>
     </section>
 
@@ -138,16 +173,62 @@ sitemap: false
     <section class="search-section">
         <div class="search-container">
             <div class="search-header">
-                <h3>快速搜索</h3>
+                <h3>
+                    <i class="fas fa-search"></i>
+                    快速搜索
+                </h3>
+                <p>
+                    <i class="fas fa-info-circle"></i>
+                    尝试搜索关键词找到您需要的内容
+                </p>
             </div>
             <div class="search-box-wrapper">
-                <input type="text" id="error-search" class="search-input" placeholder="输入搜索关键词..." />
-                <button onclick="performSearch()" class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
+                <div class="search-input-group">
+                    <i class="fas fa-search search-prefix-icon"></i>
+                    <input type="text" id="error-search" class="search-input" placeholder="输入搜索关键词..." />
+                    <button onclick="performSearch()" class="search-btn">
+                        <i class="fas fa-arrow-right"></i>
+                        搜索
+                    </button>
+                </div>
             </div>
             <div class="search-shortcuts">
-                <span>快捷键: <kbd>Ctrl</kbd> + <kbd>K</kbd> 打开搜索</span>
+                <div class="shortcut-item">
+                    <i class="fas fa-keyboard"></i>
+                    <span>快捷键: <kbd>Ctrl</kbd> + <kbd>K</kbd> 打开搜索</span>
+                </div>
+                <div class="search-suggestions">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>热门搜索:
+                        <a href="#" onclick="searchFor('Docker')">Docker</a>,
+                        <a href="#" onclick="searchFor('Kubernetes')">Kubernetes</a>,
+                        <a href="#" onclick="searchFor('DevOps')">DevOps</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 错误报告 -->
+    <section class="error-report-section">
+        <div class="error-report-container">
+            <h3>
+                <i class="fas fa-bug"></i>
+                发现问题?
+            </h3>
+            <p>
+                <i class="fas fa-exclamation-triangle"></i>
+                如果您认为这是一个错误，请告诉我们
+            </p>
+            <div class="report-actions">
+                <a href="https://github.com/kevin197011/kevin197011.github.io/issues" target="_blank" class="report-btn">
+                    <i class="fab fa-github"></i>
+                    GitHub Issue
+                </a>
+                <a href="{{ '/contact' | relative_url }}" class="report-btn">
+                    <i class="fas fa-envelope"></i>
+                    联系我们
+                </a>
             </div>
         </div>
     </section>

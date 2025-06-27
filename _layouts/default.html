@@ -78,7 +78,36 @@
                         <li>
                             <a href="#" class="nav-link category-toggle" data-category="{{ category[0] | slugify }}"
                                 data-tooltip="{{ category[0] }}">
-                                <i class="fas fa-code"></i>
+                                {% assign cat_icon = "fas fa-folder" %}
+                                {% case category[0] %}
+                                    {% when 'Dev' %}
+                                        {% assign cat_icon = "fas fa-code" %}
+                                    {% when 'DevOps' %}
+                                        {% assign cat_icon = "fas fa-cogs" %}
+                                    {% when 'Network' %}
+                                        {% assign cat_icon = "fas fa-network-wired" %}
+                                    {% when 'Security' %}
+                                        {% assign cat_icon = "fas fa-shield-alt" %}
+                                    {% when 'Other' %}
+                                        {% assign cat_icon = "fas fa-folder-open" %}
+                                    {% when 'System' %}
+                                        {% assign cat_icon = "fas fa-server" %}
+                                    {% when 'Cloud' %}
+                                        {% assign cat_icon = "fas fa-cloud" %}
+                                    {% when 'Database' %}
+                                        {% assign cat_icon = "fas fa-database" %}
+                                    {% when 'Frontend' %}
+                                        {% assign cat_icon = "fab fa-js-square" %}
+                                    {% when 'Backend' %}
+                                        {% assign cat_icon = "fas fa-server" %}
+                                    {% when 'Tools' %}
+                                        {% assign cat_icon = "fas fa-tools" %}
+                                    {% when 'Learning' %}
+                                        {% assign cat_icon = "fas fa-graduation-cap" %}
+                                    {% when 'Tutorial' %}
+                                        {% assign cat_icon = "fas fa-book" %}
+                                {% endcase %}
+                                <i class="{{ cat_icon }}"></i>
                                 <span>{{ category[0] }}</span>
                                 <span class="post-count">{{ category[1].size }}</span>
                                 <i class="fas fa-chevron-right expand-icon"></i>
@@ -179,10 +208,11 @@
             <div class="sidebar-footer">
                 <div class="status-info">
                     <div class="status-item">
-                        <span class="status-dot online"></span>
+                        <i class="fas fa-circle" style="color: #00ff88; font-size: 8px; margin-right: 8px;"></i>
                         <span class="status-text">System Online</span>
                     </div>
                     <div class="status-item">
+                        <i class="fas fa-code-branch"></i>
                         <span class="status-text">Build: {{ site.time | date: "%m%d%H%M" }}</span>
                     </div>
                 </div>
@@ -199,13 +229,34 @@
                     </button>
                     <div class="breadcrumb">
                         {% if page.layout == 'post' %}
-                        <a href="{{ '/' | relative_url }}" class="breadcrumb-link">首页</a>
+                        <a href="{{ '/' | relative_url }}" class="breadcrumb-link">
+                            <i class="fas fa-home"></i> 首页
+                        </a>
                         <i class="fas fa-chevron-right"></i>
-                        <span>{{ page.category | default: "Uncategorized" }}</span>
+                        <span>
+                            {% case page.category %}
+                                {% when 'Dev' %}
+                                    <i class="fas fa-code"></i>
+                                {% when 'DevOps' %}
+                                    <i class="fas fa-cogs"></i>
+                                {% when 'Network' %}
+                                    <i class="fas fa-network-wired"></i>
+                                {% when 'Security' %}
+                                    <i class="fas fa-shield-alt"></i>
+                                {% else %}
+                                    <i class="fas fa-folder"></i>
+                            {% endcase %}
+                            {{ page.category | default: "Uncategorized" }}
+                        </span>
                         <i class="fas fa-chevron-right"></i>
-                        <span>{{ page.title }}</span>
+                        <span>
+                            <i class="fas fa-file-alt"></i>
+                            {{ page.title }}
+                        </span>
                         {% else %}
-                        <a href="{{ '/' | relative_url }}" class="breadcrumb-link">首页</a>
+                        <a href="{{ '/' | relative_url }}" class="breadcrumb-link">
+                            <i class="fas fa-home"></i> 首页
+                        </a>
                         {% endif %}
                     </div>
                 </div>
@@ -213,10 +264,13 @@
                 <!-- 中间区域 - 日期时间 -->
                 <div class="top-bar-center">
                         <div class="datetime-info">
+                            <i class="fas fa-calendar-alt"></i>
                             <span id="current-date" class="current-date">----年--月--日</span>
                             <span class="datetime-separator">|</span>
+                            <i class="fas fa-clock"></i>
                             <span id="current-time" class="current-time">--:--:--</span>
                             <span class="datetime-separator">|</span>
+                            <i class="fas fa-sun"></i>
                             <span id="current-weekday" class="current-weekday">星期-</span>
                         </div>
                 </div>
@@ -234,9 +288,16 @@
                         </button>
                         <button class="action-btn" id="fullscreen-toggle" title="全屏模式">
                             <i class="fas fa-expand"></i>
+                            <i class="fas fa-compress" style="display: none;"></i>
                         </button>
                         <button class="action-btn" id="zen-mode" title="专注模式 (ESC退出)">
                             <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn" id="print-page" title="打印页面 (Ctrl+P)">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button class="action-btn" id="share-page" title="分享页面">
+                            <i class="fas fa-share-alt"></i>
                         </button>
                     </div>
                 </div>
@@ -252,6 +313,15 @@
                 <button class="fab-btn" id="scroll-top" title="返回顶部">
                     <i class="fas fa-arrow-up"></i>
                 </button>
+                <button class="fab-btn" id="scroll-bottom" title="滚动到底部" style="display: none;">
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+                <button class="fab-btn" id="quick-feedback" title="快速反馈">
+                    <i class="fas fa-comment"></i>
+                </button>
+                <button class="fab-btn" id="quick-bookmark" title="收藏页面">
+                    <i class="fas fa-bookmark"></i>
+                </button>
             </div>
         </main>
 
@@ -259,22 +329,39 @@
         <div id="search-modal" class="search-modal">
             <div class="search-modal-content">
                 <div class="search-header">
+                    <i class="fas fa-search search-prefix-icon"></i>
                     <input type="text" id="modal-search-input" placeholder="搜索文档..." class="modal-search-input">
-                    <button class="close-search" id="close-search">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <div class="search-actions">
+                        <button class="search-filter-btn" id="search-filter" title="搜索筛选">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <button class="close-search" id="close-search">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="search-results" id="search-results">
                     <div class="search-empty">
                         <i class="fas fa-search"></i>
                         <p>开始输入以搜索文档</p>
+                        <div class="search-suggestions">
+                            <div class="suggestion-item">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>尝试搜索: DevOps, Docker, Kubernetes</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="search-footer">
                     <div class="search-shortcuts">
-                        <kbd>↑↓</kbd> 导航
+                        <kbd><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-down"></i></kbd> 导航
                         <kbd>Enter</kbd> 选择
                         <kbd>Esc</kbd> 关闭
+                        <kbd>Ctrl+K</kbd> 重新打开
+                    </div>
+                    <div class="search-stats">
+                        <i class="fas fa-clock"></i>
+                        <span id="search-time">0ms</span>
                     </div>
                 </div>
             </div>
@@ -289,6 +376,7 @@
 
     <!-- 脚本 -->
     <script src="{{ '/assets/js/cyber-ui.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/site-enhancements.js' | relative_url }}"></script>
     {%- include footer.html -%}
 </body>
 

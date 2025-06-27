@@ -250,6 +250,108 @@
 .fa-radar::before { content: "\f924"; }
 .fa-chevron-left::before { content: "\f053"; }
 
+/* 新增图标定义 */
+.fa-print::before { content: "\f02f"; }
+.fa-bookmark::before { content: "\f02e"; }
+.fa-comment::before { content: "\f075"; }
+.fa-filter::before { content: "\f0b0"; }
+.fa-calendar::before { content: "\f073"; }
+.fa-calendar-alt::before { content: "\f073"; }
+.fa-compress::before { content: "\f066"; }
+.fa-spinner::before { content: "\f110"; }
+.fa-cog::before { content: "\f013"; }
+.fa-refresh::before { content: "\f021"; }
+.fa-sync::before { content: "\f021"; }
+.fa-sync-alt::before { content: "\f2f1"; }
+.fa-download::before { content: "\f019"; }
+.fa-upload::before { content: "\f093"; }
+.fa-wifi::before { content: "\f1eb"; }
+.fa-signal::before { content: "\f012"; }
+.fa-battery-full::before { content: "\f240"; }
+.fa-volume-up::before { content: "\f028"; }
+.fa-volume-mute::before { content: "\f6a9"; }
+.fa-check-circle::before { content: "\f058"; }
+.fa-times-circle::before { content: "\f057"; }
+.fa-exclamation-circle::before { content: "\f06a"; }
+.fa-info::before { content: "\f129"; }
+.fa-warning::before { content: "\f071"; }
+.fa-star::before { content: "\f005"; }
+.fa-star-o::before { content: "\f006"; }
+.fa-plus::before { content: "\f067"; }
+.fa-minus::before { content: "\f068"; }
+.fa-pencil::before { content: "\f040"; }
+.fa-trash::before { content: "\f1f8"; }
+.fa-save::before { content: "\f0c7"; }
+.fa-undo::before { content: "\f0e2"; }
+.fa-redo::before { content: "\f01e"; }
+.fa-cut::before { content: "\f0c4"; }
+.fa-paste::before { content: "\f0ea"; }
+.fa-sort::before { content: "\f0dc"; }
+.fa-sort-up::before { content: "\f0de"; }
+.fa-sort-down::before { content: "\f0dd"; }
+.fa-play::before { content: "\f04b"; }
+.fa-pause::before { content: "\f04c"; }
+.fa-stop::before { content: "\f04d"; }
+.fa-fast-forward::before { content: "\f04e"; }
+.fa-backward::before { content: "\f04a"; }
+.fa-step-forward::before { content: "\f051"; }
+.fa-step-backward::before { content: "\f048"; }
+.fa-eject::before { content: "\f052"; }
+.fa-random::before { content: "\f074"; }
+.fa-repeat::before { content: "\f01e"; }
+
+/* 新增的缺失图标 */
+.fa-info-circle::before { content: "\f05a"; }
+.fa-exclamation-triangle::before { content: "\f071"; }
+.fa-keyboard::before { content: "\f11c"; }
+.fa-bug::before { content: "\f188"; }
+.fa-print::before { content: "\f02f"; }
+.fa-share::before { content: "\f064"; }
+.fa-circle::before { content: "\f111"; }
+.fa-compress::before { content: "\f066"; }
+.fa-calendar::before { content: "\f073"; }
+
+/* 状态指示图标 */
+.fa-wifi::before { content: "\f1eb"; }
+.fa-signal::before { content: "\f012"; }
+.fa-battery::before { content: "\f240"; }
+.fa-volume-up::before { content: "\f028"; }
+.fa-microphone::before { content: "\f130"; }
+.fa-microphone-slash::before { content: "\f131"; }
+
+/* 媒体控制图标 */
+.fa-play-circle::before { content: "\f144"; }
+.fa-pause-circle::before { content: "\f28b"; }
+.fa-stop-circle::before { content: "\f28d"; }
+
+/* 文件类型图标 */
+.fa-file-pdf::before { content: "\f1c1"; }
+.fa-file-excel::before { content: "\f1c3"; }
+.fa-file-powerpoint::before { content: "\f1c4"; }
+.fa-file-archive::before { content: "\f1c6"; }
+.fa-file-audio::before { content: "\f1c7"; }
+.fa-file-video::before { content: "\f1c8"; }
+.fa-file-image::before { content: "\f1c5"; }
+
+/* 社交媒体图标 */
+.fa-weibo::before { content: "\f18a"; }
+.fa-wechat::before { content: "\f1d7"; }
+.fa-qq::before { content: "\f1d6"; }
+.fa-telegram::before { content: "\f2c6"; }
+.fa-discord::before { content: "\f392"; }
+.fa-slack::before { content: "\f198"; }
+
+/* 开发工具图标 */
+.fa-npm::before { content: "\f3d4"; }
+.fa-yarn::before { content: "\f7e3"; }
+.fa-composer::before { content: "\f65e"; }
+.fa-gradle::before { content: "\f3e4"; }
+.fa-maven::before { content: "\f41e"; }
+
+/* Footer 相关图标 */
+.fa-copyright::before { content: "\f1f9"; }
+.fa-hammer::before { content: "\f6e3"; }
+
 /* 系统图标 */
 .fa-dashboard:before { content: "\f3fd"; }
 .fa-expand:before { content: "\f065"; }
