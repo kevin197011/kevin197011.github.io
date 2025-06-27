@@ -228,35 +228,121 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="breadcrumb">
+                        <a href="{{ '/' | relative_url }}" class="breadcrumb-link">
+                            <i class="fas fa-home"></i> 首页
+                        </a>
+
                         {% if page.layout == 'post' %}
-                        <a href="{{ '/' | relative_url }}" class="breadcrumb-link">
-                            <i class="fas fa-home"></i> 首页
-                        </a>
-                        <i class="fas fa-chevron-right"></i>
-                        <span>
-                            {% case page.category %}
-                                {% when 'Dev' %}
-                                    <i class="fas fa-code"></i>
-                                {% when 'DevOps' %}
-                                    <i class="fas fa-cogs"></i>
-                                {% when 'Network' %}
-                                    <i class="fas fa-network-wired"></i>
-                                {% when 'Security' %}
-                                    <i class="fas fa-shield-alt"></i>
-                                {% else %}
-                                    <i class="fas fa-folder"></i>
-                            {% endcase %}
-                            {{ page.category | default: "Uncategorized" }}
-                        </span>
-                        <i class="fas fa-chevron-right"></i>
-                        <span>
-                            <i class="fas fa-file-alt"></i>
-                            {{ page.title }}
-                        </span>
-                        {% else %}
-                        <a href="{{ '/' | relative_url }}" class="breadcrumb-link">
-                            <i class="fas fa-home"></i> 首页
-                        </a>
+                            <i class="fas fa-chevron-right"></i>
+                            <a href="{{ '/categories' | relative_url }}#category-{{ page.category | slugify }}" class="breadcrumb-link">
+                                {% case page.category %}
+                                    {% when 'Dev' %}
+                                        <i class="fas fa-code"></i>
+                                    {% when 'DevOps' %}
+                                        <i class="fas fa-cogs"></i>
+                                    {% when 'Network' %}
+                                        <i class="fas fa-network-wired"></i>
+                                    {% when 'Security' %}
+                                        <i class="fas fa-shield-alt"></i>
+                                    {% when 'System' %}
+                                        <i class="fas fa-server"></i>
+                                    {% when 'Cloud' %}
+                                        <i class="fas fa-cloud"></i>
+                                    {% when 'Database' %}
+                                        <i class="fas fa-database"></i>
+                                    {% when 'Frontend' %}
+                                        <i class="fab fa-js-square"></i>
+                                    {% when 'Backend' %}
+                                        <i class="fas fa-server"></i>
+                                    {% when 'Tools' %}
+                                        <i class="fas fa-tools"></i>
+                                    {% when 'Learning' %}
+                                        <i class="fas fa-graduation-cap"></i>
+                                    {% when 'Tutorial' %}
+                                        <i class="fas fa-book"></i>
+                                    {% when 'Other' %}
+                                        <i class="fas fa-folder-open"></i>
+                                    {% else %}
+                                        <i class="fas fa-folder"></i>
+                                {% endcase %}
+                                {{ page.category | default: "Other" }}
+                            </a>
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-file-alt"></i>
+                                {{ page.title }}
+                            </span>
+                        {% elsif page.url contains '/categories' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-folder-open"></i>
+                                分类导航
+                            </span>
+                        {% elsif page.url contains '/tags' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-tags"></i>
+                                标签集合
+                            </span>
+                        {% elsif page.url contains '/archive' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-archive"></i>
+                                文档归档
+                            </span>
+                        {% elsif page.url contains '/about' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-user"></i>
+                                关于我
+                            </span>
+                        {% elsif page.url contains '/contact' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-envelope"></i>
+                                联系我
+                            </span>
+                        {% elsif page.url contains '/nav' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-compass"></i>
+                                导航
+                            </span>
+                        {% elsif page.url contains '/info' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-chart-bar"></i>
+                                实时资讯
+                            </span>
+                        {% elsif page.url contains '/jobs' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-briefcase"></i>
+                                Web3 DevOps & SRE 职位薪资榜
+                            </span>
+                        {% elsif page.url contains '/design/draft' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <a href="{{ '/design' | relative_url }}" class="breadcrumb-link">
+                                <i class="fas fa-paint-brush"></i>
+                                设计
+                            </a>
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-draft2digital"></i>
+                                设计草稿
+                            </span>
+                        {% elsif page.url == '/404.html' or page.url == '/404/' %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                页面未找到
+                            </span>
+                        {% elsif page.title %}
+                            <i class="fas fa-chevron-right"></i>
+                            <span class="breadcrumb-current">
+                                <i class="fas fa-file-alt"></i>
+                                {{ page.title }}
+                            </span>
                         {% endif %}
                     </div>
                 </div>
