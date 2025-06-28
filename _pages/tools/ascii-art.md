@@ -113,7 +113,7 @@ description: Generate stylish ASCII art text with different fonts and styles
 }
 
 .output-section {
-  background: #1a1a1a;
+  background: #000000;
   border: 1px solid #0ff;
   border-radius: 4px;
   padding: 1rem;
@@ -132,7 +132,7 @@ description: Generate stylish ASCII art text with different fonts and styles
 }
 
 .cyber-output {
-  background: #000;
+  background: #000000;
   color: #0ff;
   padding: 1rem;
   border-radius: 4px;
