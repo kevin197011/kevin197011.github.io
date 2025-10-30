@@ -1229,4 +1229,239 @@ public class GenericDemo {
         
         // 泛型方法使用
         System.out.println("\n=== 泛型方法 ===");
-        String[] names = {"Alice", "Bob", "
+        String[] names = {"Alice", "Bob", "Charlie"};
+        System.out.println("Before swap: " + Arrays.toString(names));
+        GenericUtils.swap(names, 0, 2);
+        System.out.println("After swap: " + Arrays.toString(names));
+        
+        Integer[] numbers = {1, 2, 3, 4, 5};
+        System.out.println("Before swap: " + Arrays.toString(numbers));
+        GenericUtils.swap(numbers, 1, 3);
+        System.out.println("After swap: " + Arrays.toString(numbers));
+        
+        // 有界类型参数
+        System.out.println("\n=== 有界类型参数 ===");
+        List<Integer> intList = Arrays.asList(1, 2, 3, 4, 5);
+        List<Double> doubleList = Arrays.asList(1.1, 2.2, 3.3);
+        
+        System.out.println("Sum of integers: " + GenericUtils.sum(intList));
+        System.out.println("Sum of doubles: " + GenericUtils.sum(doubleList));
+        
+        // 通配符使用
+        System.out.println("\n=== 通配符 ===");
+        System.out.println("Sum with wildcard: " + GenericUtils.sumOfNumbers(intList));
+        System.out.println("Sum with wildcard: " + GenericUtils.sumOfNumbers(doubleList));
+        
+        List<Number> numberList = new ArrayList<>();
+        GenericUtils.addNumbers(numberList);
+        System.out.println("Added numbers: " + numberList);
+        
+        GenericUtils.printList(Arrays.asList("A", "B", "C"));
+        GenericUtils.printList(Arrays.asList(1, 2, 3));
+        
+        // 类型推断 (Java 7+ Diamond Operator)
+        System.out.println("\n=== 类型推断 ===");
+        Map<String, List<Integer>> map = new HashMap<>(); // 右边不需要重复类型
+        map.put("numbers", Arrays.asList(1, 2, 3));
+        System.out.println("Map: " + map);
+        
+        // 多个类型参数
+        System.out.println("\n=== 多个类型参数 ===");
+        System.out.println("Is equal: " + GenericUtils.isEqual("hello", "hello"));
+        System.out.println("Is equal: " + GenericUtils.isEqual(42, 42));
+        System.out.println("Is equal: " + GenericUtils.isEqual("hello", 42));
+    }
+}
+```
+
+### 2. 集合框架
+
+```java
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class CollectionDemo {
+    public static void main(String[] args) {
+        
+        // List 接口实现
+        System.out.println("=== List 集合 ===");
+        
+        // ArrayList - 动态数组
+        List<String> arrayList = new ArrayList<>();
+        arrayList.add("Apple");
+        arrayList.add("Banana");
+        arrayList.add("Cherry");
+        arrayList.add(1, "Blueberry"); // 在索引1插入
+        
+        System.out.println("ArrayList: " + arrayList);
+        System.out.println("Get index 2: " + arrayList.get(2));
+        System.out.println("Size: " + arrayList.size());
+        
+        // LinkedList - 双向链表
+        List<Integer> linkedList = new LinkedList<>();
+        linkedList.add(10);
+        linkedList.add(20);
+        linkedList.add(30);
+        ((LinkedList<Integer>) linkedList).addFirst(5);
+        ((LinkedList<Integer>) linkedList).addLast(40);
+        
+        System.out.println("LinkedList: " + linkedList);
+        
+        // Vector - 线程安全的动态数组
+        Vector<String> vector = new Vector<>();
+        vector.add("Vector1");
+        vector.add("Vector2");
+        System.out.println("Vector: " + vector);
+        
+        // Set 接口实现
+        System.out.println("\n=== Set 集合 ===");
+        
+        // HashSet - 基于哈希表
+        Set<String> hashSet = new HashSet<>();
+        hashSet.add("Java");
+        hashSet.add("Python");
+        hashSet.add("JavaScript");
+        hashSet.add("Java"); // 重复元素不会被添加
+        
+        System.out.println("HashSet: " + hashSet);
+        
+        // LinkedHashSet - 保持插入顺序
+        Set<String> linkedHashSet = new LinkedHashSet<>();
+        linkedHashSet.add("First");
+        linkedHashSet.add("Second");
+        linkedHashSet.add("Third");
+        
+        System.out.println("LinkedHashSet: " + linkedHashSet);
+        
+        // TreeSet - 排序集合
+        Set<Integer> treeSet = new TreeSet<>();
+        treeSet.add(30);
+        treeSet.add(10);
+        treeSet.add(20);
+        treeSet.add(40);
+        
+        System.out.println("TreeSet: " + treeSet);
+        
+        // Map 接口实现
+        System.out.println("\n=== Map 集合 ===");
+        
+        // HashMap - 基于哈希表
+        Map<String, Integer> hashMap = new HashMap<>();
+        hashMap.put("Alice", 25);
+        hashMap.put("Bob", 30);
+        hashMap.put("Charlie", 35);
+        
+        System.out.println("HashMap: " + hashMap);
+        System.out.println("Alice's age: " + hashMap.get("Alice"));
+        
+        // LinkedHashMap - 保持插入顺序
+        Map<String, String> linkedHashMap = new LinkedHashMap<>();
+        linkedHashMap.put("1", "One");
+        linkedHashMap.put("3", "Three");
+        linkedHashMap.put("2", "Two");
+        
+        System.out.println("LinkedHashMap: " + linkedHashMap);
+        
+        // TreeMap - 排序映射
+        Map<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("Zebra", 1);
+        treeMap.put("Apple", 2);
+        treeMap.put("Banana", 3);
+        
+        System.out.println("TreeMap: " + treeMap);
+        
+        // ConcurrentHashMap - 线程安全
+        Map<String, String> concurrentMap = new ConcurrentHashMap<>();
+        concurrentMap.put("Key1", "Value1");
+        concurrentMap.put("Key2", "Value2");
+        
+        System.out.println("ConcurrentHashMap: " + concurrentMap);
+        
+        // Queue 接口实现
+        System.out.println("\n=== Queue 集合 ===");
+        
+        // LinkedList 作为队列
+        Queue<String> queue = new LinkedList<>();
+        queue.offer("First");
+        queue.offer("Second");
+        queue.offer("Third");
+        
+        System.out.println("Queue: " + queue);
+        System.out.println("Poll: " + queue.poll()); // 移除并返回头元素
+        System.out.println("Peek: " + queue.peek()); // 查看头元素但不移除
+        System.out.println("Queue after poll: " + queue);
+        
+        // PriorityQueue - 优先队列
+        Queue<Integer> priorityQueue = new PriorityQueue<>();
+        priorityQueue.offer(30);
+        priorityQueue.offer(10);
+        priorityQueue.offer(20);
+        
+        System.out.println("PriorityQueue: " + priorityQueue);
+        while (!priorityQueue.isEmpty()) {
+            System.out.print(priorityQueue.poll() + " ");
+        }
+        System.out.println();
+        
+        // Deque 接口 - 双端队列
+        System.out.println("\n=== Deque 双端队列 ===");
+        Deque<String> deque = new ArrayDeque<>();
+        deque.addFirst("Middle");
+        deque.addFirst("First");
+        deque.addLast("Last");
+        
+        System.out.println("Deque: " + deque);
+        System.out.println("Remove first: " + deque.removeFirst());
+        System.out.println("Remove last: " + deque.removeLast());
+        System.out.println("Deque after removal: " + deque);
+        
+        // 集合操作
+        System.out.println("\n=== 集合操作 ===");
+        
+        List<String> list1 = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        List<String> list2 = new ArrayList<>(Arrays.asList("B", "C", "D"));
+        
+        // 并集
+        List<String> union = new ArrayList<>(list1);
+        union.addAll(list2);
+        System.out.println("Union: " + union);
+        
+        // 交集
+        List<String> intersection = new ArrayList<>(list1);
+        intersection.retainAll(list2);
+        System.out.println("Intersection: " + intersection);
+        
+        // 差集
+        List<String> difference = new ArrayList<>(list1);
+        difference.removeAll(list2);
+        System.out.println("Difference: " + difference);
+        
+        // 集合工具类
+        System.out.println("\n=== Collections 工具类 ===");
+        
+        List<Integer> numbers = new ArrayList<>(Arrays.asList(3, 1, 4, 1, 5, 9, 2, 6));
+        System.out.println("Original: " + numbers);
+        
+        Collections.sort(numbers);
+        System.out.println("Sorted: " + numbers);
+        
+        Collections.reverse(numbers);
+        System.out.println("Reversed: " + numbers);
+        
+        Collections.shuffle(numbers);
+        System.out.println("Shuffled: " + numbers);
+        
+        System.out.println("Max: " + Collections.max(numbers));
+        System.out.println("Min: " + Collections.min(numbers));
+        
+        // 不可变集合
+        List<String> immutableList = Collections.unmodifiableList(arrayList);
+        System.out.println("Immutable list: " + immutableList);
+        
+        // 同步集合
+        List<String> synchronizedList = Collections.synchronizedList(new ArrayList<>());
+        synchronizedList.add("Thread-safe");
+        System.out.println("Synchronized list: " + synchronizedList);
+    }
+}
+```
