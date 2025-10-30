@@ -130,8 +130,9 @@ Java 是一门面向对象的编程语言，由 Sun Microsystems（现 Oracle）
 - **🔐 安全性**: 内置安全机制和沙箱模型
 - **🚀 高性能**: JIT 编译器优化执行效率
 - **🔄 自动内存管理**: 垃圾回收机制自动管理内存
-- **📚 丰富的生态**: 庞大的第三方库和框架生态## 📦 环境搭
-建
+- **📚 丰富的生态**: 庞大的第三方库和框架生态
+
+## 📦 环境搭建
 
 ### JDK 安装
 
@@ -370,8 +371,9 @@ public class Operators {
         System.out.println(a + " 是 " + result);
     }
 }
-```#
-# 🔧 控制结构
+```
+
+## 🔧 控制结构
 
 ### 1. 条件语句
 
@@ -853,8 +855,9 @@ public class InheritanceDemo {
         }
     }
 }
-```##
-# 3. 抽象类和接口
+```
+
+### 3. 抽象类和接口
 
 ```java
 // Shape.java - 抽象类
@@ -1211,7 +1214,7 @@ public class GenericDemo {
     public static void main(String[] args) {
         // 泛型类使用
         System.out.println("=== 泛型类 ===");
-        Box<String> stringBox = new Box<>("Hello");
+        Box<String> stringBox = new Box<>("Hello");> stringBox = new Box<>("Hello");
         Box<Integer> intBox = new Box<>(42);
         Box<List<String>> listBox = new Box<>(Arrays.asList("A", "B", "C"));
         
@@ -1465,3 +1468,424 @@ public class CollectionDemo {
     }
 }
 ```
+
+## 🚦 异常处理
+
+### 1. 异常基础
+
+```java
+// 自定义异常类
+class InsufficientFundsException extends Exception {
+    private double amount;
+    
+    public InsufficientFundsException(double amount) {
+        super("余额不足，尝试提取: " + amount);
+        this.amount = amount;
+    }
+    
+    public double getAmount() {
+        return amount;
+    }
+}
+
+class InvalidAccountException extends RuntimeException {
+    public InvalidAccountException(String message) {
+        super(message);
+    }
+}
+
+// 银行账户类
+class BankAccount {
+    private String accountNumber;
+    private double balance;
+    
+    public BankAccount(String accountNumber, double initialBalance) {
+        if (accountNumber == null || accountNumber.trim().isEmpty()) {
+            throw new InvalidAccountException("账户号码不能为空");
+        }
+        if (initialBalance < 0) {
+            throw new InvalidAccountException("初始余额不能为负数");
+        }
+        
+        this.accountNumber = accountNumber;
+        this.balance = initialBalance;
+    }
+    
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("存款金额必须大于0");
+        }
+        balance += amount;
+        System.out.println("存款成功，当前余额: " + balance);
+    }
+    
+    public void withdraw(double amount) throws InsufficientFundsException {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("提款金额必须大于0");
+        }
+        if (amount > balance) {
+            throw new InsufficientFundsException(amount);
+        }
+        
+        balance -= amount;
+        System.out.println("提款成功，当前余额: " + balance);
+    }
+    
+    public double getBalance() {
+        return balance;
+    }
+    
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+}
+
+public class ExceptionDemo {
+    public static void main(String[] args) {
+        
+        // 基本异常处理
+        System.out.println("=== 基本异常处理 ===");
+        
+        try {
+            int result = 10 / 0; // ArithmeticException
+        } catch (ArithmeticException e) {
+            System.out.println("捕获算术异常: " + e.getMessage());
+        }
+        
+        // 多个 catch 块
+        System.out.println("\n=== 多个 catch 块 ===");
+        
+        try {
+            String str = null;
+            int length = str.length(); // NullPointerException
+            
+            int[] array = new int[5];
+            int value = array[10]; // ArrayIndexOutOfBoundsException
+            
+        } catch (NullPointerException e) {
+            System.out.println("空指针异常: " + e.getMessage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("数组越界异常: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("其他异常: " + e.getMessage());
+        }
+        
+        // try-catch-finally
+        System.out.println("\n=== try-catch-finally ===");
+        
+        try {
+            System.out.println("执行 try 块");
+            int result = Integer.parseInt("abc"); // NumberFormatException
+        } catch (NumberFormatException e) {
+            System.out.println("数字格式异常: " + e.getMessage());
+        } finally {
+            System.out.println("finally 块总是执行");
+        }
+        
+        // 自定义异常使用
+        System.out.println("\n=== 自定义异常 ===");
+        
+        try {
+            BankAccount account = new BankAccount("12345", 1000.0);
+            account.deposit(500.0);
+            account.withdraw(2000.0); // 会抛出 InsufficientFundsException
+            
+        } catch (InsufficientFundsException e) {
+            System.out.println("银行异常: " + e.getMessage());
+            System.out.println("尝试提取金额: " + e.getAmount());
+        } catch (InvalidAccountException e) {
+            System.out.println("账户异常: " + e.getMessage());
+        }
+        
+        // 异常链
+        System.out.println("\n=== 异常链 ===");
+        
+        try {
+            methodA();
+        } catch (Exception e) {
+            System.out.println("最终捕获的异常: " + e.getMessage());
+            System.out.println("原因: " + e.getCause().getMessage());
+        }
+        
+        // try-with-resources (Java 7+)
+        System.out.println("\n=== try-with-resources ===");
+        
+        // 自动资源管理
+        try (AutoCloseableResource resource = new AutoCloseableResource()) {
+            resource.doSomething();
+            // 资源会自动关闭，即使发生异常
+        } catch (Exception e) {
+            System.out.println("资源操作异常: " + e.getMessage());
+        }
+        
+        // 多个资源
+        try (AutoCloseableResource resource1 = new AutoCloseableResource();
+             AutoCloseableResource resource2 = new AutoCloseableResource()) {
+            
+            resource1.doSomething();
+            resource2.doSomething();
+            
+        } catch (Exception e) {
+            System.out.println("多资源操作异常: " + e.getMessage());
+        }
+        
+        // 异常处理最佳实践
+        System.out.println("\n=== 异常处理最佳实践 ===");
+        
+        // 1. 具体异常处理
+        handleSpecificExceptions();
+        
+        // 2. 异常转换
+        try {
+            processUserData("invalid-data");
+        } catch (DataProcessingException e) {
+            System.out.println("数据处理失败: " + e.getMessage());
+        }
+        
+        // 3. 异常记录
+        logExceptions();
+    }
+    
+    // 异常链示例
+    public static void methodA() throws Exception {
+        try {
+            methodB();
+        } catch (RuntimeException e) {
+            throw new Exception("methodA 中发生错误", e);
+        }
+    }
+    
+    public static void methodB() {
+        throw new RuntimeException("methodB 中的原始错误");
+    }
+    
+    // 具体异常处理
+    public static void handleSpecificExceptions() {
+        try {
+            // 可能抛出多种异常的代码
+            String[] array = {"1", "2", "abc", "4"};
+            for (String s : array) {
+                int num = Integer.parseInt(s);
+                int result = 100 / num;
+                System.out.println("结果: " + result);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("数字格式错误: " + e.getMessage());
+        } catch (ArithmeticException e) {
+            System.out.println("算术错误: " + e.getMessage());
+        }
+    }
+    
+    // 自定义业务异常
+    static class DataProcessingException extends Exception {
+        public DataProcessingException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+    
+    // 异常转换示例
+    public static void processUserData(String data) throws DataProcessingException {
+        try {
+            // 模拟数据处理
+            if ("invalid-data".equals(data)) {
+                throw new IllegalArgumentException("无效的数据格式");
+            }
+            // 处理数据...
+        } catch (IllegalArgumentException e) {
+            // 将底层异常转换为业务异常
+            throw new DataProcessingException("用户数据处理失败", e);
+        }
+    }
+    
+    // 异常记录
+    public static void logExceptions() {
+        try {
+            riskyOperation();
+        } catch (Exception e) {
+            // 记录异常信息
+            System.err.println("异常时间: " + new java.util.Date());
+            System.err.println("异常类型: " + e.getClass().getSimpleName());
+            System.err.println("异常消息: " + e.getMessage());
+            e.printStackTrace();
+       
+    }
+    
+    public static void riskyOperation() {
+        throw new RuntimeException("模拟的运行时异常");
+    }
+}
+
+// 自动关闭资源示例
+class AutoCloseableResource implements AutoCloseable {
+    private static int counter = 0;
+    private final int id;
+    
+    public AutoCloseableResource() {
+        this.id = ++counter;
+        System.out.println("资源 " + id + " 已创建");
+    }
+    
+    public void doSomething() {
+        System.out.println("资源 " + id + " 正在工作");
+    }
+    
+    @Override
+    public void close() throws Exception {
+        System.out.println("资源 " + id + " 已关闭");
+    }
+}
+```
+
+## 🌐 网络编程和IO
+
+### 1. 文件IO操作
+
+```java
+import java.io.*;
+import java.nio.file.*;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+public class FileIODemo {
+    public static void main(String[] args) {
+        
+        // 传统IO操作
+        System.out.println("=== 传统 IO 操作 ===");
+        
+        // 写入文件
+        try (FileWriter writer = new FileWriter("example.txt");
+             BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+            
+            bufferedWriter.write("Hello, Java IO!");
+            bufferedWriter.newLine();
+            bufferedWriter.write("这是第二行");
+            bufferedWriter.newLine();
+            bufferedWriter.write("文件IO示例");
+            
+            System.out.println("文件写入成功");
+            
+        } catch (IOException e) {
+            System.err.println("写入文件失败: " + e.getMessage());
+        }
+        
+        // 读取文件
+        try (FileReader reader = new FileReader("example.txt");
+             BufferedReader bufferedReader = new BufferedReader(reader)) {
+            
+            String line;
+            System.out.println("文件内容:");
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+            
+        } catch (IOException e) {
+            System.err.println("读取文件失败: " + e.getMessage());
+        }
+        
+        // NIO.2 操作 (Java 7+)
+        System.out.println("\n=== NIO.2 操作 ===");
+        
+        Path path = Paths.get("nio_example.txt");
+        
+        try {
+            // 写入文件
+            List<String> lines = List.of(
+                "NIO.2 示例",
+                "更简洁的文件操作",
+                "支持现代文件系统特性"
+            );
+            Files.write(path, lines, StandardCharsets.UTF_8);
+            System.out.println("NIO.2 写入成功");
+            
+            // 读取文件
+            List<String> readLines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            System.out.println("NIO.2 读取内容:");
+            readLines.forEach(System.out::println);
+            
+            // 文件信息
+            System.out.println("文件大小: " + Files.size(path) + " 字节");
+            System.out.println("是否存在: " + Files.exists(path));
+            System.out.println("是否可读: " + Files.isReadable(path));
+            System.out.println("是否可写: " + Files.isWritable(path));
+            
+        } catch (IOException e) {
+            System.err.println("NIO.2 操作失败: " + e.getMessage());
+        }
+        
+        // 二进制文件操作
+        System.out.println("\n=== 二进制文件操作 ===");
+        
+        try (FileOutputStream fos = new FileOutputStream("binary_example.dat");
+             DataOutputStream dos = new DataOutputStream(fos)) {
+            
+            // 写入不同类型的数据
+            dos.writeInt(42);
+            dos.writeDouble(3.14159);
+            dos.writeUTF("二进制数据");
+            dos.writeBoolean(true);
+            
+            System.out.println("二进制数据写入成功");
+            
+        } catch (IOException e) {
+            System.err.println("二进制写入失败: " + e.getMessage());
+        }
+        
+        try (FileInputStream fis = new FileInputStream("binary_example.dat");
+             DataInputStream dis = new DataInputStream(fis)) {
+            
+            // 按写入顺序读取数据
+            int intValue = dis.readInt();
+            double doubleValue = dis.readDouble();
+            String stringValue = dis.readUTF();
+            boolean boolValue = dis.readBoolean();
+            
+            System.out.println("读取的二进制数据:");
+            System.out.println("Int: " + intValue);
+            System.out.println("Double: " + doubleValue);
+            System.out.println("String: " + stringValue);
+            System.out.println("Boolean: " + boolValue);
+            
+        } catch (IOException e) {
+            System.err.println("二进制读取失败: " + e.getMessage());
+        }
+        
+        // 清理文件
+        try {
+            Files.deleteIfExists(Paths.get("example.txt"));
+            Files.deleteIfExists(Paths.get("nio_example.txt"));
+            Files.deleteIfExists(Paths.get("binary_example.dat"));
+            System.out.println("\n临时文件已清理");
+        } catch (IOException e) {
+            System.err.println("清理文件失败: " + e.getMessage());
+        }
+    }
+}
+```
+
+## 📚 总结
+
+Java 是一门功能强大、应用广泛的编程语言。掌握以下要点：
+
+### 🎯 核心要素
+- **面向对象**: 封装、继承、多态的完整实现
+- **平台无关**: JVM 提供的跨平台能力
+- **丰富生态**: Spring、Hibernate 等企业级框架
+- **内存管理**: 自动垃圾回收机制
+
+### 🛡️ 最佳实践
+- **代码规范**: 遵循 Java 编码规范和命名约定
+- **异常处理**: 合理的异常处理和资源管理
+- **性能优化**: 理解 JVM 性能调优
+- **测试驱动**: 使用 JUnit 进行单元测试
+
+### 🚀 应用领域
+- **企业应用**: Spring Boot 微服务架构
+- **Android 开发**: 移动应用开发
+- **大数据**: Hadoop、Spark 等大数据处理
+- **Web 开发**: 服务端 API 和 Web 应用
+
+通过不断实践和学习新的框架技术，你将能够使用 Java 构建出高质量、可维护的企业级应用！
+
+---
+
+*掌握 Java 的强大特性，构建稳定可靠的企业级应用！* 🎉 
